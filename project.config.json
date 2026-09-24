@@ -1,0 +1,52 @@
+{
+  "$schema": "./schemas/project.config.schema.json",
+  "project": {
+    "name": "Starter",
+    "description": "WordPress + SCF starter for AI-assisted corporate sites"
+  },
+  "slug": {
+    "prefix": "starter",
+    "theme": "starter",
+    "core": "starter-core",
+    "text_domain": "starter"
+  },
+  "urls": {
+    "local": "http://localhost:8888",
+    "staging": null,
+    "production": null
+  },
+  "locale": "ru_RU",
+  "php": {
+    "min": "8.1"
+  },
+  "wordpress": {
+    "version": "latest",
+    "min": "7.1",
+    "plugins": {
+      "secure-custom-fields": "latest",
+      "wordpress-seo": "latest"
+    }
+  },
+  "fonts": {
+    "preload": []
+  },
+  "images": {
+    "card": {
+      "name": "card",
+      "width": 768
+    },
+    "webp_quality": 80
+  },
+  "analytics": {
+    "ga4_delay_ms": 2500
+  },
+  "modules": {
+    "catalog": false,
+    "pricebook": false
+  },
+  "paths": {
+    "prototype": "prototype",
+    "seed": "seed",
+    "pages_map": "pages-map.json"
+  }
+}

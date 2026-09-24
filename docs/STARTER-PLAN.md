@@ -179,7 +179,7 @@ wp-scf-starter/
 |---|---|---|---|
 | **M0** | Безопасность и подготовка | Исходный проект с историей git сохранён вне репо; сменены Telegram-токен и пароль WP-админки (утёкший `creds/project_creds.json`) | S1–S2 в ADR 0001 закрыты |
 | **M1** | Реестр миграции | [`ADR 0001`](decisions/0001-example-migration.md): решение по каждому файлу `/example` + список знаний K1–K18 | ✅ Составлен (2026-09-24) |
-| **M2** | Каркас | `project.config.json`, `pages-map.json` (схема), `.wp-env.json`, `composer.json` (WPCS, PHPStan), `package.json`, `.gitignore`, `.env.example`, `docs/INDEX.md` | `wp-env start` поднимает WP с SCF и Yoast; `composer lint` работает |
+| **M2** | Каркас | `project.config.json`, `pages-map.json` (схема), `.wp-env.json`, `composer.json` (WPCS, PHPStan), `package.json`, `.gitignore`, `.env.example`, `docs/INDEX.md` | ✅ Выполнен (2026-09-24): WP 7.1.2 + SCF 6.9.5 + Yoast 28.5 через `wp-env`; `npm run gate:0` (check:config + parallel-lint + PHPCS + PHPStan) зелёный |
 | **M3** | Ядро mu-plugin | Обобщённый `{core}`: boot, helpers, company options, поля по сущностям, generic CPT, forms + Telegram, admin FAQ/leads, seed runner + CLI, Yoast-схемы, `llms.txt` | Активация без fatal; `wp {prefix} seed` идемпотентен на фикстуре |
 | **M4** | Тема с механизмами P1 | Модули setup/assets/images/analytics/head, parts, walkers, `{prefix}_image()`, `embed-facade`, каркас `main.css` / `main.js` / `analytics.js` | Фикстура рендерится; P1-механизмы на месте |
 | **M5** | Правила агентов | `AGENTS.md`, `CLAUDE.md`, 8 `.mdc`, команды `doc-align`, `phase-review`, `port-page`, `psi-analyze`; `naming.json` | `check-rules-coverage` и `check-links` зелёные |
@@ -214,3 +214,7 @@ wp-scf-starter/
 | D14 | Ревью фазы — другой моделью (Claude) | Разделение реализации и проверки |
 | D15 | `drafts/archive` → ADR в `docs/decisions/` | История решений без устаревших «полуканонических» черновиков |
 | D16 | `/example` удаляется только после самотеста и закрытия реестра | Каталог в `.gitignore` — восстановить нельзя |
+| D17 | WordPress и плагины — `latest` из `project.config.json`, резолвятся в последнюю **стабильную** версию через api.wordpress.org; можно зафиксировать точную. `wordpress.min` = текущая мажорная ветка (7.1) | Актуальная версия WP по умолчанию; zip без версии отдавал Yoast RC |
+| D18 | Node.js ≥ 24 | Требование зависимостей `@wordpress/env` |
+| D19 | Локальное окружение — PHP 8.2 (как на хостинге), совместимость с 8.1 проверяет PHPCompatibility/PHPStan | Среда повторяет прод, минимум контролируется статически |
+| D20 | `npm run wp` идёт через `docker exec` в запущенный контейнер, `wp-env` — только запасной путь | `wp-env run` на Windows ~90 с на вызов |

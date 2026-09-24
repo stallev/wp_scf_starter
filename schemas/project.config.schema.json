@@ -1,0 +1,270 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "project.config.schema.json",
+  "title": "Project config",
+  "description": "Single source of project parameters. tools/init substitutes slug values across the starter.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "project",
+    "slug",
+    "urls",
+    "locale",
+    "php",
+    "wordpress",
+    "fonts",
+    "images",
+    "analytics",
+    "modules",
+    "paths"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "slug": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "prefix",
+        "theme",
+        "core",
+        "text_domain"
+      ],
+      "properties": {
+        "prefix": {
+          "description": "Prefix for functions, hooks, meta, options and CPT (without trailing underscore). Keep short: CPT names are limited to 20 chars.",
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]{1,9}$"
+        },
+        "theme": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "core": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "text_domain": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        }
+      }
+    },
+    "urls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local",
+        "staging",
+        "production"
+      ],
+      "properties": {
+        "local": {
+          "type": "string",
+          "pattern": "^https?://[^/]+$"
+        },
+        "staging": {
+          "description": "Must be publicly reachable for PSI (no basic-auth); close from indexing with X-Robots-Tag.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^https://[^/]+$"
+        },
+        "production": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^https://[^/]+$"
+        }
+      }
+    },
+    "locale": {
+      "type": "string",
+      "pattern": "^[a-z]{2}_[A-Z]{2}$"
+    },
+    "php": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min"
+      ],
+      "properties": {
+        "min": {
+          "type": "string",
+          "pattern": "^8\\.[1-9]$"
+        }
+      }
+    },
+    "wordpress": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "min",
+        "plugins"
+      ],
+      "properties": {
+        "version": {
+          "description": "WordPress core for local environments: \"latest\" (resolved via api.wordpress.org on env start) or an exact version to pin, e.g. \"7.1.2\".",
+          "$ref": "#/definitions/version"
+        },
+        "min": {
+          "description": "Minimum supported WordPress (major.minor): theme \"Requires at least\", WPCS minimum_wp_version. Keep it at the current major branch unless the hosting lags behind.",
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+$"
+        },
+        "plugins": {
+          "description": "wordpress.org plugins for local environments: slug -> \"latest\" (latest stable from the plugins API, never RC/trunk) or an exact version.",
+          "type": "object",
+          "propertyNames": {
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "properties": {
+            "secure-custom-fields": {
+              "$ref": "#/definitions/version"
+            },
+            "wordpress-seo": {
+              "$ref": "#/definitions/version"
+            }
+          },
+          "additionalProperties": {
+            "$ref": "#/definitions/version"
+          },
+          "required": [
+            "secure-custom-fields",
+            "wordpress-seo"
+          ]
+        }
+      }
+    },
+    "fonts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "preload"
+      ],
+      "properties": {
+        "preload": {
+          "description": "Only critical woff2 files (theme-relative paths). Do not preload the whole family.",
+          "type": "array",
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "\\.woff2$"
+          }
+        }
+      }
+    },
+    "images": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "card",
+        "webp_quality"
+      ],
+      "properties": {
+        "card": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "width"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_]*$"
+            },
+            "width": {
+              "type": "integer",
+              "minimum": 200,
+              "maximum": 2048
+            }
+          }
+        },
+        "webp_quality": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        }
+      }
+    },
+    "analytics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ga4_delay_ms"
+      ],
+      "properties": {
+        "ga4_delay_ms": {
+          "description": "Delay after window load before gtag.js is fetched (or first interaction). GA4 ID itself lives in site options, not here.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000
+        }
+      }
+    },
+    "modules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "catalog",
+        "pricebook"
+      ],
+      "properties": {
+        "catalog": {
+          "type": "boolean"
+        },
+        "pricebook": {
+          "type": "boolean"
+        }
+      }
+    },
+    "paths": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "prototype",
+        "seed",
+        "pages_map"
+      ],
+      "properties": {
+        "prototype": {
+          "type": "string"
+        },
+        "seed": {
+          "type": "string"
+        },
+        "pages_map": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "version": {
+      "type": "string",
+      "pattern": "^(latest|\\d+\\.\\d+(\\.\\d+)?)$"
+    }
+  }
+}

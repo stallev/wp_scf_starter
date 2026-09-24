@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "pages-map.schema.json",
+  "title": "Pages map",
+  "description": "Central page manifest: prototype file -> WP template -> checks. Source for e2e, perf-markup, PSI and the page seeder.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["pages"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "pages": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/page" }
+    }
+  },
+  "definitions": {
+    "page": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["url", "title", "prototype", "template", "type", "lead_form", "noindex", "lcp", "psi"],
+      "properties": {
+        "url": {
+          "description": "Public path with leading and trailing slash.",
+          "type": "string",
+          "pattern": "^/([a-z0-9-]+/)*$"
+        },
+        "title": { "type": "string", "minLength": 1 },
+        "prototype": {
+          "description": "Prototype HTML file, relative to paths.prototype; null if the page has no prototype.",
+          "type": ["string", "null"],
+          "pattern": "\\.html$"
+        },
+        "template": {
+          "description": "Theme template file that renders the page.",
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+\\.php$"
+        },
+        "type": {
+          "enum": ["front", "page", "service", "blog-index", "post", "archive", "taxonomy", "single", "utility"]
+        },
+        "lead_form": {
+          "description": "true: exactly one form.js-lead on the page; false: none.",
+          "type": "boolean"
+        },
+        "noindex": { "type": "boolean" },
+        "schema": {
+          "description": "Custom Yoast graph pieces expected on the page.",
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "enum": ["LocalBusiness", "Service", "FAQPage", "Product"] }
+        },
+        "lcp": {
+          "description": "LCP candidate on the first screen. Must not be inside .reveal; an image gets eager + fetchpriority=high.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["selector", "kind"],
+          "properties": {
+            "selector": { "type": "string", "minLength": 1 },
+            "kind": { "enum": ["text", "image"] }
+          }
+        },
+        "above_fold": {
+          "description": "Selectors of first-screen blocks (rendered without .reveal).",
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "psi": {
+          "description": "true for one representative page per template (manual PSI suite).",
+          "type": "boolean"
+        },
+        "specs": {
+          "description": "Related docs (repo-relative).",
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

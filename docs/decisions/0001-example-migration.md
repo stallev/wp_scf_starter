@@ -57,8 +57,8 @@ updated: 2026-09-24
 
 | Источник | Решение | Цель / действие | Статус |
 |---|---|---|---|
-| `plugins/secure-custom-fields/` (6.9.4) | DROP | Ставить через `wp-env`/Composer (`wpackagist`); версия-минимум → `project.config.json` / README | todo |
-| `plugins/wordpress-seo/` (Yoast 28.2) | DROP | Как SCF; минимум версии в README | todo |
+| `plugins/secure-custom-fields/` (6.9.4) | DROP | Ставится wp-env из `project.config.json` → `wordpress.plugins` (`latest` = последняя стабильная) | done (M2) |
+| `plugins/wordpress-seo/` (Yoast 28.2) | DROP | Как SCF: `wordpress.plugins` в конфиге (исключает RC из zip без версии) | done (M2) |
 | `plugins/duplicator/` | DROP | Не нужен стартеру; перенос сайта — `playbooks/launch.md` (WP-CLI export/search-replace) | todo |
 | `plugins/index.php` | DROP | — | n/a |
 | `themes/{theme}/node_modules/`, `package-lock.json` | DROP | Lock-файл генерируется заново | n/a |
@@ -66,8 +66,8 @@ updated: 2026-09-24
 | `themes/{theme}/test-results/*` | DROP | — | n/a |
 | `themes/{theme}/creds/project_creds.json` | DROP | Секреты. См. S2 | todo |
 | `themes/{theme}/.env` | DROP | Секреты | todo |
-| `themes/{theme}/.env.example` | PORT | → корень: `.env.example` (`PAGESPEED_API_KEY=`, опц. `TELEGRAM_*` для dev) | todo |
-| `themes/{theme}/.gitignore` | FIX | → корневой `.gitignore`: `.env`, `node_modules/`, `psi-reports/`, `test-results/`, `playwright-report/`, `creds/`, dev-каталоги изображений. Исправить пробел: в исходнике **не было** `.env` | todo |
+| `themes/{theme}/.env.example` | PORT | → корень: `.env.example` (`PAGESPEED_API_KEY=`, `PLAYWRIGHT_BASE_URL=`). `TELEGRAM_*` не добавлены: credentials бота живут в защищённой WP-опции (M3), не в env | done (M2) |
+| `themes/{theme}/.gitignore` | FIX | → корневой `.gitignore`: `.env`, `node_modules/`, `psi-reports/`, `test-results/`, `playwright-report/`, `creds/`, dev-каталоги изображений. Исправить пробел: в исходнике **не было** `.env` | done (M2) |
 | `themes/{theme}/assets/images/source-photos/`, `webp-photos/` | DROP | Фото клиента; каталоги остаются как gitignored dev-пути | n/a |
 | `themes/{theme}/templates/.gitkeep`, `template-parts/.gitkeep` | DROP | — | n/a |
 

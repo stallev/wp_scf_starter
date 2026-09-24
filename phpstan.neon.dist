@@ -1,0 +1,12 @@
+parameters:
+    level: 6
+    phpVersion: 80100
+    paths:
+        - wp-content/mu-plugins
+        - wp-content/themes
+    excludePaths:
+        analyseAndScan:
+            - */vendor/*
+            - */node_modules/*
+    tmpDir: .phpstan-cache
+    treatPhpDocTypesAsCertain: false

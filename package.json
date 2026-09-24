@@ -1,0 +1,28 @@
+{
+  "name": "wp-scf-starter",
+  "private": true,
+  "type": "module",
+  "description": "WordPress theme + mu-plugin + SCF starter for AI-assisted corporate sites",
+  "engines": {
+    "node": ">=24",
+    "npm": ">=11"
+  },
+  "scripts": {
+    "env:start": "node tools/wp-env.mjs start",
+    "env:stop": "node tools/wp-env.mjs stop",
+    "env:clean": "node tools/wp-env.mjs clean all",
+    "env:destroy": "node tools/wp-env.mjs destroy",
+    "env:logs": "node tools/wp-env.mjs logs",
+    "wp": "node tools/wp-env.mjs run cli wp",
+    "composer": "node tools/composer.mjs",
+    "check:config": "node tools/validate-config.mjs",
+    "lint:php": "node tools/composer.mjs lint",
+    "lint:php:fix": "node tools/composer.mjs lint:fix",
+    "gate:0": "npm run check:config && npm run lint:php",
+    "env:update": "node tools/wp-env.mjs start --update"
+  },
+  "devDependencies": {
+    "@wordpress/env": "^10.0.0",
+    "ajv": "^8.17.1"
+  }
+}

@@ -1,0 +1,33 @@
+# Source project copy — removed after M10 (see docs/decisions/0001-example-migration.md)
+/example/
+
+# Secrets
+.env
+.env.*
+!.env.example
+creds/
+
+# Dependencies
+node_modules/
+vendor/
+
+# Test and report output
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+psi-reports/
+.phpcs-cache
+.phpstan-cache/
+
+# Dev image working dirs (theme)
+wp-content/themes/*/assets/images/source-photos/
+wp-content/themes/*/assets/images/webp-photos/
+
+# wp-env / OS / editors
+.wp-env.override.json
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json

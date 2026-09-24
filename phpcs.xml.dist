@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<ruleset name="Starter">
+	<description>WPCS + PHPCompatibility for the starter theme and mu-plugin.</description>
+
+	<file>./wp-content/mu-plugins</file>
+	<file>./wp-content/themes</file>
+
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/example/*</exclude-pattern>
+
+	<arg name="extensions" value="php"/>
+	<arg name="cache" value=".phpcs-cache"/>
+	<arg name="colors"/>
+	<arg value="sp"/>
+
+	<config name="testVersion" value="8.1-"/>
+	<config name="minimum_wp_version" value="7.1"/>
+
+	<rule ref="PHPCompatibilityWP"/>
+
+	<rule ref="WordPress"/>
+
+	<!-- Values below are replaced by tools/init from project.config.json. -->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="starter"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="starter"/>
+			</property>
+		</properties>
+	</rule>
+</ruleset>
