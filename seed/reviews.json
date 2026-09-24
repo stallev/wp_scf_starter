@@ -1,0 +1,26 @@
+{
+  "items": [
+    {
+      "slug": "demo-review-anna",
+      "title": "Всё сделали в срок",
+      "content": "Работу выполнили быстро и аккуратно, рекомендую.",
+      "author": "Анна",
+      "location": "Demo City",
+      "service": "Демо-услуга",
+      "date_label": "январь 2026",
+      "rating": 5,
+      "order": 10
+    },
+    {
+      "slug": "demo-review-ivan",
+      "title": "Понятная смета",
+      "content": "Стоимость согласовали заранее, итоговая сумма не изменилась.",
+      "author": "Иван",
+      "location": "Demo Region",
+      "service": "Демо-услуга",
+      "date_label": "февраль 2026",
+      "rating": 5,
+      "order": 20
+    }
+  ]
+}

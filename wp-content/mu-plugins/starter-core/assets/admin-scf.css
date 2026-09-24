@@ -1,0 +1,40 @@
+/**
+ * Compact SCF inputs on starter-core screens (company options page, starter_* CPT).
+ * Body classes: toplevel_page_starter-company, post-type-starter_*.
+ */
+
+body.toplevel_page_starter-company .acf-fields input[type="number"],
+body[class*="post-type-starter_"] .acf-fields input[type="number"] {
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 11rem;
+}
+
+body.toplevel_page_starter-company .acf-fields > .acf-field:not(.acf-field-textarea):not(.acf-field-repeater) input[type="text"],
+body.toplevel_page_starter-company .acf-fields > .acf-field input[type="email"],
+body.toplevel_page_starter-company .acf-fields > .acf-field select,
+body[class*="post-type-starter_"] .acf-fields > .acf-field:not(.acf-field-textarea) input[type="text"],
+body[class*="post-type-starter_"] .acf-fields > .acf-field input[type="url"],
+body[class*="post-type-starter_"] .acf-fields > .acf-field select {
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 28rem;
+}
+
+body.toplevel_page_starter-company .acf-field-textarea textarea,
+body[class*="post-type-starter_"] .acf-field-textarea textarea {
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 40rem;
+}
+
+@media screen and (max-width: 782px) {
+	body.toplevel_page_starter-company .acf-fields input,
+	body.toplevel_page_starter-company .acf-fields select,
+	body.toplevel_page_starter-company .acf-fields textarea,
+	body[class*="post-type-starter_"] .acf-fields input,
+	body[class*="post-type-starter_"] .acf-fields select,
+	body[class*="post-type-starter_"] .acf-fields textarea {
+		max-width: none;
+	}
+}

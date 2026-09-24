@@ -92,33 +92,33 @@ updated: 2026-09-24
 
 | Источник | Решение | Цель | Что сделать | Статус |
 |---|---|---|---|---|
-| `mu-plugins/tb-core.php` | PORT | `mu-plugins/{core}.php` | Константы `{PREFIX}_VERSION`, `{PREFIX}_CORE_PATH`. `TB_SERVICE_CARD_FALLBACK_ID = 147` → опция в `{prefix}-company` (поле «изображение по умолчанию»), не константа | todo |
-| `tb-core/boot.php` | PORT | `{core}/boot.php` | Загрузка модулей по списку из конфига (вкл./выкл. OPT-модулей); flush rewrite по смене версии — сохранить | todo |
-| `helpers.php` | PORT (частично) | `{core}/helpers.php` | Generic: `set_by_path`, `money` (формат/валюта → конфиг), `get_company`. Price-path функции (`tb_price_*`, `tb_the_price`) → OPT `pricebook` | todo |
-| `defaults.php` | FIX | `{core}/defaults.php` | `tb_default_company` → пустой каркас; `tb_default_ga` → без default ID; `tb_default_pricebook` → OPT `pricebook` | todo |
-| `options.php` | PORT | `{core}/options.php` | Options page `{prefix}-company` (generic); `{prefix}-pricebook` → OPT | todo |
-| `fields.php` (1120 строк) | FIX | `{core}/fields/*.php` | Разбить по сущностям (один файл = одна field group). Generic: company (NAP, соцсети, GA4, default image), lead, review, project, faq, service card. Проектные (trust, product, pricebook) → OPT/пример. Ключи `group_{prefix}_*` | todo |
-| `post-types.php` | FIX | `{core}/post-types.php` | Generic CPT: `{prefix}_lead` (непубличный), `{prefix}_review`, `{prefix}_project`, `{prefix}_faq`. `tb_product` → OPT `catalog`. Список CPT — из конфига | todo |
+| `mu-plugins/tb-core.php` | PORT | `mu-plugins/{core}.php` | Константы `{PREFIX}_VERSION`, `{PREFIX}_CORE_PATH`. `TB_SERVICE_CARD_FALLBACK_ID = 147` → опция в `{prefix}-company` (поле «изображение по умолчанию»), не константа | done (M3) |
+| `tb-core/boot.php` | PORT | `{core}/boot.php` | Загрузка модулей по списку из конфига (вкл./выкл. OPT-модулей); flush rewrite по смене версии — сохранить | done (M3) |
+| `helpers.php` | PORT (частично) | `{core}/helpers.php` | Generic: `set_by_path`, `money` (формат/валюта → конфиг), `get_company`. Price-path функции (`tb_price_*`, `tb_the_price`) → OPT `pricebook` | done (M3) |
+| `defaults.php` | FIX | `{core}/defaults.php` | `tb_default_company` → пустой каркас; `tb_default_ga` → без default ID; `tb_default_pricebook` → OPT `pricebook` | done (M3) |
+| `options.php` | PORT | `{core}/options.php` | Options page `{prefix}-company` (generic); `{prefix}-pricebook` → OPT | done (M3) |
+| `fields.php` (1120 строк) | FIX | `{core}/fields/*.php` | Разбить по сущностям (один файл = одна field group). Generic: company (NAP, соцсети, GA4, default image), lead, review, project, faq, service card. Проектные (trust, product, pricebook) → OPT/пример. Ключи `group_{prefix}_*` | done (M3) |
+| `post-types.php` | FIX | `{core}/post-types.php` | Generic CPT: `{prefix}_lead` (непубличный), `{prefix}_review`, `{prefix}_project`, `{prefix}_faq`. `tb_product` → OPT `catalog`. Список CPT — из конфига | done (M3) |
 | `taxonomies.php` | OPT | `modules/catalog` | Family/diameter, thin-slug редиректы на якоря — специфика каталога клиента | todo |
-| `queries.php` | PORT (частично) | `{core}/queries.php` | Generic: `get_faqs_for`, `get_reviews`, `get_projects`, `get_service_card_pages`. Product-запросы → OPT `catalog` | todo |
-| `forms.php` | PORT | `{core}/forms.php` | Весь контур лида: AJAX action, nonce, honeypot, rate limit, meta, статусы, колонки/фильтр в админке, хук `{prefix}_lead_created`, Telegram-уведомление (credentials из защищённой опции, `autoload=false`) | todo |
+| `queries.php` | PORT (частично) | `{core}/queries.php` | Generic: `get_faqs_for`, `get_reviews`, `get_projects`, `get_service_card_pages`. Product-запросы → OPT `catalog` | done (M3) |
+| `forms.php` | PORT | `{core}/forms.php` | Весь контур лида: AJAX action, nonce, honeypot, rate limit, meta, статусы, колонки/фильтр в админке, хук `{prefix}_lead_created`, Telegram-уведомление (credentials из защищённой опции, `autoload=false`) | done (M3) |
 | `admin.php` | OPT | `modules/pricebook` | Notice «товар ↔ Pricebook» — специфика | todo |
-| `admin-faq.php` + `assets/admin-faq.{css,js}` | PORT | `{core}/admin-faq.php` | Группировка по локациям, drag-reorder, AJAX + nonce | todo |
-| `assets/admin-leads.{css,js}` | PORT | `{core}/assets/` | — | todo |
-| `assets/admin-acf.css` | PORT | `{core}/assets/` | Проверить, не завязан ли на проектные поля | todo |
-| `admin-seed.php` | PORT | `{core}/admin-seed.php` | Tools → Seed (`manage_options` + nonce) | todo |
-| `cli.php` | PORT | `{core}/cli.php` | `wp {prefix} seed [--only=]`, `--dry-run` добавить | todo |
-| `seed/paths.php`, `loader.php`, `runner.php` | PORT | `{core}/seed/` | Путь к seed — из конфига (корень `seed/`, не тема). `tb_seed_find_forbidden` → читать `naming.json` | todo |
-| `seed/mappers.php` | PORT (частично) | `{core}/seed/mappers.php` | Generic `update_field`, `map_company`; pricebook/product-group → OPT | todo |
-| `seed/entities.php` (1441 строк) | FIX | `{core}/seed/entities/*.php` | Разбить по сущностям. Generic: upsert по slug, featured image, terms, posts, faq, reviews, projects, service cards, **menus**. Products/pricebook → OPT | todo |
+| `admin-faq.php` + `assets/admin-faq.{css,js}` | PORT | `{core}/admin-faq.php` | Группировка по локациям, drag-reorder, AJAX + nonce | done (M3) |
+| `assets/admin-leads.{css,js}` | PORT | `{core}/assets/` | — | done (M3) |
+| `assets/admin-acf.css` | PORT | `{core}/assets/` | Проверить, не завязан ли на проектные поля | done (M3) |
+| `admin-seed.php` | PORT | `{core}/admin-seed.php` | Tools → Seed (`manage_options` + nonce) | done (M3) |
+| `cli.php` | PORT | `{core}/cli.php` | `wp {prefix} seed [--only=]`, `--dry-run` добавить | done (M3) |
+| `seed/paths.php`, `loader.php`, `runner.php` | PORT | `{core}/seed/` | Путь к seed — из конфига (корень `seed/`, не тема). `tb_seed_find_forbidden` → читать `naming.json` | partial (M3; чтение запретов из `naming.json` — M6) |
+| `seed/mappers.php` | PORT (частично) | `{core}/seed/mappers.php` | Generic `update_field`, `map_company`; pricebook/product-group → OPT | done (M3) |
+| `seed/entities.php` (1441 строк) | FIX | `{core}/seed/entities/*.php` | Разбить по сущностям. Generic: upsert по slug, featured image, terms, posts, faq, reviews, projects, service cards, **menus**. Products/pricebook → OPT | done (M3) |
 | `pricebook.php`, `calculator.php` | OPT | `modules/pricebook` (пример) | Provider + transients + инвалидация — как **образец** паттерна «Options → provider → cache → JS»; эталонные проверки `tb_run_etalon_checks` — как пример тестируемой бизнес-логики | todo |
-| `seo.php` | PORT (частично) | `{core}/seo.php` | Generic: регистрация Yoast graph pieces, Organization, `schema_canonical`, `area_served` (из конфига), noindex + исключение из sitemap для служебных страниц (список из `pages-map`, не `formulas_page`) | todo |
-| `seo/class-tb-schema-localbusiness.php` | PORT | `{core}/seo/` | Тип бизнеса, гео, часы — из company options | todo |
-| `seo/class-tb-schema-service.php` | PORT | `{core}/seo/` | Service по страницам услуг (признак в `pages-map`) | todo |
-| `seo/class-tb-schema-faqpage.php` | PORT | `{core}/seo/` | Из `{prefix}_faq` | todo |
+| `seo.php` | PORT (частично) | `{core}/seo.php` | Generic: регистрация Yoast graph pieces, Organization, `schema_canonical`, `area_served` (из конфига), noindex + исключение из sitemap для служебных страниц (список из `pages-map`, не `formulas_page`) | done (M3) |
+| `seo/class-tb-schema-localbusiness.php` | PORT | `{core}/seo/` | Тип бизнеса, гео, часы — из company options | done (M3) |
+| `seo/class-tb-schema-service.php` | PORT | `{core}/seo/` | Service по страницам услуг (признак в `pages-map`) | done (M3) |
+| `seo/class-tb-schema-faqpage.php` | PORT | `{core}/seo/` | Из `{prefix}_faq` | done (M3) |
 | `seo/class-tb-schema-product-offer.php` | OPT | `modules/catalog` | — | todo |
-| `llms-txt.php` | PORT | `{core}/llms-txt.php` | Курируемый `/llms.txt` + AI Allow в `robots.txt`; список ботов → конфиг | todo |
-| `data/llms.txt.md` | TPL | `docs/project/llms.txt.md` (шаблон) | Структура H1/blockquote/разделы; контент клиента — DROP | todo |
+| `llms-txt.php` | PORT | `{core}/llms-txt.php` | Курируемый `/llms.txt` + AI Allow в `robots.txt`; список ботов → конфиг | done (M3) |
+| `data/llms.txt.md` | TPL | `docs/project/llms.txt.md` (шаблон) | Структура H1/blockquote/разделы; контент клиента — DROP | done (M3; отклонение: шаблон в `starter-core/data/llms.txt.md` + фильтр, не в `docs/project/`) |
 
 ---
 
@@ -137,13 +137,13 @@ updated: 2026-09-24
 | `inc/template-tags.php` | FIX | `{theme}/inc/template-tags.php` | Generic: `url`, `home_hash`, `company`, `company_value`, `phone_href`, `brand_mark`, иконки, `has_menu_items`, `normalize_instagram_url`, `user_contactmethods`, `post_reading_minutes`, `get_post_author_data`, `blog_url`, `has_blog`, `blog_filter_categories`. Проектные (`dostavka_*`, `grejfer_*`, `katalog_url`, `family_url`, `price*`, `nav_price_desc`, `product_field`) → DROP/OPT. Добавить `{prefix}_image()` (priority/lazy/sizes/width/height) | todo |
 | `inc/post-toc.php` + `assets/js/editor-heading-anchors.js` | PORT | `{theme}/inc/post-toc.php` | Якоря заголовков + TOC | todo |
 | `inc/class-tb-walker-nav-{primary,mobile,footer}.php` | PORT | `{theme}/inc/` | Классы `{PREFIX}_Walker_Nav_*`; разметка под БЭМ шапки стартера | todo |
-| `inc/setup-pages.php` | FIX | `{core}/seed` (pages) | Создание страниц — по `pages-map.json` в сидере, а не хардкод-списком в теме | todo |
+| `inc/setup-pages.php` | FIX | `{core}/seed` (pages) | Создание страниц — по `pages-map.json` в сидере, а не хардкод-списком в теме | done (M3) |
 | `template-parts/site-header.php`, `site-footer.php`, `nav-*-fallback.php`, `footer-links-fallback.php` | PORT | `{theme}/template-parts/` | Меню WP + статичный fallback; данные из company | todo |
 | `lead-form.php`, `lead-call.php` | PORT | `{theme}/template-parts/` | Контракт формы (`.js-lead`, одна на страницу) | todo |
 | `faq.php`, `reviews.php`, `folio.php`, `service-card.php`, `post-card.php`, `post-author.php`, `post-toc.php` | PORT | `{theme}/template-parts/` | Изображения через `{prefix}_image()`; аргументы `priority`, `reveal` | todo |
 | `geo-map.php` | PORT | `{theme}/template-parts/embed-facade.php` | Обобщить: карта/видео/виджет по клику, `data-src`, `aspect-ratio`, аргумент `reveal` | todo |
 | `trust.php`, `product-card.php`, `content-katalog-*.php` | OPT/DROP | `modules/catalog` (product-card); остальное DROP | — | todo |
-| `tools/bootstrap-pages.php`, `tools/run-seed.php`, `tools/verify-seed.php` | FIX | `wp {prefix} seed`, `wp {prefix} seed --verify` | Заменить WP-CLI-командами; вызов без WP-CLI не поддерживать (есть `wp-env`) | todo |
+| `tools/bootstrap-pages.php`, `tools/run-seed.php`, `tools/verify-seed.php` | FIX | `wp {prefix} seed`, `wp {prefix} seed --verify` | Заменить WP-CLI-командами; вызов без WP-CLI не поддерживать (есть `wp-env`) | partial (M3: `wp starter seed`; `--verify` — M6) |
 
 ### 4.2 CSS / JS / статика
 
@@ -180,9 +180,9 @@ updated: 2026-09-24
 
 | Источник | Решение | Цель | Что сделать | Статус |
 |---|---|---|---|---|
-| `seed/README.md` | TPL | `seed/README.md` | Правила: имена из словаря, стабильный `slug`, идемпотентность, без секретов | todo |
+| `seed/README.md` | TPL | `seed/README.md` | Правила: имена из словаря, стабильный `slug`, идемпотентность, без секретов | done (M3) |
 | `seed/pages-map.json` | FIX | `pages-map.json` (корень) — **центральный манифест** | Схема: `url`, `prototype`, `template`, `type`, `lead_form`, `noindex`, `schema`, `lcp`, `above_fold`, `psi`, `specs` | todo |
-| `seed/company.json`, `faq.json`, `reviews.json`, `projects.json`, `posts.json`, `terms.json` | TPL | `seed/*.json` (пустые примеры) + `seed/schema/*.json` | Структура → JSON Schema; данные клиента DROP | todo |
+| `seed/company.json`, `faq.json`, `reviews.json`, `projects.json`, `posts.json`, `terms.json` | TPL | `seed/*.json` (пустые примеры) + `seed/schema/*.json` | Структура → JSON Schema; данные клиента DROP | partial (M3: нейтральные демо-данные; JSON Schema — M6) |
 | `seed/products.json`, `pricebook.json`, `yoast-meta.json` | OPT/TPL | `modules/*/seed/`; `yoast-meta` → шаблон | — | todo |
 
 ### 4.5 Прототип
@@ -259,7 +259,7 @@ updated: 2026-09-24
 | K9 | `fetch('data/*.json')` из прототипа → 404 в WP | performance §8 | `console.spec.ts` | todo |
 | K10 | Ключ PSI: только заголовок, redact, `.env` UTF-8 без BOM (PowerShell 5.1), Git Bash искажает `/`-аргументы (`MSYS_NO_PATHCONV=1`) | psi | `psi.md`, `.env.example` | todo |
 | K11 | WebP: оригиналы не трогать (og:image), регенерация старых вложений — отдельная процедура с бэкапом | performance §9, images | `contracts/images.md`, `playbooks/launch.md` | todo |
-| K12 | MU-plugin без activation hook → flush rewrite по смене версии | boot.php | `{core}/boot.php` | todo |
+| K12 | MU-plugin без activation hook → flush rewrite по смене версии | boot.php | `{core}/boot.php` | done (M3) |
 | K13 | SCF: `get_field( $name, 'option' )` по **name**, не key | wordpress.mdc | `mu-plugin.mdc` | todo |
 | K14 | Одна `.js-lead` форма на страницу; служебные страницы без формы и в noindex | form-contracts | `pages-map` + `static.spec.ts` | todo |
 | K15 | Хостинг: page cache, `Cache-Control` HTML, `immutable` для assets/uploads | performance «Что осталось» | `playbooks/launch.md` | todo |

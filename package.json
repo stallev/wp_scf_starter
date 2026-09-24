@@ -15,6 +15,7 @@
     "env:logs": "node tools/wp-env.mjs logs",
     "wp": "node tools/wp-env.mjs run cli wp",
     "composer": "node tools/composer.mjs",
+    "build:config": "node tools/build-config.mjs",
     "check:config": "node tools/validate-config.mjs",
     "lint:php": "node tools/composer.mjs lint",
     "lint:php:fix": "node tools/composer.mjs lint:fix",

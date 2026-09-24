@@ -1,0 +1,24 @@
+{
+  "items": [
+    {
+      "slug": "demo-project-alpha",
+      "title": "Проект «Альфа»",
+      "excerpt": "Демо-проект для проверки портфолио.",
+      "content": "Описание демо-проекта: задача, решение, результат.",
+      "location": "Demo City",
+      "date_label": "2025",
+      "service": "demo-service",
+      "order": 10
+    },
+    {
+      "slug": "demo-project-beta",
+      "title": "Проект «Бета»",
+      "excerpt": "Второй демо-проект.",
+      "content": "Описание второго демо-проекта.",
+      "location": "Demo Region",
+      "date_label": "2026",
+      "service": "demo-service",
+      "order": 20
+    }
+  ]
+}

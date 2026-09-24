@@ -8,7 +8,8 @@
     "https://downloads.wordpress.org/plugin/wordpress-seo.zip"
   ],
   "mappings": {
-    "wp-content/mu-plugins": "./wp-content/mu-plugins"
+    "wp-content/mu-plugins": "./wp-content/mu-plugins",
+    "wp-content/starter-seed": "./seed"
   },
   "config": {
     "WP_DEBUG": true,

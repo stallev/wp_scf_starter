@@ -8,5 +8,9 @@ parameters:
         analyseAndScan:
             - */vendor/*
             - */node_modules/*
+    # SCF exposes the ACF API; WP-CLI only exists in CLI context (see tools/phpstan/wp-cli-stubs.php).
+    scanFiles:
+        - vendor/php-stubs/acf-pro-stubs/acf-pro-stubs.php
+        - tools/phpstan/wp-cli-stubs.php
     tmpDir: .phpstan-cache
     treatPhpDocTypesAsCertain: false

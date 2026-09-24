@@ -180,7 +180,7 @@ wp-scf-starter/
 | **M0** | Безопасность и подготовка | Исходный проект с историей git сохранён вне репо; сменены Telegram-токен и пароль WP-админки (утёкший `creds/project_creds.json`) | S1–S2 в ADR 0001 закрыты |
 | **M1** | Реестр миграции | [`ADR 0001`](decisions/0001-example-migration.md): решение по каждому файлу `/example` + список знаний K1–K18 | ✅ Составлен (2026-09-24) |
 | **M2** | Каркас | `project.config.json`, `pages-map.json` (схема), `.wp-env.json`, `composer.json` (WPCS, PHPStan), `package.json`, `.gitignore`, `.env.example`, `docs/INDEX.md` | ✅ Выполнен (2026-09-24): WP 7.1.2 + SCF 6.9.5 + Yoast 28.5 через `wp-env`; `npm run gate:0` (check:config + parallel-lint + PHPCS + PHPStan) зелёный |
-| **M3** | Ядро mu-plugin | Обобщённый `{core}`: boot, helpers, company options, поля по сущностям, generic CPT, forms + Telegram, admin FAQ/leads, seed runner + CLI, Yoast-схемы, `llms.txt` | Активация без fatal; `wp {prefix} seed` идемпотентен на фикстуре |
+| **M3** | Ядро mu-plugin | Обобщённый `{core}`: boot, helpers, company options, поля по сущностям, generic CPT, forms + Telegram, admin FAQ/leads, seed runner + CLI, Yoast-схемы, `llms.txt` | ✅ Выполнен (2026-09-24): `starter-core` без fatal, `wp starter seed` идемпотентен на демо-seed, лиды/Telegram/FAQ-админка/Yoast-схемы/`llms.txt`; review пройден |
 | **M4** | Тема с механизмами P1 | Модули setup/assets/images/analytics/head, parts, walkers, `{prefix}_image()`, `embed-facade`, каркас `main.css` / `main.js` / `analytics.js` | Фикстура рендерится; P1-механизмы на месте |
 | **M5** | Правила агентов | `AGENTS.md`, `CLAUDE.md`, 8 `.mdc`, команды `doc-align`, `phase-review`, `port-page`, `psi-analyze`; `naming.json` | `check-rules-coverage` и `check-links` зелёные |
 | **M6** | Инструменты и тесты | `init`, `check-naming`, `check-hardcode`, `check-links`, `lint:prototype`, `validate-seeds` + JSON Schema, `font-fallback-metrics`, `convert-to-webp`, `psi.mjs`, `gate:*`; e2e: static, navigation, forms, dynamic, seo, a11y, perf-markup, console, visual | Все проверки работают на фикстуре; `psi.mjs` отказывает на localhost (код 2) |
@@ -190,7 +190,7 @@ wp-scf-starter/
 | **M10** | Удаление `/example` | Критерии §7 ADR 0001: реестр закрыт, grep по проектным именам пуст, ревью стартера против реестра другой моделью | `/example` удалён; стартер закоммичен, тег **`v0.1.0`** |
 | **M11** | Пилот | Реальный проект на стартере, включая PSI baseline после деплоя | Ретро: нарушения агента → новые проверки; тег **`v0.2.0`** + `CHANGELOG` |
 
-Порядок: M0 → M1 → M2 → (M3 ∥ M5) → M4 → M6 → M7 → M8 → M9 → M10 → M11. Правила (M5) пишутся параллельно с ядром, чтобы с самого начала работать по ним.
+Порядок: M0 → M1 → M2 → M3 → M4 → M5 → M6 → M7 → M8 → M9 → M10 → M11 (M5 перенесён после M4, см. D21).
 
 ---
 
@@ -218,3 +218,5 @@ wp-scf-starter/
 | D18 | Node.js ≥ 24 | Требование зависимостей `@wordpress/env` |
 | D19 | Локальное окружение — PHP 8.2 (как на хостинге), совместимость с 8.1 проверяет PHPCompatibility/PHPStan | Среда повторяет прод, минимум контролируется статически |
 | D20 | `npm run wp` идёт через `docker exec` в запущенный контейнер, `wp-env` — только запасной путь | `wp-env run` на Windows ~90 с на вызов |
+| D21 | M5 (правила агентов) — после M3/M4, а не параллельно с M3 | Правила — указатели на реальный код и контракты; параллельная работа агентов над общими файлами рискованна |
+| D22 | Конфиг попадает в PHP через сгенерированный `starter-core/config.generated.php` (`npm run build:config`), свежесть проверяет `check:config` | Корень репо (`project.config.json`, `pages-map.json`) на хостинг не деплоится |

@@ -1,0 +1,31 @@
+{
+  "menus": [
+    {
+      "location": "primary",
+      "name": "Primary",
+      "items": [
+        { "title": "Главная", "url": "/" },
+        { "title": "Услуги", "url": "/#services" },
+        { "title": "Блог", "post": "demo-post-getting-started" },
+        { "title": "Контакты", "url": "/#contacts" }
+      ]
+    },
+    {
+      "location": "mobile",
+      "name": "Mobile",
+      "items": [
+        { "title": "Главная", "url": "/" },
+        { "title": "Услуги", "url": "/#services" },
+        { "title": "Контакты", "url": "/#contacts" }
+      ]
+    },
+    {
+      "location": "footer",
+      "name": "Footer",
+      "items": [
+        { "title": "Главная", "url": "/" },
+        { "title": "Контакты", "url": "/#contacts" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "name": "Demo Company",
+  "legal_name": "Demo Company LLC",
+  "description": "Демо-компания для самотестов стартера: услуги, проекты, отзывы и FAQ.",
+  "business_type": "ProfessionalService",
+  "phones": [
+    { "number": "+000 00 000-00-00", "label": "Основной" },
+    { "number": "+000 00 000-00-01", "label": "Отдел продаж" }
+  ],
+  "email": "info@example.com",
+  "address": {
+    "street": "Demo Street, 1",
+    "locality": "Demo City",
+    "region": "Demo Region",
+    "postal_code": "000000",
+    "country": "XX",
+    "text": "000000, Demo City, Demo Street, 1"
+  },
+  "geo": { "lat": null, "lng": null },
+  "hours_text": "Пн–Пт 9:00–18:00",
+  "opening_hours": [
+    { "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "09:00", "closes": "18:00" }
+  ],
+  "socials": [
+    { "network": "telegram", "url": "https://t.me/example", "label": "Telegram" },
+    { "network": "whatsapp", "url": "https://wa.me/0000000000", "label": "WhatsApp" }
+  ],
+  "ga4_id": "",
+  "area_served": ["Demo City", "Demo Region"],
+  "price_range": "$$"
+}

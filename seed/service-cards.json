@@ -1,0 +1,24 @@
+{
+  "items": [
+    {
+      "page": "/services/demo-service/",
+      "enabled": true,
+      "title": "Демо-услуга",
+      "text": "Краткое описание услуги для сетки на главной.",
+      "price": "от 100",
+      "price_note": "ориентировочно",
+      "badge": "",
+      "order": 10
+    },
+    {
+      "page": "/services/demo-service-2/",
+      "enabled": true,
+      "title": "Вторая демо-услуга",
+      "text": "Ещё одна карточка услуги.",
+      "price": "от 200",
+      "price_note": "",
+      "badge": "Популярное",
+      "order": 20
+    }
+  ]
+}

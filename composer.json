@@ -8,12 +8,13 @@
   },
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
-    "wp-coding-standards/wpcs": "^3.1",
-    "phpcompatibility/phpcompatibility-wp": "^2.1",
     "php-parallel-lint/php-parallel-lint": "^1.4",
-    "phpstan/phpstan": "^2.1",
+    "php-stubs/acf-pro-stubs": "^6.8",
+    "phpcompatibility/phpcompatibility-wp": "^2.1",
     "phpstan/extension-installer": "^1.4",
-    "szepeviktor/phpstan-wordpress": "^2.0"
+    "phpstan/phpstan": "^2.1",
+    "szepeviktor/phpstan-wordpress": "^2.0",
+    "wp-coding-standards/wpcs": "^3.1"
   },
   "config": {
     "platform": {
@@ -29,7 +30,7 @@
     "lint:syntax": "parallel-lint --exclude vendor --exclude node_modules --exclude example wp-content",
     "lint:cs": "phpcs",
     "lint:fix": "phpcbf",
-    "analyse": "phpstan analyse --memory-limit=1G --no-progress",
+    "analyse": "phpstan analyse --memory-limit=2G --no-progress",
     "lint": [
       "@lint:syntax",
       "@lint:cs",

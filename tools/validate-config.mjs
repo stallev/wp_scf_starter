@@ -1,11 +1,13 @@
 /**
  * Validate project.config.json and pages-map.json against schemas/ + cross-field rules,
  * and check that versions/slugs declared elsewhere (style.css, phpcs, composer, wp-env) match the config.
+ * Also checks that the mu-plugin config snapshot (tools/build-config.mjs) is up to date.
  * Exit: 0 ok, 1 validation errors.
  */
 import Ajv from 'ajv';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
+import { generatedConfigPath, renderConfigPhp } from './build-config.mjs';
 import { ROOT, readJson } from './lib.mjs';
 
 const ajv = new Ajv({ allErrors: true, strict: true, allowUnionTypes: true });
@@ -103,6 +105,15 @@ if (wpEnv) {
   if (!(wpEnv.themes ?? []).includes(`./wp-content/themes/${cfg.slug.theme}`)) {
     errors.push(`.wp-env.json: themes must include ./wp-content/themes/${cfg.slug.theme}`);
   }
+}
+
+// 4. The mu-plugin reads a PHP snapshot of the config (the repo root is not deployed): it must be current.
+const generated = generatedConfigPath(cfg);
+const generatedFull = path.join(ROOT, generated);
+if (!existsSync(generatedFull)) {
+  errors.push(`${generated}: missing — run npm run build:config`);
+} else if (readFileSync(generatedFull, 'utf8').replace(/\r\n/g, '\n') !== renderConfigPhp(cfg, map)) {
+  errors.push(`${generated}: out of date — run npm run build:config`);
 }
 
 finish();
