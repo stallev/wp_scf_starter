@@ -21,6 +21,16 @@ for (const step of steps) {
   if (wp(...step) !== 0) failed++;
 }
 
+// Default install content ("Hello world!" with a comment, "Sample Page") is noise for the starter.
+// Idempotent: deletes only when present. The static front page comes from `wp starter seed` (pages-map).
+const cleanup = [
+  "foreach ( array( array( 'hello-world', 'post' ), array( 'sample-page', 'page' ) ) as $d ) {",
+  '  $p = get_page_by_path( $d[0], OBJECT, $d[1] );',
+  '  if ( $p instanceof WP_Post ) { wp_delete_post( $p->ID, true ); echo "deleted {$d[1]} {$d[0]}\\n"; }',
+  '}',
+].join(' ');
+if (wp('eval', cleanup) !== 0) failed++;
+
 // Locale needs network access to translate.wordpress.org; not fatal.
 if (cfg.locale && cfg.locale !== 'en_US') {
   if (wp('language', 'core', 'install', cfg.locale, '--activate') !== 0) {

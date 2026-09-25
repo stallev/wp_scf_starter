@@ -8,6 +8,7 @@
       "location": "Demo City",
       "date_label": "2025",
       "service": "demo-service",
+      "image": "images/demo-2.png",
       "order": 10
     },
     {
@@ -18,6 +19,7 @@
       "location": "Demo Region",
       "date_label": "2026",
       "service": "demo-service",
+      "image": "images/demo-1.png",
       "order": 20
     }
   ]

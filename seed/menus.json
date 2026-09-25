@@ -4,27 +4,58 @@
       "location": "primary",
       "name": "Primary",
       "items": [
-        { "title": "Главная", "url": "/" },
-        { "title": "Услуги", "url": "/#services" },
-        { "title": "Блог", "post": "demo-post-getting-started" },
-        { "title": "Контакты", "url": "/#contacts" }
+        {
+          "title": "Услуги",
+          "page": "/services/",
+          "children": [
+            { "title": "Демо-услуга", "page": "/services/demo-service/" },
+            { "title": "Вторая демо-услуга", "page": "/services/demo-service-2/" }
+          ]
+        },
+        { "title": "О компании", "page": "/about/" },
+        { "title": "Блог", "page": "/blog/" },
+        { "title": "Контакты", "page": "/contacts/" }
       ]
     },
     {
       "location": "mobile",
       "name": "Mobile",
       "items": [
-        { "title": "Главная", "url": "/" },
-        { "title": "Услуги", "url": "/#services" },
-        { "title": "Контакты", "url": "/#contacts" }
+        {
+          "title": "Услуги",
+          "page": "/services/",
+          "children": [
+            { "title": "Все услуги", "page": "/services/" },
+            { "title": "Демо-услуга", "page": "/services/demo-service/" },
+            { "title": "Вторая демо-услуга", "page": "/services/demo-service-2/" }
+          ]
+        },
+        { "title": "О компании", "page": "/about/" },
+        { "title": "Блог", "page": "/blog/" },
+        { "title": "Контакты", "page": "/contacts/" }
       ]
     },
     {
       "location": "footer",
       "name": "Footer",
       "items": [
-        { "title": "Главная", "url": "/" },
-        { "title": "Контакты", "url": "/#contacts" }
+        {
+          "title": "Услуги",
+          "page": "/services/",
+          "children": [
+            { "title": "Демо-услуга", "page": "/services/demo-service/" },
+            { "title": "Вторая демо-услуга", "page": "/services/demo-service-2/" }
+          ]
+        },
+        {
+          "title": "Компания",
+          "page": "/about/",
+          "children": [
+            { "title": "О компании", "page": "/about/" },
+            { "title": "Блог", "page": "/blog/" },
+            { "title": "Контакты", "page": "/contacts/" }
+          ]
+        }
       ]
     }
   ]

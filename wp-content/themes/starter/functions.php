@@ -1,19 +1,28 @@
 <?php
 /**
- * Theme bootstrap. Placeholder for M2 (scaffold); modules arrive in M4.
+ * Theme bootstrap: loads inc/* modules only.
  *
- * CPT / options / forms live in the starter-core mu-plugin.
+ * Presentation lives here (enqueue, templates, parts). Data — CPT, options, fields, forms, SEO —
+ * lives in the starter-core mu-plugin and is read only through its starter_get_*() providers.
  *
  * @package Starter
  */
 
 defined( 'ABSPATH' ) || exit;
 
-/**
- * Theme supports.
- */
-function starter_theme_setup(): void {
-	add_theme_support( 'title-tag' );
-	add_theme_support( 'post-thumbnails' );
-}
-add_action( 'after_setup_theme', 'starter_theme_setup' );
+define( 'STARTER_THEME_VERSION', '0.1.0' );
+
+$starter_inc = get_template_directory() . '/inc/';
+
+require_once $starter_inc . 'setup.php';
+require_once $starter_inc . 'template-tags.php';
+require_once $starter_inc . 'assets.php';
+require_once $starter_inc . 'images.php';
+require_once $starter_inc . 'analytics.php';
+require_once $starter_inc . 'head.php';
+require_once $starter_inc . 'post-toc.php';
+require_once $starter_inc . 'class-starter-walker-nav-primary.php';
+require_once $starter_inc . 'class-starter-walker-nav-mobile.php';
+require_once $starter_inc . 'class-starter-walker-nav-footer.php';
+
+unset( $starter_inc );

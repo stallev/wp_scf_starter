@@ -16,7 +16,7 @@
     "country": "XX",
     "text": "000000, Demo City, Demo Street, 1"
   },
-  "geo": { "lat": null, "lng": null },
+  "geo": { "lat": 50.0, "lng": 10.0 },
   "hours_text": "Пн–Пт 9:00–18:00",
   "opening_hours": [
     { "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "09:00", "closes": "18:00" }
@@ -27,5 +27,6 @@
   ],
   "ga4_id": "",
   "area_served": ["Demo City", "Demo Region"],
-  "price_range": "$$"
+  "price_range": "$$",
+  "default_image": "images/demo-1.png"
 }

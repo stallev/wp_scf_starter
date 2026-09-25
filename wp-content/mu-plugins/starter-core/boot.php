@@ -25,6 +25,7 @@ require_once STARTER_CORE_PATH . '/fields/service-card.php';
 
 require_once STARTER_CORE_PATH . '/queries.php';
 require_once STARTER_CORE_PATH . '/forms.php';
+require_once STARTER_CORE_PATH . '/comments.php';
 require_once STARTER_CORE_PATH . '/admin-leads.php';
 require_once STARTER_CORE_PATH . '/admin-faq.php';
 require_once STARTER_CORE_PATH . '/seo.php';

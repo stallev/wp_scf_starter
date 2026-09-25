@@ -128,20 +128,20 @@ updated: 2026-09-24
 
 | Источник | Решение | Цель | Что сделать | Статус |
 |---|---|---|---|---|
-| `style.css` | PORT | `{theme}/style.css` | Заголовок темы из конфига | todo |
-| `functions.php` | FIX | `{theme}/functions.php` + `inc/{setup,assets,images,analytics,head}.php` | Разнести по модулям. Сохранить: supports, menus (`primary/mobile/footer`), отключение site icon, favicon-набор, WebP output + quality 80, размер карточки (из конфига), `filemtime`-версии, `strategy => defer`, font preload (список из конфига), отложенный GA4. `tb_theme_geo_meta` → данные из конфига | todo |
-| `header.php`, `footer.php`, `index.php`, `page.php`, `archive.php`, `single.php`, `home.php` | PORT | `{theme}/` | Каркас без контента клиента; `single.php`/`home.php` — блог с TOC, автором, карточками | todo |
-| `front-page.php` | FIX | `{theme}/front-page.php` (минимальный) | Контент клиента DROP; оставить скелет: hero (LCP-текст без `.reveal`) + динамические секции через parts | todo |
+| `style.css` | PORT | `{theme}/style.css` | Заголовок темы из конфига | done (M4) |
+| `functions.php` | FIX | `{theme}/functions.php` + `inc/{setup,assets,images,analytics,head}.php` | Разнести по модулям. Сохранить: supports, menus (`primary/mobile/footer`), отключение site icon, favicon-набор, WebP output + quality 80, размер карточки (из конфига), `filemtime`-версии, `strategy => defer`, font preload (список из конфига), отложенный GA4. `tb_theme_geo_meta` → данные из конфига | done (M4) |
+| `header.php`, `footer.php`, `index.php`, `page.php`, `archive.php`, `single.php`, `home.php` | PORT | `{theme}/` | Каркас без контента клиента; `single.php`/`home.php` — блог с TOC, автором, карточками | done (M4) |
+| `front-page.php` | FIX | `{theme}/front-page.php` (минимальный) | Контент клиента DROP; оставить скелет: hero (LCP-текст без `.reveal`) + динамические секции через parts | done (M4) |
 | `page-*.php` (13 шт.) | DROP | — | Контент клиента. Паттерн «статичная вёрстка + вставки провайдеров» описан в `/port-page`. **Анти-пример** для `check-hardcode`: телефон захардкожен в 8 шаблонах | n/a |
 | `archive-tb_product.php`, `single-tb_product.php`, `taxonomy-tb_product_family.php` | OPT | `modules/catalog/templates/` | Пример CPT-архива с фильтрами и якорями | todo |
-| `inc/template-tags.php` | FIX | `{theme}/inc/template-tags.php` | Generic: `url`, `home_hash`, `company`, `company_value`, `phone_href`, `brand_mark`, иконки, `has_menu_items`, `normalize_instagram_url`, `user_contactmethods`, `post_reading_minutes`, `get_post_author_data`, `blog_url`, `has_blog`, `blog_filter_categories`. Проектные (`dostavka_*`, `grejfer_*`, `katalog_url`, `family_url`, `price*`, `nav_price_desc`, `product_field`) → DROP/OPT. Добавить `{prefix}_image()` (priority/lazy/sizes/width/height) | todo |
-| `inc/post-toc.php` + `assets/js/editor-heading-anchors.js` | PORT | `{theme}/inc/post-toc.php` | Якоря заголовков + TOC | todo |
-| `inc/class-tb-walker-nav-{primary,mobile,footer}.php` | PORT | `{theme}/inc/` | Классы `{PREFIX}_Walker_Nav_*`; разметка под БЭМ шапки стартера | todo |
+| `inc/template-tags.php` | FIX | `{theme}/inc/template-tags.php` | Generic: `url`, `home_hash`, `company`, `company_value`, `phone_href`, `brand_mark`, иконки, `has_menu_items`, `normalize_instagram_url`, `user_contactmethods`, `post_reading_minutes`, `get_post_author_data`, `blog_url`, `has_blog`, `blog_filter_categories`. Проектные (`dostavka_*`, `grejfer_*`, `katalog_url`, `family_url`, `price*`, `nav_price_desc`, `product_field`) → DROP/OPT. Добавить `{prefix}_image()` (priority/lazy/sizes/width/height) | done (M4) |
+| `inc/post-toc.php` + `assets/js/editor-heading-anchors.js` | PORT | `{theme}/inc/post-toc.php` | Якоря заголовков + TOC | done (M4) |
+| `inc/class-tb-walker-nav-{primary,mobile,footer}.php` | PORT | `{theme}/inc/` | Классы `{PREFIX}_Walker_Nav_*`; разметка под БЭМ шапки стартера | done (M4) |
 | `inc/setup-pages.php` | FIX | `{core}/seed` (pages) | Создание страниц — по `pages-map.json` в сидере, а не хардкод-списком в теме | done (M3) |
-| `template-parts/site-header.php`, `site-footer.php`, `nav-*-fallback.php`, `footer-links-fallback.php` | PORT | `{theme}/template-parts/` | Меню WP + статичный fallback; данные из company | todo |
-| `lead-form.php`, `lead-call.php` | PORT | `{theme}/template-parts/` | Контракт формы (`.js-lead`, одна на страницу) | todo |
-| `faq.php`, `reviews.php`, `folio.php`, `service-card.php`, `post-card.php`, `post-author.php`, `post-toc.php` | PORT | `{theme}/template-parts/` | Изображения через `{prefix}_image()`; аргументы `priority`, `reveal` | todo |
-| `geo-map.php` | PORT | `{theme}/template-parts/embed-facade.php` | Обобщить: карта/видео/виджет по клику, `data-src`, `aspect-ratio`, аргумент `reveal` | todo |
+| `template-parts/site-header.php`, `site-footer.php`, `nav-*-fallback.php`, `footer-links-fallback.php` | PORT | `{theme}/template-parts/` | Меню WP + статичный fallback; данные из company | done (M4) |
+| `lead-form.php`, `lead-call.php` | PORT | `{theme}/template-parts/` | Контракт формы (`.js-lead`, одна на страницу) | done (M4) |
+| `faq.php`, `reviews.php`, `folio.php`, `service-card.php`, `post-card.php`, `post-author.php`, `post-toc.php` | PORT | `{theme}/template-parts/` | Изображения через `{prefix}_image()`; аргументы `priority`, `reveal` | done (M4) |
+| `geo-map.php` | PORT | `{theme}/template-parts/embed-facade.php` | Обобщить: карта/видео/виджет по клику, `data-src`, `aspect-ratio`, аргумент `reveal` | done (M4) |
 | `trust.php`, `product-card.php`, `content-katalog-*.php` | OPT/DROP | `modules/catalog` (product-card); остальное DROP | — | todo |
 | `tools/bootstrap-pages.php`, `tools/run-seed.php`, `tools/verify-seed.php` | FIX | `wp {prefix} seed`, `wp {prefix} seed --verify` | Заменить WP-CLI-командами; вызов без WP-CLI не поддерживать (есть `wp-env`) | partial (M3: `wp starter seed`; `--verify` — M6) |
 
@@ -149,11 +149,11 @@ updated: 2026-09-24
 
 | Источник | Решение | Цель | Что сделать | Статус |
 |---|---|---|---|---|
-| `assets/css/main.css` | FIX | `{theme}/assets/css/main.css` (каркас) | Взять структуру секций и конвенции: FONTS → TOKENS → BASE → LAYOUT → компоненты → брейкпоинты → `PAGE: <NAME>` → УТИЛИТЫ (последней). Generic-компоненты: button, header, form card, faq, lightbox, geo/embed-facade, footer, reveal, is-*. Значения токенов и страничные секции — DROP (их даёт прототип проекта) | todo |
-| `assets/js/main.js` | FIX | `{theme}/assets/js/main.js` | Generic IIFE: меню/mobile, reveal, FAQ, lead-форма (AJAX, `tb:lead:success`), слайдер, lightbox, embed-facade по клику. Проектные (калькуляторы, фильтр каталога, реквизиты) → OPT/DROP. Урок: без `fetch('data/*.json')` из прототипа (404 в WP) | todo |
-| `assets/js/analytics.js` | PORT | `{theme}/assets/js/analytics.js` | Отложенный gtag (`delayMs` + первое взаимодействие), `dataLayer`, трекинг tel/tg/лида; ID из опций; админы не трекаются | todo |
+| `assets/css/main.css` | FIX | `{theme}/assets/css/main.css` (каркас) | Взять структуру секций и конвенции: FONTS → TOKENS → BASE → LAYOUT → компоненты → брейкпоинты → `PAGE: <NAME>` → УТИЛИТЫ (последней). Generic-компоненты: button, header, form card, faq, lightbox, geo/embed-facade, footer, reveal, is-*. Значения токенов и страничные секции — DROP (их даёт прототип проекта) | done (M4) |
+| `assets/js/main.js` | FIX | `{theme}/assets/js/main.js` | Generic IIFE: меню/mobile, reveal, FAQ, lead-форма (AJAX, `tb:lead:success`), слайдер, lightbox, embed-facade по клику. Проектные (калькуляторы, фильтр каталога, реквизиты) → OPT/DROP. Урок: без `fetch('data/*.json')` из прототипа (404 в WP) | done (M4) |
+| `assets/js/analytics.js` | PORT | `{theme}/assets/js/analytics.js` | Отложенный gtag (`delayMs` + первое взаимодействие), `dataLayer`, трекинг tel/tg/лида; ID из опций; админы не трекаются | done (M4) |
 | `assets/fonts/*` | DROP | — | Шрифты — из прототипа проекта. Правило «только variable woff2 + подмножества» → KNOW | n/a |
-| `assets/icons/*` | FIX | `{theme}/assets/icons/` (плейсхолдеры) | Структура набора (ico, svg, apple-touch, 192/512, webmanifest) — плейсхолдеры; графика клиента DROP | todo |
+| `assets/icons/*` | FIX | `{theme}/assets/icons/` (плейсхолдеры) | Структура набора (ico, svg, apple-touch, 192/512, webmanifest) — плейсхолдеры; графика клиента DROP | done (M4) |
 | `assets/images/*.jpg` | DROP | — | Контент клиента | n/a |
 
 ### 4.3 Node-инструменты и тесты
@@ -181,7 +181,7 @@ updated: 2026-09-24
 | Источник | Решение | Цель | Что сделать | Статус |
 |---|---|---|---|---|
 | `seed/README.md` | TPL | `seed/README.md` | Правила: имена из словаря, стабильный `slug`, идемпотентность, без секретов | done (M3) |
-| `seed/pages-map.json` | FIX | `pages-map.json` (корень) — **центральный манифест** | Схема: `url`, `prototype`, `template`, `type`, `lead_form`, `noindex`, `schema`, `lcp`, `above_fold`, `psi`, `specs` | todo |
+| `seed/pages-map.json` | FIX | `pages-map.json` (корень) — **центральный манифест** | Схема: `url`, `prototype`, `template`, `type`, `lead_form`, `noindex`, `schema`, `lcp`, `above_fold`, `psi`, `specs` | done (M2–M4: схема, валидатор, демо-страницы) |
 | `seed/company.json`, `faq.json`, `reviews.json`, `projects.json`, `posts.json`, `terms.json` | TPL | `seed/*.json` (пустые примеры) + `seed/schema/*.json` | Структура → JSON Schema; данные клиента DROP | partial (M3: нейтральные демо-данные; JSON Schema — M6) |
 | `seed/products.json`, `pricebook.json`, `yoast-meta.json` | OPT/TPL | `modules/*/seed/`; `yoast-meta` → шаблон | — | todo |
 
@@ -248,20 +248,20 @@ updated: 2026-09-24
 
 | # | Знание | Источник | Где в стартере | Статус |
 |---|---|---|---|---|
-| K1 | `.reveal` на LCP-узле → render delay 4–5.7 с | performance §4 | `theme-templates.mdc` + `perf-markup.spec.ts` + `playbooks/performance.md` | todo |
-| K2 | Зависимый скрипт без `strategy` делает родителя блокирующим | performance §3 | `assets.mdc` + `perf-markup` (итоговый HTML) | todo |
-| K3 | WP сам вешает `fetchpriority=high` на первую «большую» картинку без `loading` | performance §5 | `{prefix}_image()` всегда ставит явный `loading` | todo |
+| K1 | `.reveal` на LCP-узле → render delay 4–5.7 с | performance §4 | `theme-templates.mdc` + `perf-markup.spec.ts` + `playbooks/performance.md` | partial (M4: `.reveal` только ниже сгиба + no-JS fallback; проверка — M6) |
+| K2 | Зависимый скрипт без `strategy` делает родителя блокирующим | performance §3 | `assets.mdc` + `perf-markup` (итоговый HTML) | partial (M4: все скрипты `defer`, включая admin-bar; проверка — M6) |
+| K3 | WP сам вешает `fetchpriority=high` на первую «большую» картинку без `loading` | performance §5 | `{prefix}_image()` всегда ставит явный `loading` | done (M4: `starter_image()` всегда ставит `loading`) |
 | K4 | Fallback-метрики шрифта мерить по реальному тексту, не по файлу | performance §2 | `tools/font-fallback-metrics.mjs` | todo |
-| K5 | Preload только 4 критичных woff2, `crossorigin` обязателен | performance §2 | Конфиг + `perf-markup` | todo |
+| K5 | Preload только 4 критичных woff2, `crossorigin` обязателен | performance §2 | Конфиг + `perf-markup` | partial (M4: механизм preload из конфига; проверка — M6) |
 | K6 | PSI не видит localhost; lab ≠ CrUX; TTFB PSI ≠ TTFB из своей сети; UI ≠ API | psi, performance §1 | `playbooks/psi.md`, отказ `psi.mjs` на localhost | todo |
 | K7 | Фиксировать GA4 on/off в каждом прогоне | psi | `psi.mjs` (детект) + `psi.md` | todo |
 | K8 | Не чинить аудит внутри зелёной категории | psi | `AGENTS.md` (1 строка) + `psi.md` | todo |
-| K9 | `fetch('data/*.json')` из прототипа → 404 в WP | performance §8 | `console.spec.ts` | todo |
+| K9 | `fetch('data/*.json')` из прототипа → 404 в WP | performance §8 | `console.spec.ts` | partial (M4: нет fetch данных прототипа; console-spec — M6) |
 | K10 | Ключ PSI: только заголовок, redact, `.env` UTF-8 без BOM (PowerShell 5.1), Git Bash искажает `/`-аргументы (`MSYS_NO_PATHCONV=1`) | psi | `psi.md`, `.env.example` | todo |
-| K11 | WebP: оригиналы не трогать (og:image), регенерация старых вложений — отдельная процедура с бэкапом | performance §9, images | `contracts/images.md`, `playbooks/launch.md` | todo |
+| K11 | WebP: оригиналы не трогать (og:image), регенерация старых вложений — отдельная процедура с бэкапом | performance §9, images | `contracts/images.md`, `playbooks/launch.md` | done (M4: оригиналы остаются PNG/JPEG, подразмеры WebP, srcset без оригиналов) |
 | K12 | MU-plugin без activation hook → flush rewrite по смене версии | boot.php | `{core}/boot.php` | done (M3) |
 | K13 | SCF: `get_field( $name, 'option' )` по **name**, не key | wordpress.mdc | `mu-plugin.mdc` | todo |
-| K14 | Одна `.js-lead` форма на страницу; служебные страницы без формы и в noindex | form-contracts | `pages-map` + `static.spec.ts` | todo |
+| K14 | Одна `.js-lead` форма на страницу; служебные страницы без формы и в noindex | form-contracts | `pages-map` + `static.spec.ts` | partial (M4: `starter_page_has_lead_form()` по pages-map; static-spec — M6) |
 | K15 | Хостинг: page cache, `Cache-Control` HTML, `immutable` для assets/uploads | performance «Что осталось» | `playbooks/launch.md` | todo |
 | K16 | Дубли запретов расходятся → один машиночитаемый источник | анализ rules | `naming.json` + `check-naming` | todo |
 | K17 | Данные в шаблонах хардкодятся, если нет проверки | анализ шаблонов | `check-hardcode` | todo |

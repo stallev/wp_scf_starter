@@ -60,6 +60,12 @@ tools/                node-скрипты (composer, env-setup, validate-config,
 docs/                 документация (см. docs/INDEX.md)
 ```
 
+**Демо-контент.** 9 страниц в `pages-map.json` (`/`, `/services/…`, `/about/`, `/contacts/`, `/blog/`, демо-пост, `/privacy-policy/`, у всех `prototype: null`) и всё содержимое `seed/` (включая `seed/images/`) — нейтральные демо-данные для самотеста темы. На реальном проекте их заменяют страницами из прототипа и данными клиента (`tools/init`, M6).
+
+`node-html-parser` (devDependency) — парсер итогового HTML для будущей проверки разметки производительности `tests/e2e/perf-markup.spec.ts` (M6).
+
+Комментарии отключены ядром (`starter-core/comments.php`, фильтр `starter_disable_comments`, по умолчанию `true`); `env-setup` удаляет стандартные «Hello world!» и «Sample Page».
+
 Имена `starter` / `starter-core` / префикс `starter_` — плейсхолдеры; на проекте их заменит `tools/init` (M6) по `project.config.json`.
 
 ## Известные особенности окружения

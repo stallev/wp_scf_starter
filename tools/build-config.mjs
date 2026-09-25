@@ -25,6 +25,7 @@ export function buildRuntimeConfig(cfg, map) {
     slug: cfg.slug,
     locale: cfg.locale,
     urls: cfg.urls,
+    fonts: cfg.fonts,
     images: cfg.images,
     analytics: cfg.analytics,
     modules: cfg.modules,

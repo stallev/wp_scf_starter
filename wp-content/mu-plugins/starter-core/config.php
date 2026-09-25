@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
  * Read the project config snapshot.
  *
  * Source: config.generated.php, built by `npm run build:config` (the repo root is not deployed).
- * Keys: project, slug, locale, urls, images, analytics, modules, pages.
+ * Keys: project, slug, locale, urls, fonts, images, analytics, modules, pages.
  *
  * @param string|null $key Dotted path (e.g. 'modules.catalog', 'images.card.width'); null = whole array.
  * @return mixed Value, or null when the key is missing.

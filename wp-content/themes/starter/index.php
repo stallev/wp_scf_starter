@@ -1,24 +1,34 @@
 <?php
 /**
- * Fallback template.
+ * Fallback template (any view without a more specific one).
  *
  * @package Starter
  */
 
 defined( 'ABSPATH' ) || exit;
+
+get_header();
 ?>
-<!doctype html>
-<html <?php language_attributes(); ?>>
-<head>
-	<meta charset="<?php bloginfo( 'charset' ); ?>">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<?php wp_head(); ?>
-</head>
-<body <?php body_class(); ?>>
-<?php wp_body_open(); ?>
-<main>
-	<h1><?php bloginfo( 'name' ); ?></h1>
+<main id="main" class="site-main">
+	<?php get_template_part( 'template-parts/page-head', null, array( 'title' => wp_strip_all_tags( wp_get_document_title() ) ) ); ?>
+
+	<section class="section section--tight posts">
+		<div class="container">
+			<?php if ( have_posts() ) : ?>
+				<div class="posts__grid">
+					<?php
+					while ( have_posts() ) {
+						the_post();
+						get_template_part( 'template-parts/post-card' );
+					}
+					?>
+				</div>
+				<?php starter_the_pagination(); ?>
+			<?php else : ?>
+				<p class="posts__empty"><?php esc_html_e( 'Здесь пока ничего нет.', 'starter' ); ?></p>
+			<?php endif; ?>
+		</div>
+	</section>
 </main>
-<?php wp_footer(); ?>
-</body>
-</html>
+<?php
+get_footer();

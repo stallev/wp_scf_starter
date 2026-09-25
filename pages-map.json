@@ -1,4 +1,122 @@
 {
   "$schema": "./schemas/pages-map.schema.json",
-  "pages": []
+  "pages": [
+    {
+      "url": "/",
+      "title": "Услуги для частных клиентов и бизнеса",
+      "prototype": null,
+      "template": "front-page.php",
+      "type": "front",
+      "lead_form": true,
+      "noindex": false,
+      "schema": ["LocalBusiness", "FAQPage"],
+      "lcp": { "selector": "h1.hero__title", "kind": "text" },
+      "above_fold": [".hero"],
+      "psi": true
+    },
+    {
+      "url": "/services/",
+      "title": "Услуги",
+      "prototype": null,
+      "template": "page.php",
+      "type": "page",
+      "lead_form": true,
+      "noindex": false,
+      "schema": [],
+      "lcp": { "selector": "h1.page-head__title", "kind": "text" },
+      "above_fold": [".page-head"],
+      "psi": true
+    },
+    {
+      "url": "/services/demo-service/",
+      "title": "Демо-услуга",
+      "prototype": null,
+      "template": "page.php",
+      "type": "service",
+      "lead_form": true,
+      "noindex": false,
+      "schema": ["Service"],
+      "lcp": { "selector": "h1.page-head__title", "kind": "text" },
+      "above_fold": [".page-head"],
+      "psi": false
+    },
+    {
+      "url": "/services/demo-service-2/",
+      "title": "Вторая демо-услуга",
+      "prototype": null,
+      "template": "page.php",
+      "type": "service",
+      "lead_form": true,
+      "noindex": false,
+      "schema": ["Service"],
+      "lcp": { "selector": "h1.page-head__title", "kind": "text" },
+      "above_fold": [".page-head"],
+      "psi": false
+    },
+    {
+      "url": "/about/",
+      "title": "О компании",
+      "prototype": null,
+      "template": "page.php",
+      "type": "page",
+      "lead_form": true,
+      "noindex": false,
+      "schema": [],
+      "lcp": { "selector": "h1.page-head__title", "kind": "text" },
+      "above_fold": [".page-head"],
+      "psi": false
+    },
+    {
+      "url": "/contacts/",
+      "title": "Контакты",
+      "prototype": null,
+      "template": "page-contacts.php",
+      "type": "page",
+      "lead_form": true,
+      "noindex": false,
+      "schema": ["LocalBusiness"],
+      "lcp": { "selector": "h1.page-head__title", "kind": "text" },
+      "above_fold": [".page-head", ".contacts"],
+      "psi": true
+    },
+    {
+      "url": "/blog/",
+      "title": "Блог",
+      "prototype": null,
+      "template": "home.php",
+      "type": "blog-index",
+      "lead_form": true,
+      "noindex": false,
+      "schema": [],
+      "lcp": { "selector": "h1.page-head__title", "kind": "text" },
+      "above_fold": [".page-head"],
+      "psi": true
+    },
+    {
+      "url": "/demo-post-getting-started/",
+      "title": "С чего начать: демо-статья",
+      "prototype": null,
+      "template": "single.php",
+      "type": "post",
+      "lead_form": true,
+      "noindex": false,
+      "schema": [],
+      "lcp": { "selector": ".post-cover img", "kind": "image" },
+      "above_fold": [".page-head", ".post-cover"],
+      "psi": true
+    },
+    {
+      "url": "/privacy-policy/",
+      "title": "Политика конфиденциальности",
+      "prototype": null,
+      "template": "page.php",
+      "type": "utility",
+      "lead_form": false,
+      "noindex": true,
+      "schema": [],
+      "lcp": { "selector": "h1.page-head__title", "kind": "text" },
+      "above_fold": [".page-head"],
+      "psi": false
+    }
+  ]
 }
