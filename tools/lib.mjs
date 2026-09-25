@@ -34,7 +34,8 @@ export function run(cmd, args, opts = {}) {
 
 export function hasCommand(cmd) {
   const probe = process.platform === 'win32' ? 'where' : 'which';
-  return spawnSync(probe, [cmd], { stdio: 'ignore', shell: process.platform === 'win32' }).status === 0;
+  // where.exe / which are real executables: no shell needed (a shell + args array is deprecated, DEP0190).
+  return spawnSync(probe, [cmd], { stdio: 'ignore' }).status === 0;
 }
 
 /**
@@ -83,4 +84,25 @@ export const CONFIG_FILES = [
 /** True when the module at `metaUrl` is the entry script (lets tools export helpers without side effects). */
 export function isMain(metaUrl) {
   return Boolean(process.argv[1]) && metaUrl === pathToFileURL(path.resolve(process.argv[1])).href;
+}
+
+/**
+ * Parse `--key=value` / `--flag` / positional arguments. Unknown keys are the caller's business.
+ * Returns { opts: { key: value|true }, positional: string[] }.
+ */
+export function parseArgs(argv) {
+  const opts = {};
+  const positional = [];
+  for (const arg of argv) {
+    const m = /^--([a-z][a-z0-9-]*)(?:=(.*))?$/i.exec(arg);
+    if (m) opts[m[1]] = m[2] ?? true;
+    else if (arg === '-h') opts.help = true;
+    else positional.push(arg);
+  }
+  return { opts, positional };
+}
+
+/** Repo-relative POSIX path of an absolute path. */
+export function relPosix(abs) {
+  return path.relative(ROOT, abs).split(path.sep).join('/');
 }

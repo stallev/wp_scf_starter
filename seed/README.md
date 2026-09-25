@@ -80,4 +80,4 @@ npm run wp -- starter seed --dry-run            # отчёт без записи
 
 `{ "menus": [ { "location": "primary", "name": "Primary", "items": [ … ] } ] }`. Пункт: `title` + одна цель — `page` (путь страницы), `post` (slug записи) или `url` (абсолютный или относительный от главной, например `/#contacts`); вложенность — `children`. Ненайденная страница/запись превращается в произвольную ссылку с предупреждением.
 
-JSON Schema для этих файлов и `validate-seeds` появятся в M6.
+Формат каждого файла — JSON Schema в [`schema/`](schema/) (`<файл>.schema.json`). Проверка до импорта — `npm run check:seeds`: схема, уникальные slug, существование локальных картинок, ссылки меню и карточек на `pages-map` / `posts.json`, секреты и запрещённые имена из `naming.json`.

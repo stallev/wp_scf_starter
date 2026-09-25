@@ -160,13 +160,13 @@ updated: 2026-09-24
 
 | Источник | Решение | Цель | Что сделать | Статус |
 |---|---|---|---|---|
-| `package.json` | FIX | корневой `package.json` | Скрипты: `images:webp`, `psi`, `test:e2e*`, `gate:*`, `check:*`, `lint:prototype`, `fonts:fallback` | partial (M2–M5: env/check/gate; psi, images, e2e — M6) |
-| `scripts/psi.mjs` | PORT | `tools/psi.mjs` | `baseUrl` из `project.config.json` (`production_url`/`staging_url`), пути — `pages-map.json` (`psi: true`), `.env` из корня, отчёты в корневой `psi-reports/`. Сохранить: redact ключа, заголовок `X-Goog-Api-Key`, прогрев с заголовками кэша, медиана, `flaky`, ретраи, коды 0/1/2, отказ на localhost | todo |
-| `scripts/psi.config.json` | PORT | `tools/psi.config.json` | Только `thresholds`/`runs`/`mode`/`pauseMs`/`timeoutMs`; `floor` = `null` | todo |
-| `scripts/convert-to-webp.mjs` | PORT | `tools/convert-to-webp.mjs` | Пути из конфига | todo |
+| `package.json` | FIX | корневой `package.json` | Скрипты: `images:webp`, `psi`, `test:e2e*`, `gate:*`, `check:*`, `lint:prototype`, `fonts:fallback` | partial (M6a: psi/images/fonts/gates; e2e — M6b) |
+| `scripts/psi.mjs` | PORT | `tools/psi.mjs` | `baseUrl` из `project.config.json` (`production_url`/`staging_url`), пути — `pages-map.json` (`psi: true`), `.env` из корня, отчёты в корневой `psi-reports/`. Сохранить: redact ключа, заголовок `X-Goog-Api-Key`, прогрев с заголовками кэша, медиана, `flaky`, ретраи, коды 0/1/2, отказ на localhost | done (M6a) |
+| `scripts/psi.config.json` | PORT | `tools/psi.config.json` | Только `thresholds`/`runs`/`mode`/`pauseMs`/`timeoutMs`; `floor` = `null` | done (M6a) |
+| `scripts/convert-to-webp.mjs` | PORT | `tools/convert-to-webp.mjs` | Пути из конфига | done (M6a) |
 | `scripts/a11y-smoke.mjs` | FIX | `tests/e2e/a11y.spec.ts` | Перевести в Playwright + `@axe-core/playwright`, URL из `pages-map` | todo |
 | `tools/convert-prototype-templates.mjs` | FIX | `.claude/commands/port-page.md` + `tools/port-page` (извлечение `<main>`, замена ссылок по `pages-map`) | Одноразовый скрипт с жёсткой картой → обобщённая утилита на одну страницу | todo |
-| `seed/scripts/validate-seeds.mjs` | PORT | `tools/validate-seeds.mjs` | + JSON Schema (`seed/schema/*.json`) + запреты из `naming.json` | todo |
+| `seed/scripts/validate-seeds.mjs` | PORT | `tools/validate-seeds.mjs` | + JSON Schema (`seed/schema/*.json`) + запреты из `naming.json` | done (M6a: + JSON Schema, секреты по значению) |
 | `playwright.config.ts` | PORT | корневой `playwright.config.ts` | `baseURL` из конфига/env; проекты по suite; smoke Firefox/WebKit | todo |
 | `tests/e2e/static-http-200.spec.ts` | PORT | `tests/e2e/static.spec.ts` | Data-driven из `pages-map.json` (200, одна `.js-lead` / её отсутствие) | todo |
 | `tests/e2e/navigation.spec.ts` | PORT | `tests/e2e/navigation.spec.ts` | Селекторы стартерной шапки, desktop/mobile | todo |
@@ -182,14 +182,14 @@ updated: 2026-09-24
 |---|---|---|---|---|
 | `seed/README.md` | TPL | `seed/README.md` | Правила: имена из словаря, стабильный `slug`, идемпотентность, без секретов | done (M3) |
 | `seed/pages-map.json` | FIX | `pages-map.json` (корень) — **центральный манифест** | Схема: `url`, `prototype`, `template`, `type`, `lead_form`, `noindex`, `schema`, `lcp`, `above_fold`, `psi`, `specs` | done (M2–M4: схема, валидатор, демо-страницы) |
-| `seed/company.json`, `faq.json`, `reviews.json`, `projects.json`, `posts.json`, `terms.json` | TPL | `seed/*.json` (пустые примеры) + `seed/schema/*.json` | Структура → JSON Schema; данные клиента DROP | partial (M3: нейтральные демо-данные; JSON Schema — M6) |
+| `seed/company.json`, `faq.json`, `reviews.json`, `projects.json`, `posts.json`, `terms.json` | TPL | `seed/*.json` (пустые примеры) + `seed/schema/*.json` | Структура → JSON Schema; данные клиента DROP | done (M3 демо-данные + M6a JSON Schema) |
 | `seed/products.json`, `pricebook.json`, `yoast-meta.json` | OPT/TPL | `modules/*/seed/`; `yoast-meta` → шаблон | — | todo |
 
 ### 4.5 Прототип
 
 | Источник | Решение | Цель | Что сделать | Статус |
 |---|---|---|---|---|
-| `prototype/*` | FIX | `fixtures/demo-prototype/` (3–4 страницы) | **Не копировать** контент клиента. Собрать нейтральную мини-фикстуру по регламенту (главная, услуга, контакты, пост) для самотестов стартера. Реальный прототип проекта кладётся в корневой `prototype/` (вне темы — не уезжает на прод) | todo |
+| `prototype/*` | FIX | `fixtures/demo-prototype/` (3–4 страницы) | **Не копировать** контент клиента. Собрать нейтральную мини-фикстуру по регламенту (главная, услуга, контакты, пост) для самотестов стартера. Реальный прототип проекта кладётся в корневой `prototype/` (вне темы — не уезжает на прод) | done (M6a: `fixtures/demo-prototype/` + `fixtures/bad-prototype/`) |
 | `prototype/README.md`, `vercel.json` | KNOW | `docs/playbooks/prototype-rules.md` | Деплой прототипа на Vercel (Root Directory, абсолютные пути) | todo |
 | `prototype/data/prices.json` + `assets/js/prices.js` | OPT | `modules/pricebook` | Паттерн «единый JSON цен → `data-price*` → JSON-LD → калькулятор» | todo |
 | `README.md` (корень темы, о прототипе) | KNOW | `docs/playbooks/prototype-rules.md`, `playbooks/launch.md` | «Перед публикацией»: снять noindex, домен в canonical/OG/JSON-LD, og-cover 1200×630, favicon, свои фото | todo |
@@ -251,20 +251,20 @@ updated: 2026-09-24
 | K1 | `.reveal` на LCP-узле → render delay 4–5.7 с | performance §4 | `theme-templates.mdc` + `perf-markup.spec.ts` + `playbooks/performance.md` | partial (M4: `.reveal` только ниже сгиба + no-JS fallback; проверка — M6) |
 | K2 | Зависимый скрипт без `strategy` делает родителя блокирующим | performance §3 | `assets.mdc` + `perf-markup` (итоговый HTML) | partial (M4: все скрипты `defer`, включая admin-bar; проверка — M6) |
 | K3 | WP сам вешает `fetchpriority=high` на первую «большую» картинку без `loading` | performance §5 | `{prefix}_image()` всегда ставит явный `loading` | done (M4: `starter_image()` всегда ставит `loading`) |
-| K4 | Fallback-метрики шрифта мерить по реальному тексту, не по файлу | performance §2 | `tools/font-fallback-metrics.mjs` | todo |
+| K4 | Fallback-метрики шрифта мерить по реальному тексту, не по файлу | performance §2 | `tools/font-fallback-metrics.mjs` | done (M6a: `fonts:fallback`) |
 | K5 | Preload только 4 критичных woff2, `crossorigin` обязателен | performance §2 | Конфиг + `perf-markup` | partial (M4: механизм preload из конфига; проверка — M6) |
-| K6 | PSI не видит localhost; lab ≠ CrUX; TTFB PSI ≠ TTFB из своей сети; UI ≠ API | psi, performance §1 | `playbooks/psi.md`, отказ `psi.mjs` на localhost | todo |
-| K7 | Фиксировать GA4 on/off в каждом прогоне | psi | `psi.mjs` (детект) + `psi.md` | todo |
+| K6 | PSI не видит localhost; lab ≠ CrUX; TTFB PSI ≠ TTFB из своей сети; UI ≠ API | psi, performance §1 | `playbooks/psi.md`, отказ `psi.mjs` на localhost | partial (M6a: код `psi.mjs`; playbook — M7) |
+| K7 | Фиксировать GA4 on/off в каждом прогоне | psi | `psi.mjs` (детект) + `psi.md` | done (M6a: детект GA4 в `psi.mjs`) |
 | K8 | Не чинить аудит внутри зелёной категории | psi | `AGENTS.md` (1 строка) + `psi.md` | done (M5: `AGENTS.md` + `/psi-analyze`) |
 | K9 | `fetch('data/*.json')` из прототипа → 404 в WP | performance §8 | `console.spec.ts` | partial (M4: нет fetch данных прототипа; console-spec — M6) |
-| K10 | Ключ PSI: только заголовок, redact, `.env` UTF-8 без BOM (PowerShell 5.1), Git Bash искажает `/`-аргументы (`MSYS_NO_PATHCONV=1`) | psi | `psi.md`, `.env.example` | todo |
+| K10 | Ключ PSI: только заголовок, redact, `.env` UTF-8 без BOM (PowerShell 5.1), Git Bash искажает `/`-аргументы (`MSYS_NO_PATHCONV=1`) | psi | `psi.md`, `.env.example` | partial (M6a: код `psi.mjs`; playbook — M7) |
 | K11 | WebP: оригиналы не трогать (og:image), регенерация старых вложений — отдельная процедура с бэкапом | performance §9, images | `contracts/images.md`, `playbooks/launch.md` | done (M4: оригиналы остаются PNG/JPEG, подразмеры WebP, srcset без оригиналов) |
 | K12 | MU-plugin без activation hook → flush rewrite по смене версии | boot.php | `{core}/boot.php` | done (M3) |
 | K13 | SCF: `get_field( $name, 'option' )` по **name**, не key | wordpress.mdc | `mu-plugin.mdc` | done (M5: `mu-plugin.mdc`) |
 | K14 | Одна `.js-lead` форма на страницу; служебные страницы без формы и в noindex | form-contracts | `pages-map` + `static.spec.ts` | partial (M4: `starter_page_has_lead_form()` по pages-map; static-spec — M6) |
 | K15 | Хостинг: page cache, `Cache-Control` HTML, `immutable` для assets/uploads | performance «Что осталось» | `playbooks/launch.md` | todo |
 | K16 | Дубли запретов расходятся → один машиночитаемый источник | анализ rules | `naming.json` + `check-naming` | done (M5: `naming.json` + `check:naming`) |
-| K17 | Данные в шаблонах хардкодятся, если нет проверки | анализ шаблонов | `check-hardcode` | todo |
+| K17 | Данные в шаблонах хардкодятся, если нет проверки | анализ шаблонов | `check-hardcode` | done (M6a: `check:hardcode`) |
 | K18 | Phase review — отдельным агентом/моделью, не тем, что реализовал | ROADMAP | `/phase-review` (Claude) | partial (M5: `/phase-review`; ROADMAP-гейты — M7) |
 
 ---

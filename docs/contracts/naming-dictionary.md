@@ -10,7 +10,7 @@ updated: 2026-09-25
 
 Источник — [`naming.json`](naming.json). Правка: `naming.json` → `npm run build:naming`; проверка — `npm run check:naming` (схема, свежесть этого файла, поиск запрещённых имён в коде и документации).
 
-Плейсхолдеры: префикс `starter`, mu-plugin `starter-core`, тема `starter` — на проекте их заменяет `tools/init` (M6).
+Плейсхолдеры: префикс `starter`, mu-plugin `starter-core`, тема `starter` — на проекте их один раз заменяет `npm run init`.
 
 ## Канон
 
@@ -71,7 +71,7 @@ updated: 2026-09-25
 
 | Было | Стало |
 |---|---|
-| {prefix} / {core} / {theme} исходного проекта (ADR 0001, плейсхолдеры) | starter_* / starter-core / starter |
+| {prefix} / {core} / {theme} исходного проекта (ADR 0001, плейсхолдеры) | `starter_*` / `starter-core` / `starter` |
 | CPT product / lead / review / project / faq | starter_<entity> |
 | Options slug company-settings / *-company без префикса | starter-company |
 | Правило product-doc-alignment.mdc (always-on) | /doc-align (.claude/commands/doc-align.md) |

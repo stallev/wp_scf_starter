@@ -1,0 +1,105 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "menus.schema.json",
+  "title": "Seed: menus",
+  "description": "seed/menus.json → nav menus + theme locations (starter_seed_import_menus). Item target: exactly one of page / post / url.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "menus"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "menus": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "items"
+        ],
+        "properties": {
+          "location": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/item"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title"
+      ],
+      "oneOf": [
+        {
+          "required": [
+            "page"
+          ],
+          "properties": {
+            "page": true
+          }
+        },
+        {
+          "required": [
+            "post"
+          ],
+          "properties": {
+            "post": true
+          }
+        },
+        {
+          "required": [
+            "url"
+          ],
+          "properties": {
+            "url": true
+          }
+        }
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "page": {
+          "type": "string",
+          "pattern": "^/([a-z0-9-]+/)*$",
+          "description": "Page path from pages-map.json (leading and trailing slash)."
+        },
+        "post": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          "description": "Stable ASCII slug: the record is found by it on every run."
+        },
+        "url": {
+          "type": "string",
+          "pattern": "^(?:[a-z][a-z0-9+.-]*:|/)\\S*$",
+          "description": "Absolute URL or path from home, e.g. /#contacts."
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/item"
+          }
+        }
+      }
+    }
+  }
+}

@@ -5,7 +5,7 @@ argument-hint: "<psi-reports/<stamp>>"
 
 # /psi-analyze — анализ отчёта PSI
 
-Отчёт: `$ARGUMENTS` — каталог прогона (`summary.json`, `summary.md`, `runs/*.json`). Сам инструмент `tools/psi.mjs` и `npm run psi` появятся в M6, процедура и пороги — `docs/playbooks/psi.md` (M7). Эта команда **ничего не запускает**: PSI — только по явному запросу пользователя и только на задеплоенном публичном URL.
+Отчёт: `$ARGUMENTS` — каталог прогона (`summary.json`, `summary.md`, `runs/*.json`). Отчёт создаёт `npm run psi` (`tools/psi.mjs`, пороги — `tools/psi.config.json`), процедура и пороги — `docs/playbooks/psi.md` (M7). Эта команда **ничего не запускает**: PSI — только по явному запросу пользователя и только на задеплоенном публичном URL.
 
 ## Шаги
 

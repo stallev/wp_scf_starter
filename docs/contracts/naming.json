@@ -1,5 +1,5 @@
 {
-  "$comment": "Single source of canonical and forbidden names. Edit this file, then `npm run build:naming` (regenerates naming-dictionary.md); `npm run check:naming` validates the shape, freshness of the .md and greps sources for `forbidden`. Names use the starter placeholders (prefix `starter`, core `starter-core`, theme `starter`); tools/init (M6) replaces them per project.config.json → slug.",
+  "$comment": "Single source of canonical and forbidden names. Edit this file, then `npm run build:naming` (regenerates naming-dictionary.md); `npm run check:naming` validates the shape, freshness of the .md and greps sources for `forbidden`. Names use the starter placeholders (prefix `starter`, core `starter-core`, theme `starter`); `npm run init` (tools/init.mjs) replaces them once per project.",
   "version": "1.0",
   "updated": "2026-09-25",
   "placeholders": {
@@ -461,7 +461,7 @@
   "legacy": [
     {
       "from": "{prefix} / {core} / {theme} исходного проекта (ADR 0001, плейсхолдеры)",
-      "to": "starter_* / starter-core / starter"
+      "to": "`starter_*` / `starter-core` / `starter`"
     },
     {
       "from": "CPT product / lead / review / project / faq",

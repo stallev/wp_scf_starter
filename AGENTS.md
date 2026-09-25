@@ -6,7 +6,7 @@
 
 ## Плейсхолдеры
 
-`starter` (тема, text domain), `starter-core` (mu-plugin), `starter_` / `STARTER_` / `Starter_` (префикс функций, хуков, meta, опций, CPT, констант, классов) — имена стартера. На проекте их заменяет `tools/init` (M6) по `project.config.json` → `slug`. Новые имена пишутся с текущим префиксом.
+`starter` (тема, text domain), `starter-core` (mu-plugin), `starter_` / `STARTER_` / `Starter_` (префикс функций, хуков, meta, опций, CPT, констант, классов) — имена стартера. На проекте их заменяет `npm run init -- --prefix=… --name=…` (`tools/init.mjs`, один раз, на фазе 0). Новые имена пишутся с текущим префиксом.
 
 ## Карта
 
@@ -15,7 +15,8 @@
 | `project.config.json` | Префикс, slug-и, URL окружений, шрифты (preload), изображения, аналитика, модули |
 | `pages-map.json` | Манифест страниц: URL → прототип → шаблон → `lead_form` / `noindex` / `schema` / `lcp` / `above_fold` / `psi` |
 | `prototype/` | HTML-прототип проекта — **read-only вход** |
-| `seed/` | JSON демо/клиентских данных для `wp starter seed`, формат — [`seed/README.md`](seed/README.md) |
+| `seed/` | JSON демо/клиентских данных для `wp starter seed`, формат — [`seed/README.md`](seed/README.md), JSON Schema — `seed/schema/` |
+| `fixtures/` | `demo-prototype/` — нейтральный прототип для самотестов стартера; `bad-prototype/` — заведомо плохой (негативный тест `lint:prototype`) |
 | `wp-content/mu-plugins/starter-core.php`, `starter-core/` | Данные и логика: CPT, SCF-поля и опции, формы/лиды, seed, Yoast-схемы, `llms.txt` |
 | `wp-content/mu-plugins/starter-core/config.generated.php` | Снимок конфигов для PHP (генерируется, не редактировать) |
 | `wp-content/themes/starter/` | Представление: `inc/` (setup, assets, images, analytics, head), шаблоны, `template-parts/`, `assets/` |
@@ -66,13 +67,24 @@
 | `npm run gate:rules` | `check:naming` + `check:links` + `check:rules` |
 | `npm run lint:php` | parallel-lint + PHPCS (WPCS, PHPCompatibility 8.1+) + PHPStan |
 | `npm run lint:php:fix` | Автоисправление PHPCS |
-| `npm run gate:0` | `check:config` + `gate:rules` + `lint:php` |
+| `npm run init -- --prefix=acme --name="Acme"` | Фаза 0 (чистое дерево, wp-env остановлен): заменить плейсхолдеры `starter*` (файлы, каталоги темы и ядра), очистить демо-данные (`--keep-demo` — оставить), `--dry-run` — только план |
+| `npm run check:hardcode` | Данные компании из `seed/company.json`, цены карточек, свой домен, `tel:`/`mailto:` литералами в теме; исключение — `hardcode:allow` в строке |
+| `npm run check:seeds` | `seed/*.json`: JSON Schema, уникальные slug, картинки, ссылки меню/карточек на `pages-map`, секреты, запреты `naming.json` |
+| `npm run check:seed-idempotent` | Два прогона `wp starter seed` в запущенном wp-env, второй без изменений |
+| `npm run lint:prototype [-- --dir=<каталог>]` | Машинно проверяемые правила прототипа (по умолчанию `prototype/`): inline-стили, `on*=`, внешние CSS/шрифты, `<img>` без размеров/`alt`, один `h1`, `form.js-lead`, LCP / первый экран вне `.reveal` |
+| `npm run fonts:fallback -- --font=<woff2> --family="Name"` | `@font-face` fallback с `size-adjust` и `*-override`, измеренными в Chromium на реальном тексте; статичные файлы — парами `--font=r.woff2@400,b.woff2@700` |
+| `npm run images:webp` | `assets/images/source-photos/` темы → `webp-photos/` (Sharp, качество из конфига) |
+| `npm run psi -- [--paths=…]` | PSI задеплоенного сайта (см. «PSI» ниже): localhost → код 2, отчёт — `psi-reports/` |
+| `npm run test:tools` | Самотесты `tools/__tests__/` (node --test), включая негативные случаи |
+| `npm run gate:0` | `check:config` + `gate:rules` + `check:hardcode` + `check:seeds` + `lint:php` |
+| `npm run gate:1` … `gate:7` | Gate фазы проекта (1 прототип, 2 модель данных, 3 ядро + идемпотентный seed, 4–7 — статические проверки; их e2e-наборы добавит M6b) |
+| `npm run gate:page -- <url>` | Gate страницы: URL из `pages-map`, `check:config` + `check:hardcode` + `lint:php`; e2e страницы — M6b |
 
-Остальные `check-*`, `validate-seeds`, e2e и `gate:page` появятся в M6 — до этого не ссылаться на них как на существующие.
+E2E (Playwright, `tests/e2e/`) появятся в M6b; `gate:4`–`gate:7` и `gate:page` пока только называют свои наборы и не запускают их.
 
 ## PSI
 
-Только по явному запросу пользователя и только на задеплоенном публичном URL; процедура — `docs/playbooks/psi.md` (M7), анализ отчёта — `/psi-analyze`. Код чинится, только если категория вышла из зелёной зоны **и** пользователь попросил исправить.
+Только по явному запросу пользователя и только на задеплоенном публичном URL: `npm run psi` (база — `urls.production` или `--base`, пути — `psi: true` в `pages-map`, ключ `PAGESPEED_API_KEY` — в `.env`); процедура — `docs/playbooks/psi.md` (M7), анализ отчёта — `/psi-analyze`. Код чинится, только если категория вышла из зелёной зоны **и** пользователь попросил исправить.
 
 ## Инструменты
 

@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "service-cards.schema.json",
+  "title": "Seed: service cards",
+  "description": "seed/service-cards.json → starter_service_card_* fields on existing pages (starter_seed_import_service_cards).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "items"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "page"
+        ],
+        "properties": {
+          "page": {
+            "type": "string",
+            "pattern": "^/([a-z0-9-]+/)*$",
+            "description": "Page path from pages-map.json (leading and trailing slash)."
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "title": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "price": {
+            "type": "string"
+          },
+          "price_note": {
+            "type": "string"
+          },
+          "badge": {
+            "type": "string"
+          },
+          "order": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "image": {
+            "type": "string",
+            "description": "Absolute http(s) URL or a path relative to seed/ (e.g. images/x.jpg).",
+            "pattern": "^(?:https?://\\S+|(?!/)(?!.*\\.\\.)[A-Za-z0-9._/-]+\\.(?:jpe?g|png|webp|gif|avif|svg))$"
+          }
+        }
+      }
+    }
+  }
+}

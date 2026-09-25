@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "projects.schema.json",
+  "title": "Seed: projects",
+  "description": "seed/projects.json → CPT starter_project (starter_seed_import_projects).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "items"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "slug",
+          "title"
+        ],
+        "properties": {
+          "slug": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "description": "Stable ASCII slug: the record is found by it on every run."
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "excerpt": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "date_label": {
+            "type": "string"
+          },
+          "service": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "description": "Slug of a service page (last segment of a pages-map URL of type service)."
+          },
+          "image": {
+            "type": "string",
+            "description": "Absolute http(s) URL or a path relative to seed/ (e.g. images/x.jpg).",
+            "pattern": "^(?:https?://\\S+|(?!/)(?!.*\\.\\.)[A-Za-z0-9._/-]+\\.(?:jpe?g|png|webp|gif|avif|svg))$"
+          },
+          "order": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    }
+  }
+}

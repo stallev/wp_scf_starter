@@ -1,0 +1,23 @@
+{
+  "$comment": "Manual PSI (tools/psi.mjs). Base URL comes from project.config.json → urls, paths from pages-map.json (psi: true). Thresholds are introduced gradually: report → baseline → floor = worst baseline minus ~5 → enforce → raise floor (docs/playbooks/psi.md, M7).",
+  "runs": 3,
+  "mode": "report",
+  "pauseMs": 4000,
+  "timeoutMs": 120000,
+  "thresholds": {
+    "goal": {
+      "performance": 90,
+      "accessibility": 90,
+      "best-practices": 90,
+      "seo": 90
+    },
+    "floor": {
+      "mobile": { "performance": null, "accessibility": null, "best-practices": null, "seo": null },
+      "desktop": { "performance": null, "accessibility": null, "best-practices": null, "seo": null }
+    },
+    "budgets": {
+      "mobile": { "lcpMs": 2500, "cls": 0.1, "tbtMs": 200 },
+      "desktop": { "lcpMs": 2500, "cls": 0.1, "tbtMs": 200 }
+    }
+  }
+}

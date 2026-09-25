@@ -2,7 +2,7 @@
 
 Стартер для многостраничных корпоративных сайтов на WordPress: классическая PHP-тема + mu-plugin + Secure Custom Fields + Yoast. Сайт собирается из готового HTML-прототипа с помощью AI (Cursor, Claude).
 
-Статус: **M5 — правила агентов**. План и milestones — [`docs/STARTER-PLAN.md`](docs/STARTER-PLAN.md), карта документации — [`docs/INDEX.md`](docs/INDEX.md).
+Статус: **M6a — Node-инструменты** (init, проверки, PSI; e2e — M6b). План и milestones — [`docs/STARTER-PLAN.md`](docs/STARTER-PLAN.md), карта документации — [`docs/INDEX.md`](docs/INDEX.md).
 
 ## Требования
 
@@ -38,22 +38,23 @@ project.config.json   параметры проекта (prefix, slug-и, URL, �
 pages-map.json        манифест страниц
 schemas/              JSON Schema для конфигов
 prototype/            HTML-прототип проекта (read-only для агента)
-seed/                 JSON для импорта контента (в контейнере: wp-content/starter-seed)
+seed/                 JSON для импорта контента (в контейнере: wp-content/starter-seed), seed/schema/ — JSON Schema
+fixtures/             demo-prototype/ (самотест стартера), bad-prototype/ (негативный тест lint:prototype)
 wp-content/
   mu-plugins/         starter-core.php + starter-core/ (данные: CPT, SCF, формы, seed, SEO)
   themes/starter/     тема
-tools/                node-скрипты (composer, env-setup, validate-config, naming, check-links, check-rules-coverage, …)
+tools/                node-скрипты: окружение, init, check-*, validate-seeds, lint-prototype, psi, font-fallback-metrics, convert-to-webp, gate; самотесты — tools/__tests__/
 AGENTS.md, CLAUDE.md  правила для AI-агентов; .cursor/rules/ и .claude/commands/ — правила зон и процедуры
 docs/                 документация (см. docs/INDEX.md)
 ```
 
-**Демо-контент.** 9 страниц в `pages-map.json` (`/`, `/services/…`, `/about/`, `/contacts/`, `/blog/`, демо-пост, `/privacy-policy/`, у всех `prototype: null`) и всё содержимое `seed/` (включая `seed/images/`) — нейтральные демо-данные для самотеста темы. На реальном проекте их заменяют страницами из прототипа и данными клиента (`tools/init`, M6).
+**Демо-контент.** 9 страниц в `pages-map.json` (`/`, `/services/…`, `/about/`, `/contacts/`, `/blog/`, демо-пост, `/privacy-policy/`, у всех `prototype: null`) и всё содержимое `seed/` (включая `seed/images/`) — нейтральные демо-данные для самотеста темы. На реальном проекте `npm run init -- --prefix=… --name=…` очищает их (пустой `pages-map`, скелеты `seed/*.json`) — дальше страницы из прототипа и данные клиента.
 
-`node-html-parser` (devDependency) — парсер итогового HTML для будущей проверки разметки производительности `tests/e2e/perf-markup.spec.ts` (M6).
+`node-html-parser` (devDependency) — парсер HTML для `lint:prototype` и будущей проверки разметки производительности `tests/e2e/perf-markup.spec.ts` (M6b). `@playwright/test` — Chromium для `fonts:fallback` и e2e (`npx playwright install chromium`), `sharp` — `images:webp`, `fontkit` — метрики шрифта.
 
 Комментарии отключены ядром (`starter-core/comments.php`, фильтр `starter_disable_comments`, по умолчанию `true`); `env-setup` удаляет стандартные «Hello world!» и «Sample Page».
 
-Имена `starter` / `starter-core` / префикс `starter_` — плейсхолдеры; на проекте их заменит `tools/init` (M6) по `project.config.json`.
+Имена `starter` / `starter-core` / префикс `starter_` — плейсхолдеры; на проекте их один раз заменяет `npm run init -- --prefix=acme --name="Acme"` (`--dry-run` — показать план). После init — `npm run env:start` (путь темы и маппинг seed изменились) и `npm run gate:0`.
 
 ## Правила для AI
 

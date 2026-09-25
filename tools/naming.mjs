@@ -150,7 +150,7 @@ export function renderNamingMd(data) {
     '',
     'Источник — [`naming.json`](naming.json). Правка: `naming.json` → `npm run build:naming`; проверка — `npm run check:naming` (схема, свежесть этого файла, поиск запрещённых имён в коде и документации).',
     '',
-    `Плейсхолдеры: префикс ${code(data.placeholders?.prefix ?? 'starter')}, mu-plugin ${code(data.placeholders?.core ?? 'starter-core')}, тема ${code(data.placeholders?.theme ?? 'starter')} — на проекте их заменяет \`tools/init\` (M6).`,
+    `Плейсхолдеры: префикс ${code(data.placeholders?.prefix ?? 'starter')}, mu-plugin ${code(data.placeholders?.core ?? 'starter-core')}, тема ${code(data.placeholders?.theme ?? 'starter')} — на проекте их один раз заменяет \`npm run init\`.`,
     '',
     '## Канон',
     '',
@@ -176,6 +176,16 @@ export function renderNamingMd(data) {
     '',
   ];
   return out.join('\n');
+}
+
+/**
+ * Forbidden rules that apply to a repo-relative file (global rules + rules whose `paths` match),
+ * as { id, reason, replace, re }. Shared with tools/validate-seeds.mjs.
+ */
+export function forbiddenRulesFor(data, file) {
+  return data.forbidden
+    .filter((f) => !f.paths || f.paths.some((g) => mm(file, g)))
+    .map((f) => ({ ...f, re: entryRegex(f) }));
 }
 
 function scanSources(data) {

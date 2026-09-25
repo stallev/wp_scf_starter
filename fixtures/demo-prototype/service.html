@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Демо-услуга — Demo Company</title>
+  <meta name="description" content="Описание демо-услуги.">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container header__inner">
+      <a class="header__logo" href="index.html">Demo Company</a>
+      <nav class="nav" aria-label="Основное меню">
+        <ul class="nav__list">
+          <li><a class="nav__link" href="service.html">Услуги</a></li>
+          <li><a class="nav__link" href="post.html">Блог</a></li>
+          <li><a class="nav__link" href="contacts.html">Контакты</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main id="main">
+    <section class="page-head">
+      <div class="container">
+        <h1 class="page-head__title">Демо-услуга</h1>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <img class="post-cover__img reveal" src="assets/images/placeholder.svg" width="1200" height="675" alt="Пример выполненной работы" loading="lazy">
+        <p class="reveal">Что входит в услугу, сроки и порядок работы.</p>
+      </div>
+    </section>
+    <section class="section" id="lead">
+      <div class="container">
+        <form class="lead-form js-lead reveal" id="lead-form" novalidate>
+          <h2 class="section__title">Оставьте заявку</h2>
+          <div class="lead-form__fields">
+            <div class="field">
+              <label class="field__label" for="lead-name">Имя</label>
+              <input class="field__input" id="lead-name" name="name" type="text" autocomplete="name">
+            </div>
+            <div class="field">
+              <label class="field__label" for="lead-contact">Телефон или e-mail</label>
+              <input class="field__input" id="lead-contact" name="contact" type="text" required>
+            </div>
+          </div>
+          <button class="btn" type="submit">Отправить заявку</button>
+        </form>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <p>Demo Company · <a class="footer__link" href="tel:+0000000000000">+000 00 000-00-00</a></p>
+    </div>
+  </footer>
+</body>
+</html>
