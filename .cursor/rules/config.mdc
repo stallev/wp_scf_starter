@@ -1,0 +1,18 @@
+---
+description: Конфиги проекта в корне — project.config, pages-map, схемы, wp-env, composer, npm, линтеры
+globs: "project.config.json, pages-map.json, schemas/**, .wp-env.json, composer.json, package.json, phpcs.xml.dist, phpstan.neon.dist"
+alwaysApply: false
+---
+
+# Конфиги
+
+Контракт формата — JSON Schema в [`schemas/`](../../schemas/); назначение файлов — [`docs/INDEX.md`](../../docs/INDEX.md) → «Файлы конфигурации в корне».
+
+- Правка `project.config.json` или `pages-map.json` → `npm run build:config` → `npm run check:config`; снимок `config.generated.php` руками не править.
+- Новое поле конфига — сначала схема в `schemas/*.schema.json`, потом использование в коде (PHP читает через `starter_core_config()`).
+- Согласованность версий и slug-ов (style.css, phpcs, composer, wp-env) с конфигом проверяет `check:config` — правь конфиг, а не копии.
+- Версии WordPress и плагинов — только `project.config.json` → `wordpress`; список плагинов в `.wp-env.json` — запасной, его заменяет override при старте.
+- `pages-map.json` меняет человек или по его явному решению (фаза 1); новая страница — запись здесь, а не хардкод в сидере или тестах.
+- Lock-файлы (`package-lock.json`, `composer.lock`) — только через `npm install` / `npm run composer -- …`, не вручную.
+- Новый npm-скрипт → строка в таблице команд `AGENTS.md`.
+- Секретов в конфигах нет: только `.env` (шаблон `.env.example`).

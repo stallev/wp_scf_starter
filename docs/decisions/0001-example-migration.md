@@ -77,14 +77,14 @@ updated: 2026-09-24
 
 | Источник | Решение | Цель в стартере | Что сделать | Статус |
 |---|---|---|---|---|
-| `general.mdc` | FIX | `AGENTS.md` (+ `CLAUDE.md` = `@AGENTS.md` + роль Claude) | Универсальное (карта, приоритет источников, Context7, секреты, PSI-указатель) → `AGENTS.md`. Пути/URL → из `project.config.json`. Проектное (калькулятор, pricebook, `greifer`) → DROP. Убрать `globs: **/*` при `alwaysApply` | todo |
-| `product-doc-alignment.mdc` | FIX | `.claude/commands/doc-align.md` (+ ссылка для Cursor) | Из `alwaysApply` — в команду старта/закрытия фазы. Сохранить порядок источников и блок анти-паттернов `❌`; убрать калькулятор/pricebook | todo |
-| `wordpress.mdc` | PORT | `.cursor/rules/mu-plugin.mdc`, `seo.mdc`; security → `AGENTS.md` | escape/sanitize/nonce, без `query_posts`, CPT/tax/options только в mu-plugin, SCF по `name`, transients + инвалидация, Yoast-only title/JSON-LD | todo |
-| `php.mdc` | PORT | `.cursor/rules/php.mdc` | Минимум **PHP 8.1** (вместо 7.4), WPCS, strict, early return, PHPDoc на `{prefix}_get_*`, без `@` | todo |
-| `testing.mdc` | PORT | `.cursor/rules/tests.mdc` | Glob `**/*.spec.{ts,js}` (исходный не ловил `.ts`); base URL из конфига; данные тестов из `pages-map.json`; моки внешних сервисов | todo |
-| `documentation.mdc` | PORT | `.cursor/rules/docs.mdc` | Новые пути `docs/*`; frontmatter; «один факт — одно место»; `check-links` | todo |
-| — (нет в исходнике) | FIX | `theme-templates.mdc`, `assets.mdc`, `prototype.mdc` | Новые: данные только через провайдеры (без хардкода NAP/цен/домена); изображения через `{prefix}_image()`; `.reveal` ниже сгиба; БЭМ/токены/`is-*`; скрипт только со `strategy`; `prototype/**` read-only | todo |
-| Список запретов (дублирован в `general`, `product-doc-alignment`, `naming-dictionary`, phase-0) | FIX | `docs/contracts/naming.json` | Единый машиночитаемый список `{name, reason, replace}` → генерация таблицы в `naming-dictionary.md` + `tools/check-naming` | todo |
+| `general.mdc` | FIX | `AGENTS.md` (+ `CLAUDE.md` = `@AGENTS.md` + роль Claude) | Универсальное (карта, приоритет источников, Context7, секреты, PSI-указатель) → `AGENTS.md`. Пути/URL → из `project.config.json`. Проектное (калькулятор, pricebook, `greifer`) → DROP. Убрать `globs: **/*` при `alwaysApply` | done (M5) |
+| `product-doc-alignment.mdc` | FIX | `.claude/commands/doc-align.md` (+ ссылка для Cursor) | Из `alwaysApply` — в команду старта/закрытия фазы. Сохранить порядок источников и блок анти-паттернов `❌`; убрать калькулятор/pricebook | done (M5) |
+| `wordpress.mdc` | PORT | `.cursor/rules/mu-plugin.mdc`, `seo.mdc`; security → `AGENTS.md` | escape/sanitize/nonce, без `query_posts`, CPT/tax/options только в mu-plugin, SCF по `name`, transients + инвалидация, Yoast-only title/JSON-LD | done (M5) |
+| `php.mdc` | PORT | `.cursor/rules/php.mdc` | Минимум **PHP 8.1** (вместо 7.4), WPCS, strict, early return, PHPDoc на `{prefix}_get_*`, без `@` | done (M5) |
+| `testing.mdc` | PORT | `.cursor/rules/tests.mdc` | Glob `**/*.spec.{ts,js}` (исходный не ловил `.ts`); base URL из конфига; данные тестов из `pages-map.json`; моки внешних сервисов | done (M5) |
+| `documentation.mdc` | PORT | `.cursor/rules/docs.mdc` | Новые пути `docs/*`; frontmatter; «один факт — одно место»; `check-links` | done (M5) |
+| — (нет в исходнике) | FIX | `theme-templates.mdc`, `assets.mdc`, `prototype.mdc` | Новые: данные только через провайдеры (без хардкода NAP/цен/домена); изображения через `{prefix}_image()`; `.reveal` ниже сгиба; БЭМ/токены/`is-*`; скрипт только со `strategy`; `prototype/**` read-only | done (M5) |
+| Список запретов (дублирован в `general`, `product-doc-alignment`, `naming-dictionary`, phase-0) | FIX | `docs/contracts/naming.json` | Единый машиночитаемый список `{name, reason, replace}` → генерация таблицы в `naming-dictionary.md` + `tools/check-naming` | done (M5) |
 
 ---
 
@@ -160,7 +160,7 @@ updated: 2026-09-24
 
 | Источник | Решение | Цель | Что сделать | Статус |
 |---|---|---|---|---|
-| `package.json` | FIX | корневой `package.json` | Скрипты: `images:webp`, `psi`, `test:e2e*`, `gate:*`, `check:*`, `lint:prototype`, `fonts:fallback` | todo |
+| `package.json` | FIX | корневой `package.json` | Скрипты: `images:webp`, `psi`, `test:e2e*`, `gate:*`, `check:*`, `lint:prototype`, `fonts:fallback` | partial (M2–M5: env/check/gate; psi, images, e2e — M6) |
 | `scripts/psi.mjs` | PORT | `tools/psi.mjs` | `baseUrl` из `project.config.json` (`production_url`/`staging_url`), пути — `pages-map.json` (`psi: true`), `.env` из корня, отчёты в корневой `psi-reports/`. Сохранить: redact ключа, заголовок `X-Goog-Api-Key`, прогрев с заголовками кэша, медиана, `flaky`, ретраи, коды 0/1/2, отказ на localhost | todo |
 | `scripts/psi.config.json` | PORT | `tools/psi.config.json` | Только `thresholds`/`runs`/`mode`/`pauseMs`/`timeoutMs`; `floor` = `null` | todo |
 | `scripts/convert-to-webp.mjs` | PORT | `tools/convert-to-webp.mjs` | Пути из конфига | todo |
@@ -216,7 +216,7 @@ updated: 2026-09-24
 |---|---|---|---|---|
 | `README.md` | FIX | `docs/INDEX.md` | Навигация; «как работать агенту» → `AGENTS.md` (без дубля) | todo |
 | `DOCUMENTATION-STRUCTURE.md` | FIX | `docs/INDEX.md` | Правило приоритета (Project → Canonical → Decisions), статусы `canonical/planned/superseded`. Единственное место этого правила | todo |
-| `contracts/naming-dictionary.md` | TPL | `docs/contracts/naming-dictionary.md` + `naming.json` | Структура: канон / запреты / устаревшее→канон. Базовые generic-имена стартера заполнены | todo |
+| `contracts/naming-dictionary.md` | TPL | `docs/contracts/naming-dictionary.md` + `naming.json` | Структура: канон / запреты / устаревшее→канон. Базовые generic-имена стартера заполнены | done (M5: генерируется из `naming.json`) |
 | `contracts/prototype-to-templates.md` | FIX | `pages-map.json` + `docs/contracts/template-parts.md` | Таблица маппинга → манифест; список parts → контракт | todo |
 | `contracts/data-structures.md` | TPL | `docs/contracts/data-structures.md` | Сущности и источники истины (company vs pages vs CPT) | todo |
 | `contracts/form-contracts.md` | PORT | `docs/contracts/forms.md` | Generic как есть (с `{prefix}`) | todo |
@@ -255,17 +255,17 @@ updated: 2026-09-24
 | K5 | Preload только 4 критичных woff2, `crossorigin` обязателен | performance §2 | Конфиг + `perf-markup` | partial (M4: механизм preload из конфига; проверка — M6) |
 | K6 | PSI не видит localhost; lab ≠ CrUX; TTFB PSI ≠ TTFB из своей сети; UI ≠ API | psi, performance §1 | `playbooks/psi.md`, отказ `psi.mjs` на localhost | todo |
 | K7 | Фиксировать GA4 on/off в каждом прогоне | psi | `psi.mjs` (детект) + `psi.md` | todo |
-| K8 | Не чинить аудит внутри зелёной категории | psi | `AGENTS.md` (1 строка) + `psi.md` | todo |
+| K8 | Не чинить аудит внутри зелёной категории | psi | `AGENTS.md` (1 строка) + `psi.md` | done (M5: `AGENTS.md` + `/psi-analyze`) |
 | K9 | `fetch('data/*.json')` из прототипа → 404 в WP | performance §8 | `console.spec.ts` | partial (M4: нет fetch данных прототипа; console-spec — M6) |
 | K10 | Ключ PSI: только заголовок, redact, `.env` UTF-8 без BOM (PowerShell 5.1), Git Bash искажает `/`-аргументы (`MSYS_NO_PATHCONV=1`) | psi | `psi.md`, `.env.example` | todo |
 | K11 | WebP: оригиналы не трогать (og:image), регенерация старых вложений — отдельная процедура с бэкапом | performance §9, images | `contracts/images.md`, `playbooks/launch.md` | done (M4: оригиналы остаются PNG/JPEG, подразмеры WebP, srcset без оригиналов) |
 | K12 | MU-plugin без activation hook → flush rewrite по смене версии | boot.php | `{core}/boot.php` | done (M3) |
-| K13 | SCF: `get_field( $name, 'option' )` по **name**, не key | wordpress.mdc | `mu-plugin.mdc` | todo |
+| K13 | SCF: `get_field( $name, 'option' )` по **name**, не key | wordpress.mdc | `mu-plugin.mdc` | done (M5: `mu-plugin.mdc`) |
 | K14 | Одна `.js-lead` форма на страницу; служебные страницы без формы и в noindex | form-contracts | `pages-map` + `static.spec.ts` | partial (M4: `starter_page_has_lead_form()` по pages-map; static-spec — M6) |
 | K15 | Хостинг: page cache, `Cache-Control` HTML, `immutable` для assets/uploads | performance «Что осталось» | `playbooks/launch.md` | todo |
-| K16 | Дубли запретов расходятся → один машиночитаемый источник | анализ rules | `naming.json` + `check-naming` | todo |
+| K16 | Дубли запретов расходятся → один машиночитаемый источник | анализ rules | `naming.json` + `check-naming` | done (M5: `naming.json` + `check:naming`) |
 | K17 | Данные в шаблонах хардкодятся, если нет проверки | анализ шаблонов | `check-hardcode` | todo |
-| K18 | Phase review — отдельным агентом/моделью, не тем, что реализовал | ROADMAP | `/phase-review` (Claude) | todo |
+| K18 | Phase review — отдельным агентом/моделью, не тем, что реализовал | ROADMAP | `/phase-review` (Claude) | partial (M5: `/phase-review`; ROADMAP-гейты — M7) |
 
 ---
 

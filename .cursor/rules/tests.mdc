@@ -1,0 +1,18 @@
+---
+description: e2e и unit-тесты (Playwright) — данные из pages-map, классы кейсов, моки
+globs: "tests/**, **/*.spec.ts, **/*.spec.js, **/*.test.ts, **/*.test.js, playwright.config.*"
+alwaysApply: false
+---
+
+# Тесты
+
+Стратегия — `docs/contracts/testing.md` (M7); каталог `tests/e2e/` и Playwright появятся в M6. Правило действует уже сейчас для любых новых тестов.
+
+- Список страниц и ожидания (200, `lead_form`, `noindex`, `schema`, `lcp`, `above_fold`, `psi`) — только из `pages-map.json`; URL не хардкодить.
+- Base URL — из `PLAYWRIGHT_BASE_URL` (`.env`) или `project.config.json` → `urls.local`.
+- Каждый контракт: happy + negative + security (формы: пустые поля, honeypot, неверный nonce, rate limit).
+- Внешние сервисы (Telegram, GA4, карты) — мок или перехват запроса; нет credentials — `skip` с причиной, а не падение.
+- Селекторы — классы БЭМ и роли/лейблы, не позиции и не тексты, которые меняет контент.
+- Тест не зависит от порядка и от других тестов; данные — из seed (`npm run wp -- starter seed`).
+- Скриншот и trace — только при падении.
+- Нарушение, пойманное ревью вручную, → новый тест или проверка, а не абзац в правилах.

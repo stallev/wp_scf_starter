@@ -1,0 +1,18 @@
+---
+description: SEO-слой — Yoast graph pieces, noindex/sitemap, llms.txt, head-разметка
+globs: "wp-content/mu-plugins/*/seo.php, wp-content/mu-plugins/*/seo/**, wp-content/mu-plugins/*/llms-txt.php, wp-content/mu-plugins/*/data/**, wp-content/themes/*/inc/head.php"
+alwaysApply: false
+---
+
+# SEO
+
+Контракт — `docs/contracts/seo.md` (M7); до него источник — [`seo.php`](../../wp-content/mu-plugins/starter-core/seo.php) и классы в `starter-core/seo/`.
+
+- Title, meta description, canonical, OG — только Yoast; тема даёт `title-tag`, свою генерацию не добавлять.
+- Своя сущность schema.org — класс `Starter_Schema_<Type>` в `starter-core/seo/` (интерфейс Yoast graph piece: `$identifier`, `is_needed()`, `generate()` — по образцу соседних классов), регистрация через `wpseo_schema_graph_pieces`; связи между узлами — по `@id`. Второй JSON-LD вне графа Yoast запрещён.
+- Какие схемы на странице — поле `schema` записи `pages-map.json`; данные — из опций компании (`starter_get_company()`), не литералы.
+- `noindex` и исключение из sitemap — только флагом `noindex` в `pages-map.json` (затем `npm run build:config`); служебные страницы без лид-формы и без PSI.
+- `/llms.txt` — курируемый шаблон `starter-core/data/llms.txt.md` + фильтры `starter_llms_txt_*`; Yoast-генерацию llms.txt не включать.
+- Список AI-ботов для `robots.txt` — фильтр `starter_ai_bots`.
+- Изменил rewrite (`llms.txt`) — подними `STARTER_CORE_VERSION`.
+- API Yoast проверять через Context7, не по памяти.

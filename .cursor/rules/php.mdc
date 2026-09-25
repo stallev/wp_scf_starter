@@ -1,0 +1,19 @@
+---
+description: PHP-код стартера (mu-plugin, тема, stubs) — версия, WPCS, стиль
+globs: "**/*.php"
+alwaysApply: false
+---
+
+# PHP
+
+Инварианты и имена — `AGENTS.md`; конфиг линтеров — `phpcs.xml.dist`, `phpstan.neon.dist`. Проверка: `npm run lint:php` (автофикс стиля — `npm run lint:php:fix`).
+
+- Минимум **PHP 8.1**: type hints и return types, `?Type`, `array{…}` в PHPDoc; без синтаксиса новее 8.1 (ловит PHPCompatibility).
+- **WPCS**: табы, пробелы внутри скобок, Yoda-условия, `array()` — как в существующем коде.
+- Строгие сравнения `===` / `!==`, `in_array( …, true )`.
+- Early return вместо вложенных `if`; функции короткие, одна задача.
+- PHPDoc (`@param`, `@return`) на каждой публичной функции, особенно на API `starter_get_*()` и на `apply_filters` (описание параметров).
+- Без подавления ошибок `@`; ошибки — через `WP_Error`, `wp_send_json_error()` или ранний `return`.
+- Каждый файл начинается с `defined( 'ABSPATH' ) || exit;` (кроме stubs в `tools/phpstan/`).
+- Имена функций, хуков, констант, классов — только из [`docs/contracts/naming.json`](../../docs/contracts/naming.json).
+- Глобальные переменные в шаблонах — с префиксом (`$starter_args`), иначе WPCS упадёт.

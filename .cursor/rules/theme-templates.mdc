@@ -1,0 +1,20 @@
+---
+description: Шаблоны и parts темы — данные через API, изображения, первый экран, лид-форма
+globs: "wp-content/themes/**/*.php, wp-content/themes/*/style.css"
+alwaysApply: false
+---
+
+# Шаблоны темы
+
+Контракты `docs/contracts/theme.md`, `template-parts.md`, `forms.md`, `images.md` — M7; до них источник — PHPDoc в `inc/*.php` и шапки `template-parts/*.php`. Запись страницы — `pages-map.json`.
+
+- Данные — только через API ядра и темы (`starter_get_*()`, `starter_company_value()`, `starter_page_config()`); в разметке нет литералов NAP, цен, домена, ID. Нет данных — блок не выводится.
+- Повторяющийся блок (≥ 2 страниц) → `template-parts/<block>.php`, аргументы — `get_template_part( …, null, $args )` + `wp_parse_args()`.
+- Изображения — `starter_image( $id, $size, [ 'priority' => true ] )` только для LCP-картинки страницы, остальные без `priority`; `<img>` вручную не писать.
+- Первый экран: блоки из `above_fold` и узел `lcp` из `pages-map` — без `.reveal`; parts с аргументом `reveal` (`lead-form`, `embed-facade`, секции) получают `'reveal' => false`, если стоят на первом экране. H1 внутренних страниц — `template-parts/page-head.php`.
+- Лид-форма — только `template-parts/lead-form.php` / `lead-section.php` при `starter_page_has_lead_form()`; скрытые поля — `starter_lead_hidden_fields()`.
+- Тяжёлые встраивания (карта, видео, виджет) — `template-parts/embed-facade.php`, не `<iframe>` в шаблоне.
+- Экранирование на выводе: `esc_html`, `esc_attr`, `esc_url`, `wp_kses_post`; строки — `__( '…', 'starter' )`.
+- Без inline `<script>` и `style="…"`: данные для JS — `wp_add_inline_script()` в `inc/assets.php`.
+- Без title, meta description и JSON-LD в шаблонах — это Yoast (см. `seo.mdc`).
+- Перенос страницы из прототипа — процедура `/port-page` (`.claude/commands/port-page.md`).

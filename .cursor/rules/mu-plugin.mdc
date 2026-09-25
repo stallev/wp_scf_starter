@@ -1,0 +1,21 @@
+---
+description: Ядро starter-core (данные, CPT, SCF, формы, seed) и seed-данные
+globs: "wp-content/mu-plugins/**, seed/**"
+alwaysApply: false
+---
+
+# Mu-plugin `starter-core` и seed
+
+Контракт ядра — `docs/contracts/mu-plugin.md` (M7); до него источник — код: порядок загрузки в [`boot.php`](../../wp-content/mu-plugins/starter-core/boot.php), формат seed — [`seed/README.md`](../../seed/README.md).
+
+- CPT, taxonomies, options pages, SCF-группы — только здесь: CPT в `post-types.php` (аргументы меняются фильтром `starter_post_type_args`), поля в `fields/<entity>.php` через `acf_add_local_field_group()` на хуке `acf/init` (одна группа = один файл, ключ `group_starter_<entity>`); новый файл — `require_once` в `boot.php`.
+- SCF читается и пишется по **name**: `get_field( 'starter_…', 'option' )`, `starter_field()`, `starter_update_field()`; не по `field_…` key.
+- Конфиг проекта — только через `starter_core_config( 'key' )` / `starter_core_pages()`; `config.generated.php` не редактировать (`npm run build:config`).
+- Изменил аргументы CPT (rewrite slug, public, has_archive), rewrite-правила или query vars — подними `STARTER_CORE_VERSION` в `starter-core.php`, иначе на живых сайтах останутся старые правила.
+- Вход: `sanitize_*()` + `wp_unslash()`; выход: `esc_*()`; каждое действие — nonce (`check_ajax_referer` / `wp_verify_nonce`) и `current_user_can()`.
+- Дорогие выборки — transient с префиксом `starter_` и инвалидацией на `save_post_<cpt>` / сохранении опций.
+- Лиды — только контур `forms.php`: nonce (`starter_lead_nonce`), honeypot (`starter_hp_company`), rate limit (фильтр `starter_lead_rate_limit`), sanitize; ответ для honeypot такой же, как для успеха. CPT `starter_lead` непубличный.
+- Секреты — защищённая опция с `autoload=false` (образец — `starter_telegram_bot`), не SCF и не seed.
+- Front-end enqueue здесь запрещён; admin-assets — через `admin_enqueue_scripts` и только на своих экранах.
+- Запросы — `WP_Query` / `get_posts` / `pre_get_posts`.
+- Seed: стабильный `slug`, идемпотентность (второй прогон = `unchanged`), без секретов; проверка — `npm run wp -- starter seed --dry-run`.

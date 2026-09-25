@@ -50,7 +50,7 @@ updated: 2026-09-24
    | L2 | `docs/contracts/*`, `docs/playbooks/*` | По ссылке из задачи |
    | L3 | Текущий phase-файл / задача | Явно при старте |
 
-6. **Набор `.mdc`:** `php`, `mu-plugin`, `theme-templates`, `assets`, `seo`, `tests`, `docs`, `prototype` (read-only). Проектные правила — отдельными `project-*.mdc`, не в ядре.
+6. **Набор `.mdc`:** `php`, `mu-plugin`, `theme-templates`, `assets`, `seo`, `tests`, `docs`, `prototype` (read-only), `tools`, `config` (см. D25). Проектные правила — отдельными `project-*.mdc`, не в ядре.
 7. **Роли инструментов:** Cursor — реализация; Claude — план фазы, ревью другой моделью, сверка с документацией, анализ отчётов PSI.
 8. **Context7** — для API WordPress / SCF / Yoast вместо ответов «по памяти».
 
@@ -182,7 +182,7 @@ wp-scf-starter/
 | **M2** | Каркас | `project.config.json`, `pages-map.json` (схема), `.wp-env.json`, `composer.json` (WPCS, PHPStan), `package.json`, `.gitignore`, `.env.example`, `docs/INDEX.md` | ✅ Выполнен (2026-09-24): WP 7.1.2 + SCF 6.9.5 + Yoast 28.5 через `wp-env`; `npm run gate:0` (check:config + parallel-lint + PHPCS + PHPStan) зелёный |
 | **M3** | Ядро mu-plugin | Обобщённый `{core}`: boot, helpers, company options, поля по сущностям, generic CPT, forms + Telegram, admin FAQ/leads, seed runner + CLI, Yoast-схемы, `llms.txt` | ✅ Выполнен (2026-09-24): `starter-core` без fatal, `wp starter seed` идемпотентен на демо-seed, лиды/Telegram/FAQ-админка/Yoast-схемы/`llms.txt`; review пройден |
 | **M4** | Тема с механизмами P1 | Модули setup/assets/images/analytics/head, parts, walkers, `{prefix}_image()`, `embed-facade`, каркас `main.css` / `main.js` / `analytics.js` | ✅ Выполнен (2026-09-25): тема `starter` на 9 демо-страницах из `pages-map`; P1-механизмы на месте, разовая P2-проверка зелёная; комментарии отключены ядром; review пройден |
-| **M5** | Правила агентов | `AGENTS.md`, `CLAUDE.md`, 8 `.mdc`, команды `doc-align`, `phase-review`, `port-page`, `psi-analyze`; `naming.json` | `check-rules-coverage` и `check-links` зелёные |
+| **M5** | Правила агентов | `AGENTS.md`, `CLAUDE.md`, 8 `.mdc`, команды `doc-align`, `phase-review`, `port-page`, `psi-analyze`; `naming.json` | ✅ Выполнен (2026-09-25): `AGENTS.md`, `CLAUDE.md`, 10 `.mdc`, 4 команды, `naming.json`; `gate:rules` (check:naming/links/rules) зелёный; review пройден |
 | **M6** | Инструменты и тесты | `init`, `check-naming`, `check-hardcode`, `check-links`, `lint:prototype`, `validate-seeds` + JSON Schema, `font-fallback-metrics`, `convert-to-webp`, `psi.mjs`, `gate:*`; e2e: static, navigation, forms, dynamic, seo, a11y, perf-markup, console, visual | Все проверки работают на фикстуре; `psi.mjs` отказывает на localhost (код 2) |
 | **M7** | Документация стартера | `contracts/*`, `playbooks/*` (performance, psi, prototype-rules, architecture, analytics, launch), `phases/ROADMAP` + phase-0…7, шаблоны `docs/project/*` | Все пункты K1–K18 ADR 0001 найдены в коде, проверке или playbook |
 | **M8** | Модули-примеры | `modules/catalog`, `modules/pricebook` (выключены по умолчанию) | Включение модуля не ломает gate |
@@ -222,3 +222,4 @@ wp-scf-starter/
 | D22 | Конфиг попадает в PHP через сгенерированный `starter-core/config.generated.php` (`npm run build:config`), свежесть проверяет `check:config` | Корень репо (`project.config.json`, `pages-map.json`) на хостинг не деплоится |
 | D23 | Комментарии отключены ядром по умолчанию (фильтр `starter_disable_comments`) | Корпоративным сайтам они не нужны; открытые, но не выводимые комментарии — канал спама |
 | D24 | Оригиналы изображений остаются PNG/JPEG, WebP — только подразмеры; srcset без оригиналов | `og:image` и лайтбокс работают с оригиналом, hi-DPI не тянет тяжёлый файл |
+| D25 | Правила `tools.mdc` и `config.mdc` сверх исходных восьми; `check-links`, `check-rules`, `check-naming` реализованы в M5, а не в M6 | Без них не выполнить критерий M5 и покрытие всех исходников правилами |

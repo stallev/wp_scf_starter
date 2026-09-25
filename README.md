@@ -2,7 +2,7 @@
 
 Стартер для многостраничных корпоративных сайтов на WordPress: классическая PHP-тема + mu-plugin + Secure Custom Fields + Yoast. Сайт собирается из готового HTML-прототипа с помощью AI (Cursor, Claude).
 
-Статус: **M2 — каркас**. План и milestones — [`docs/STARTER-PLAN.md`](docs/STARTER-PLAN.md), карта документации — [`docs/INDEX.md`](docs/INDEX.md).
+Статус: **M5 — правила агентов**. План и milestones — [`docs/STARTER-PLAN.md`](docs/STARTER-PLAN.md), карта документации — [`docs/INDEX.md`](docs/INDEX.md).
 
 ## Требования
 
@@ -29,21 +29,7 @@ npm run gate:0
 
 ## Команды
 
-| Команда | Что делает |
-|---|---|
-| `npm run env:start` / `env:stop` | Поднять / остановить WordPress (wp-env) |
-| `npm run env:update` | Перечитать версии из конфига, скачать обновления, перезапустить |
-| `npm run env:clean` | Сбросить базу обоих окружений |
-| `npm run env:destroy` | Удалить контейнеры и данные окружения |
-| `npm run env:logs` | Логи контейнеров |
-| `npm run wp -- <args>` | WP-CLI внутри окружения, например `npm run wp -- plugin list`. Идёт напрямую через `docker exec` (секунды вместо ~90 с у `wp-env run`) |
-| `npm run composer -- <args>` | Composer (локальный или Docker-образ `composer:2`) |
-| `npm run build:config` | Сгенерировать `wp-content/mu-plugins/starter-core/config.generated.php` из `project.config.json` + `pages-map.json` (корень репо не деплоится, mu-plugin читает этот снимок). Запускать после каждой правки конфигов |
-| `npm run check:config` | Валидация `project.config.json` и `pages-map.json` по схемам + перекрёстные правила + актуальность `config.generated.php` |
-| `npm run lint:php` | php-parallel-lint + PHPCS (WPCS, PHPCompatibility 8.1+) + PHPStan |
-| `npm run lint:php:fix` | Автоисправление PHPCS |
-| `npm run wp -- starter seed` | Импорт `seed/*.json` (`--only=`, `--dry-run`), см. [`seed/README.md`](seed/README.md) |
-| `npm run gate:0` | Gate фазы 0: конфиг + PHP-линт |
+Полная таблица npm-скриптов — [`AGENTS.md` → «Команды»](AGENTS.md#команды) (единственное место).
 
 ## Структура
 
@@ -56,7 +42,8 @@ seed/                 JSON для импорта контента (в конте
 wp-content/
   mu-plugins/         starter-core.php + starter-core/ (данные: CPT, SCF, формы, seed, SEO)
   themes/starter/     тема
-tools/                node-скрипты (composer, env-setup, validate-config, …)
+tools/                node-скрипты (composer, env-setup, validate-config, naming, check-links, check-rules-coverage, …)
+AGENTS.md, CLAUDE.md  правила для AI-агентов; .cursor/rules/ и .claude/commands/ — правила зон и процедуры
 docs/                 документация (см. docs/INDEX.md)
 ```
 
@@ -67,6 +54,10 @@ docs/                 документация (см. docs/INDEX.md)
 Комментарии отключены ядром (`starter-core/comments.php`, фильтр `starter_disable_comments`, по умолчанию `true`); `env-setup` удаляет стандартные «Hello world!» и «Sample Page».
 
 Имена `starter` / `starter-core` / префикс `starter_` — плейсхолдеры; на проекте их заменит `tools/init` (M6) по `project.config.json`.
+
+## Правила для AI
+
+Единый источник правил для Cursor и Claude — [`AGENTS.md`](AGENTS.md) (карта, инварианты, цикл задачи, команды). [`CLAUDE.md`](CLAUDE.md) импортирует его и задаёт роль Claude; правила зон — [`.cursor/rules/`](.cursor/rules/) по glob; процедуры — команды в [`.claude/commands/`](.claude/commands/) (`/doc-align`, `/phase-review`, `/port-page`, `/psi-analyze`). Имена — [`docs/contracts/naming.json`](docs/contracts/naming.json).
 
 ## Известные особенности окружения
 

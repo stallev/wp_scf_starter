@@ -1,7 +1,7 @@
 ---
 status: canonical
 version: 0.1
-updated: 2026-09-24
+updated: 2026-09-25
 ---
 
 # Документация: карта
@@ -28,9 +28,9 @@ updated: 2026-09-24
 
 | Путь | Что | Статус |
 |---|---|---|
-| [`STARTER-PLAN.md`](STARTER-PLAN.md) | Принципы, процесс проекта, milestones стартера, решения D1–D16 | canonical |
+| [`STARTER-PLAN.md`](STARTER-PLAN.md) | Принципы, процесс проекта, milestones стартера, решения D1–D24 | canonical |
 | [`decisions/`](decisions/) | ADR. [`0001`](decisions/0001-example-migration.md) — реестр миграции `/example` | canonical |
-| `contracts/` | Интерфейсы: naming (+ `naming.json`), forms, seo, images, blog, testing, mu-plugin, theme, data-structures, template-parts | planned (M5, M7) |
+| `contracts/` | Интерфейсы. Готово: [`naming.json`](contracts/naming.json) → [`naming-dictionary.md`](contracts/naming-dictionary.md) (генерируется, M5). Остальные: forms, seo, images, blog, testing, mu-plugin, theme, data-structures, template-parts | naming — canonical; остальные — planned (M7) |
 | `playbooks/` | Переносимое знание: performance, psi, prototype-rules, architecture, analytics, launch | planned (M7) |
 | `phases/` | ROADMAP + phase-0…7 проекта на стартере | planned (M7) |
 | `project/` | Заполняется на конкретном проекте: sitemap, seo, pages, prds, perf-log, qa-report | planned (M7) |

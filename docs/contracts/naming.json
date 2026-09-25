@@ -1,0 +1,483 @@
+{
+  "$comment": "Single source of canonical and forbidden names. Edit this file, then `npm run build:naming` (regenerates naming-dictionary.md); `npm run check:naming` validates the shape, freshness of the .md and greps sources for `forbidden`. Names use the starter placeholders (prefix `starter`, core `starter-core`, theme `starter`); tools/init (M6) replaces them per project.config.json → slug.",
+  "version": "1.0",
+  "updated": "2026-09-25",
+  "placeholders": {
+    "prefix": "starter",
+    "PREFIX": "STARTER",
+    "core": "starter-core",
+    "theme": "starter",
+    "text_domain": "starter"
+  },
+  "canonical": [
+    {
+      "role": "Mu-plugin loader / package",
+      "names": [
+        "wp-content/mu-plugins/starter-core.php",
+        "wp-content/mu-plugins/starter-core/"
+      ],
+      "source": "wp-content/mu-plugins/starter-core.php"
+    },
+    {
+      "role": "Theme directory / text domain",
+      "names": [
+        "wp-content/themes/starter/",
+        "starter"
+      ],
+      "source": "wp-content/themes/starter/inc/setup.php"
+    },
+    {
+      "role": "Prefix: functions, hooks, meta, options, CPT",
+      "names": [
+        "starter_"
+      ],
+      "note": "Constants and classes: STARTER_ / Starter_"
+    },
+    {
+      "role": "Constants",
+      "names": [
+        "STARTER_CORE_VERSION",
+        "STARTER_CORE_PATH",
+        "STARTER_THEME_VERSION",
+        "STARTER_SEED_DIR",
+        "STARTER_COMPANY_OPTIONS_SLUG",
+        "STARTER_TELEGRAM_OPTION",
+        "STARTER_LEAD_ACTION",
+        "STARTER_LEAD_NONCE_ACTION",
+        "STARTER_LEAD_NONCE_FIELD",
+        "STARTER_LEAD_HONEYPOT",
+        "STARTER_FAQ_PARENT",
+        "STARTER_FAQ_PAGE"
+      ],
+      "note": "Bump STARTER_CORE_VERSION on CPT / rewrite / query var changes (flushes rewrites)",
+      "kind": "constant"
+    },
+    {
+      "role": "CPT",
+      "names": [
+        "starter_lead",
+        "starter_review",
+        "starter_project",
+        "starter_faq"
+      ],
+      "source": "wp-content/mu-plugins/starter-core/post-types.php",
+      "note": "starter_lead is not public. Args are changed via the starter_post_type_args filter"
+    },
+    {
+      "role": "Blog",
+      "names": [
+        "post",
+        "category"
+      ],
+      "note": "Standard post type and taxonomy, not a CPT"
+    },
+    {
+      "role": "SCF options page",
+      "names": [
+        "starter-company"
+      ],
+      "source": "wp-content/mu-plugins/starter-core/options.php",
+      "note": "Values stored as options_starter_company_*"
+    },
+    {
+      "role": "SCF field groups",
+      "names": [
+        "group_starter_company",
+        "group_starter_lead",
+        "group_starter_review",
+        "group_starter_project",
+        "group_starter_faq",
+        "group_starter_service_card"
+      ],
+      "source": "wp-content/mu-plugins/starter-core/fields/",
+      "note": "One file = one group; read fields by name"
+    },
+    {
+      "role": "SCF field names",
+      "names": [
+        "starter_company_*",
+        "starter_lead_*",
+        "starter_review_*",
+        "starter_project_*",
+        "starter_faq_*",
+        "starter_service_card_*"
+      ],
+      "note": "Field name = {prefix}_{entity}_{field}"
+    },
+    {
+      "role": "Protected option (not SCF)",
+      "names": [
+        "starter_telegram_bot"
+      ],
+      "note": "{ token, chat_id }, autoload=false"
+    },
+    {
+      "role": "Internal options / transients",
+      "names": [
+        "starter_rewrite_version",
+        "starter_lead_rl_*",
+        "starter_seed_report_*"
+      ]
+    },
+    {
+      "role": "Internal meta",
+      "names": [
+        "_starter_seed_source",
+        "_starter_seed_hash"
+      ],
+      "note": "Underscore = hidden meta"
+    },
+    {
+      "role": "Lead form: AJAX action",
+      "names": [
+        "starter_submit_lead"
+      ],
+      "source": "wp-content/mu-plugins/starter-core/forms.php"
+    },
+    {
+      "role": "Lead form: nonce action / field",
+      "names": [
+        "starter_lead_submit",
+        "starter_lead_nonce"
+      ]
+    },
+    {
+      "role": "Lead form: honeypot field",
+      "names": [
+        "starter_hp_company"
+      ]
+    },
+    {
+      "role": "Lead form: markup",
+      "names": [
+        "form.js-lead"
+      ],
+      "note": "Exactly one per page with pages-map lead_form: true, none otherwise"
+    },
+    {
+      "role": "Admin AJAX / nonces",
+      "names": [
+        "starter_faq_reorder",
+        "starter_faq_delete",
+        "starter_faq_admin",
+        "starter_telegram_save",
+        "starter_seed_run"
+      ]
+    },
+    {
+      "role": "Actions",
+      "names": [
+        "starter_lead_created"
+      ],
+      "kind": "hook"
+    },
+    {
+      "role": "Filters",
+      "names": [
+        "starter_ai_bots",
+        "starter_analytics_enabled",
+        "starter_company",
+        "starter_company_map",
+        "starter_content_width",
+        "starter_disable_comments",
+        "starter_fallback_nav_links",
+        "starter_faq_current_location",
+        "starter_faq_locations",
+        "starter_lead_client_ip",
+        "starter_lead_rate_limit",
+        "starter_lead_required_fields",
+        "starter_lead_skip_telegram",
+        "starter_llms_txt_template",
+        "starter_llms_txt_vars",
+        "starter_money_decimals",
+        "starter_page_has_lead_form",
+        "starter_post_author_avatar",
+        "starter_post_toc_min_words",
+        "starter_post_type_args",
+        "starter_reading_wpm",
+        "starter_schema_area_served",
+        "starter_schema_faqpage_enabled",
+        "starter_schema_service",
+        "starter_seed_forbidden_keys",
+        "starter_seed_path",
+        "starter_seed_targets",
+        "starter_social_networks",
+        "starter_theme_color"
+      ],
+      "kind": "hook"
+    },
+    {
+      "role": "Public PHP API (mu-plugin)",
+      "names": [
+        "starter_core_config()",
+        "starter_core_pages()",
+        "starter_get_company()",
+        "starter_field()",
+        "starter_update_field()",
+        "starter_phone_href()",
+        "starter_money()",
+        "starter_get_faqs_for()",
+        "starter_get_reviews()",
+        "starter_get_projects()",
+        "starter_get_service_card()",
+        "starter_get_service_card_pages()",
+        "starter_get_default_image_id()",
+        "starter_get_telegram_bot_credentials()",
+        "starter_lead_hidden_fields()"
+      ],
+      "kind": "function",
+      "source": "wp-content/mu-plugins/starter-core/"
+    },
+    {
+      "role": "Public PHP API (theme)",
+      "names": [
+        "starter_company_value()",
+        "starter_image()",
+        "starter_the_image()",
+        "starter_page_config()",
+        "starter_page_has_lead_form()",
+        "starter_script_args()",
+        "starter_asset_url()",
+        "starter_asset_version()",
+        "starter_url()"
+      ],
+      "kind": "function",
+      "source": "wp-content/themes/starter/inc/"
+    },
+    {
+      "role": "Classes",
+      "names": [
+        "Starter_CLI_Command",
+        "Starter_Schema_LocalBusiness",
+        "Starter_Schema_Service",
+        "Starter_Schema_FAQPage",
+        "Starter_Walker_Nav_Primary",
+        "Starter_Walker_Nav_Mobile",
+        "Starter_Walker_Nav_Footer"
+      ],
+      "kind": "class"
+    },
+    {
+      "role": "WP-CLI",
+      "names": [
+        "wp starter seed"
+      ],
+      "note": "--only=, --dry-run"
+    },
+    {
+      "role": "Shortcode / query var",
+      "names": [
+        "[starter_company]",
+        "starter_llms_txt"
+      ]
+    },
+    {
+      "role": "Script / style handles",
+      "names": [
+        "starter-main",
+        "starter-analytics",
+        "starter-admin-faq",
+        "starter-admin-leads",
+        "starter-admin-scf"
+      ]
+    },
+    {
+      "role": "JS globals",
+      "names": [
+        "window.STARTER_LEAD",
+        "window.STARTER_I18N",
+        "window.STARTER_GA4",
+        "window.STARTER_FAQ_ADMIN",
+        "window.starterLeadAdmin"
+      ],
+      "note": "Printed by PHP: wp_add_inline_script( …, 'before' ) or wp_localize_script() (admin)"
+    },
+    {
+      "role": "JS events (CustomEvent on document)",
+      "names": [
+        "starter:lead:success",
+        "starter:lightbox:open"
+      ]
+    },
+    {
+      "role": "Nav menu locations",
+      "names": [
+        "primary",
+        "mobile",
+        "footer"
+      ]
+    },
+    {
+      "role": "Image size (cards)",
+      "names": [
+        "card"
+      ],
+      "note": "project.config.json → images.card"
+    },
+    {
+      "role": "CSS state classes",
+      "names": [
+        "is-*",
+        "reveal"
+      ],
+      "note": ".reveal only below the first screen"
+    }
+  ],
+  "forbidden": [
+    {
+      "id": "legacy-prefix",
+      "pattern": "\\b(?:t[b]|T[B])[_-][A-Za-z]",
+      "reason": "Префикс исходного проекта (legacy)",
+      "replace": "starter_ / STARTER_ / starter-core"
+    },
+    {
+      "id": "legacy-docs-path",
+      "name": "wp-integration-docs",
+      "reason": "Устаревший путь документации из черновиков исходного проекта",
+      "replace": "docs/"
+    },
+    {
+      "id": "unprefixed-cpt-register",
+      "pattern": "register_post_type\\(\\s*['\"](?!starter_)",
+      "paths": [
+        "wp-content/**/*.php"
+      ],
+      "reason": "CPT без префикса: коллизии с плагинами и ядром",
+      "replace": "starter_<entity> в post-types.php"
+    },
+    {
+      "id": "unprefixed-cpt-query",
+      "pattern": "['\"]post_type['\"]\\s*=>\\s*['\"](?:product|lead|review|project|faq)['\"]",
+      "paths": [
+        "wp-content/**/*.php"
+      ],
+      "reason": "CPT без префикса (product, lead, review, project, faq)",
+      "replace": "starter_lead, starter_review, starter_project, starter_faq"
+    },
+    {
+      "id": "unprefixed-taxonomy",
+      "pattern": "register_taxonomy\\(\\s*['\"](?!starter_)",
+      "paths": [
+        "wp-content/**/*.php"
+      ],
+      "reason": "Taxonomy без префикса",
+      "replace": "starter_<name>"
+    },
+    {
+      "id": "blog-cpt",
+      "pattern": "\\bstarter_(?:blog|article|news)\\b",
+      "paths": [
+        "wp-content/**",
+        "seed/**"
+      ],
+      "reason": "Отдельный CPT для блога не нужен",
+      "replace": "post + category"
+    },
+    {
+      "id": "frontend-enqueue-in-core",
+      "pattern": "add_action\\(\\s*['\"]wp_enqueue_scripts['\"]",
+      "paths": [
+        "wp-content/mu-plugins/**"
+      ],
+      "reason": "Mu-plugin = данные; front-end assets подключает только тема",
+      "replace": "wp-content/themes/starter/inc/assets.php (admin assets в mu-plugin допустимы через admin_enqueue_scripts)"
+    },
+    {
+      "id": "second-json-ld",
+      "pattern": "application/ld\\+json",
+      "paths": [
+        "wp-content/**"
+      ],
+      "reason": "Второй JSON-LD вне Yoast graph",
+      "replace": "Yoast graph piece (starter-core/seo/*, фильтр wpseo_schema_graph_pieces)"
+    },
+    {
+      "id": "custom-title",
+      "pattern": "<title>|\\bwp_title\\s*\\(",
+      "paths": [
+        "wp-content/**/*.php"
+      ],
+      "reason": "Title и meta генерирует только Yoast (title-tag)",
+      "replace": "add_theme_support( 'title-tag' ) + Yoast"
+    },
+    {
+      "id": "external-font-cdn",
+      "pattern": "fonts\\.(?:googleapis|gstatic)\\.com|use\\.typekit\\.net",
+      "paths": [
+        "wp-content/**"
+      ],
+      "reason": "Шрифты с чужого CDN: лишний origin в критическом пути",
+      "replace": "Локальные variable woff2 + preload из project.config.json → fonts.preload"
+    },
+    {
+      "id": "query-posts",
+      "pattern": "\\bquery_posts\\s*\\(",
+      "paths": [
+        "wp-content/**/*.php"
+      ],
+      "reason": "Ломает главный запрос и пагинацию",
+      "replace": "WP_Query / get_posts / pre_get_posts"
+    },
+    {
+      "id": "scf-by-key",
+      "pattern": "\\b(?:get_field|the_field|update_field)\\(\\s*['\"]field_[A-Za-z0-9_]+['\"]",
+      "paths": [
+        "wp-content/**/*.php"
+      ],
+      "reason": "SCF читается по name, не по key",
+      "replace": "get_field( 'starter_…', … ) / starter_field()"
+    },
+    {
+      "id": "hardcoded-ga4-id",
+      "pattern": "\\bG-(?!X+\\b)[A-Z0-9]{6,}\\b",
+      "paths": [
+        "wp-content/**",
+        "seed/**",
+        "tools/**"
+      ],
+      "reason": "ID аналитики клиента не попадает в код и seed стартера",
+      "replace": "Поле starter_company_ga4_id (опции starter-company)"
+    },
+    {
+      "id": "prototype-data-fetch",
+      "pattern": "fetch\\(\\s*['\"][^'\"]*data/[^'\"]*\\.json",
+      "paths": [
+        "wp-content/themes/**/*.js"
+      ],
+      "reason": "Файлы данных прототипа в WordPress отдают 404",
+      "replace": "Данные из разметки или window.STARTER_* (wp_add_inline_script)"
+    },
+    {
+      "id": "yoast-llms-txt",
+      "name": "enable_llms_txt",
+      "paths": [
+        "wp-content/**",
+        "tools/**"
+      ],
+      "reason": "Yoast-генерация /llms.txt конфликтует с курируемым файлом",
+      "replace": "starter-core/llms-txt.php"
+    }
+  ],
+  "legacy": [
+    {
+      "from": "{prefix} / {core} / {theme} исходного проекта (ADR 0001, плейсхолдеры)",
+      "to": "starter_* / starter-core / starter"
+    },
+    {
+      "from": "CPT product / lead / review / project / faq",
+      "to": "starter_<entity>"
+    },
+    {
+      "from": "Options slug company-settings / *-company без префикса",
+      "to": "starter-company"
+    },
+    {
+      "from": "Правило product-doc-alignment.mdc (always-on)",
+      "to": "/doc-align (.claude/commands/doc-align.md)"
+    },
+    {
+      "from": "Запреты имён в нескольких документах",
+      "to": "docs/contracts/naming.json (этот файл)"
+    }
+  ]
+}

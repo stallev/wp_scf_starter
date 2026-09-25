@@ -17,14 +17,20 @@
     "composer": "node tools/composer.mjs",
     "build:config": "node tools/build-config.mjs",
     "check:config": "node tools/validate-config.mjs",
+    "build:naming": "node tools/naming.mjs build",
+    "check:naming": "node tools/naming.mjs check",
+    "check:links": "node tools/check-links.mjs",
+    "check:rules": "node tools/check-rules-coverage.mjs",
     "lint:php": "node tools/composer.mjs lint",
     "lint:php:fix": "node tools/composer.mjs lint:fix",
-    "gate:0": "npm run check:config && npm run lint:php",
+    "gate:rules": "npm run check:naming && npm run check:links && npm run check:rules",
+    "gate:0": "npm run check:config && npm run gate:rules && npm run lint:php",
     "env:update": "node tools/wp-env.mjs start --update"
   },
   "devDependencies": {
     "@wordpress/env": "^10.0.0",
     "ajv": "^8.17.1",
+    "minimatch": "^10.2.6",
     "node-html-parser": "^7.1.0"
   }
 }

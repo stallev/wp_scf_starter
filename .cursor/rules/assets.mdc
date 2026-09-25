@@ -1,0 +1,20 @@
+---
+description: CSS/JS/статика темы — БЭМ, токены, состояния, изоляция фич, загрузка скриптов
+globs: "wp-content/themes/**/assets/**"
+alwaysApply: false
+---
+
+# Assets темы
+
+Регламент вёрстки — `docs/playbooks/prototype-rules.md`, производительность — `docs/playbooks/performance.md` (оба M7). До них образец — шапки [`main.css`](../../wp-content/themes/starter/assets/css/main.css) и [`main.js`](../../wp-content/themes/starter/assets/js/main.js).
+
+- CSS: БЭМ без вложенности селекторов (`.block__elem--mod`, не `.block .elem`); порядок секций main.css: FONTS → TOKENS → BASE → LAYOUT → компоненты → брейкпоинты → `PAGE: <NAME>` → UTILITIES (последней).
+- Значения — через токены (`var(--…)` из TOKENS), без магических цветов и размеров в компонентах.
+- Состояния — только классы `is-*` (`is-open`, `is-active`, `is-stuck`); JS переключает классы и ARIA, inline-стили не пишет.
+- `.reveal` — анимация появления только ниже первого экрана; без JS контент виден (no-JS fallback не ломать).
+- JS: одна фича = один блок `feature()` в `main.js` с ранним выходом, если разметки нет; ошибка одной фичи не ломает другие.
+- Данные для JS — из разметки (`data-*`) или `window.STARTER_*` (печатает PHP); без `fetch()` файлов данных прототипа.
+- Каждый скрипт — `wp_enqueue_script( …, starter_script_args() )` (`strategy => defer`), включая зависимые; версии — `starter_asset_version()` (filemtime).
+- Шрифты — локальные variable woff2 в начале main.css; preload только файлов из `project.config.json` → `fonts.preload`; без внешних CDN шрифтов.
+- Тяжёлые сторонние встраивания — только фасад `embed-facade` (iframe по клику, `aspect-ratio`).
+- События — `CustomEvent` на `document` с именами из словаря (`starter:lead:success`); аналитика слушает их в `analytics.js`.
