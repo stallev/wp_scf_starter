@@ -29,6 +29,7 @@ updated: 2026-09-25
 | Путь | Что | Статус |
 |---|---|---|
 | [`STARTER-PLAN.md`](STARTER-PLAN.md) | Принципы, процесс проекта, milestones стартера, решения D1–D26 | canonical |
+| [`REMAINING-TASKS.md`](REMAINING-TASKS.md) | Оставшиеся задачи (T0–T7: верификация, M8–M11) с инструкциями для агента Cursor | canonical |
 | [`decisions/`](decisions/) | ADR. [`0001`](decisions/0001-example-migration.md) — реестр миграции `/example` | canonical |
 
 ### `contracts/` — интерфейсы стартера (что и где в коде)
