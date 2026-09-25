@@ -33,7 +33,7 @@ npm run gate:0
 npm run wp -- starter seed --dry-run
 ```
 
-Открыть `http://localhost:8888<url>`: 200, нет PHP notices, визуально совпадает с прототипом. Затем обязательный `npm run gate:page -- <url>` (сейчас: `check:config` + `check:hardcode` + `lint:php`; e2e static / perf-markup / console / visual добавит M6b).
+Открыть `http://localhost:8888<url>`: 200, нет PHP notices, визуально совпадает с прототипом. Затем обязательный `npm run gate:page -- <url>` (`check:config` + `check:hardcode` + `lint:php` + e2e `static` / `perf-markup` / `console` / `a11y` / `visual`, отфильтрованные по этому URL; отчёт при падении — `npx playwright show-report`).
 
 ## 4. Ревью и коммит
 

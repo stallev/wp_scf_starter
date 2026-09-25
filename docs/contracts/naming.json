@@ -116,8 +116,10 @@
       "names": [
         "starter_rewrite_version",
         "starter_lead_rl_*",
-        "starter_seed_report_*"
-      ]
+        "starter_seed_report_*",
+        "starter_e2e_mode"
+      ],
+      "note": "starter_e2e_mode: test-only flag set by the e2e forms suite, honoured only when WP_ENVIRONMENT_TYPE = local (skips Telegram)"
     },
     {
       "role": "Internal meta",

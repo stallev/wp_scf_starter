@@ -2,7 +2,7 @@
 
 Стартер для многостраничных корпоративных сайтов на WordPress: классическая PHP-тема + mu-plugin + Secure Custom Fields + Yoast. Сайт собирается из готового HTML-прототипа с помощью AI (Cursor, Claude).
 
-Статус: **M6a — Node-инструменты** (init, проверки, PSI; e2e — M6b). План и milestones — [`docs/STARTER-PLAN.md`](docs/STARTER-PLAN.md), карта документации — [`docs/INDEX.md`](docs/INDEX.md).
+Статус: **M6 — инструменты и тесты** (init, проверки, PSI, e2e Playwright). План и milestones — [`docs/STARTER-PLAN.md`](docs/STARTER-PLAN.md), карта документации — [`docs/INDEX.md`](docs/INDEX.md).
 
 ## Требования
 
@@ -44,13 +44,14 @@ wp-content/
   mu-plugins/         starter-core.php + starter-core/ (данные: CPT, SCF, формы, seed, SEO)
   themes/starter/     тема
 tools/                node-скрипты: окружение, init, check-*, validate-seeds, lint-prototype, psi, font-fallback-metrics, convert-to-webp, gate; самотесты — tools/__tests__/
+tests/e2e/            Playwright-наборы (static, navigation, forms, dynamic, seo, perf-markup, console, a11y, visual), конфиг — playwright.config.ts; команды — AGENTS.md
 AGENTS.md, CLAUDE.md  правила для AI-агентов; .cursor/rules/ и .claude/commands/ — правила зон и процедуры
 docs/                 документация (см. docs/INDEX.md)
 ```
 
 **Демо-контент.** 9 страниц в `pages-map.json` (`/`, `/services/…`, `/about/`, `/contacts/`, `/blog/`, демо-пост, `/privacy-policy/`, у всех `prototype: null`) и всё содержимое `seed/` (включая `seed/images/`) — нейтральные демо-данные для самотеста темы. На реальном проекте `npm run init -- --prefix=… --name=…` очищает их (пустой `pages-map`, скелеты `seed/*.json`) — дальше страницы из прототипа и данные клиента.
 
-`node-html-parser` (devDependency) — парсер HTML для `lint:prototype` и будущей проверки разметки производительности `tests/e2e/perf-markup.spec.ts` (M6b). `@playwright/test` — Chromium для `fonts:fallback` и e2e (`npx playwright install chromium`), `sharp` — `images:webp`, `fontkit` — метрики шрифта.
+`node-html-parser` (devDependency) — парсер HTML для `lint:prototype` и проверки разметки производительности `tests/e2e/perf-markup.spec.ts`. `@playwright/test` — Chromium для `fonts:fallback` и e2e (`npx playwright install chromium`; для `test:e2e:smoke` — ещё `firefox webkit`), `@axe-core/playwright` — `a11y`, `pixelmatch` + `pngjs` — `visual`, `sharp` — `images:webp`, `fontkit` — метрики шрифта.
 
 Комментарии отключены ядром (`starter-core/comments.php`, фильтр `starter_disable_comments`, по умолчанию `true`); `env-setup` удаляет стандартные «Hello world!» и «Sample Page».
 

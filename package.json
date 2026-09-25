@@ -33,6 +33,18 @@
     "images:webp": "node tools/convert-to-webp.mjs",
     "psi": "node tools/psi.mjs",
     "test:tools": "node --test \"tools/__tests__/*.test.mjs\"",
+    "test:e2e": "playwright test",
+    "test:e2e:static": "playwright test --project=static",
+    "test:e2e:navigation": "playwright test --project=navigation-*",
+    "test:e2e:forms": "playwright test --project=forms",
+    "test:e2e:dynamic": "playwright test --project=dynamic",
+    "test:e2e:seo": "playwright test --project=seo",
+    "test:e2e:perf-markup": "playwright test --project=perf-markup",
+    "test:e2e:console": "playwright test --project=console",
+    "test:e2e:a11y": "playwright test --project=a11y",
+    "test:e2e:visual": "playwright test --project=visual",
+    "test:e2e:smoke": "node tools/gate.mjs e2e smoke",
+    "test:e2e:ui": "playwright test --ui",
     "gate:rules": "npm run check:naming && npm run check:links && npm run check:rules",
     "gate:0": "npm run check:config && npm run gate:rules && npm run check:hardcode && npm run check:seeds && npm run lint:php",
     "gate:1": "npm run lint:prototype && npm run check:config",
@@ -45,12 +57,15 @@
     "gate:page": "node tools/gate.mjs page"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "^1.63.0",
     "@wordpress/env": "^10.0.0",
     "ajv": "^8.17.1",
     "fontkit": "^2.0.4",
     "minimatch": "^10.2.6",
     "node-html-parser": "^7.1.0",
+    "pixelmatch": "^7.2.0",
+    "pngjs": "^7.0.0",
     "sharp": "^0.35.4"
   }
 }

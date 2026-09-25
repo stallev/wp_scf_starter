@@ -76,11 +76,15 @@
 | `npm run images:webp` | `assets/images/source-photos/` темы → `webp-photos/` (Sharp, качество из конфига) |
 | `npm run psi -- [--paths=…]` | PSI задеплоенного сайта (см. «PSI» ниже): localhost → код 2, отчёт — `psi-reports/` |
 | `npm run test:tools` | Самотесты `tools/__tests__/` (node --test), включая негативные случаи |
+| `npm run test:e2e` | Все e2e-наборы (Playwright, Chromium, `tests/e2e/`) против запущенного wp-env; данные — `pages-map.json`, база — `PLAYWRIGHT_BASE_URL` или `urls.local` |
+| `npm run test:e2e:<suite>` | Один набор: `static`, `navigation` (desktop + mobile), `forms`, `dynamic`, `seo`, `perf-markup`, `console`, `a11y`, `visual` |
+| `npm run test:e2e:smoke` | Firefox + WebKit smoke (`static`, `dynamic`); браузеры — `npx playwright install firefox webkit` |
+| `npm run test:e2e:ui` | Playwright UI mode; отчёт после прогона — `npx playwright show-report` |
 | `npm run gate:0` | `check:config` + `gate:rules` + `check:hardcode` + `check:seeds` + `lint:php` |
-| `npm run gate:1` … `gate:7` | Gate фазы проекта (1 прототип, 2 модель данных, 3 ядро + идемпотентный seed, 4–7 — статические проверки; их e2e-наборы добавит M6b) |
-| `npm run gate:page -- <url>` | Gate страницы: URL из `pages-map`, `check:config` + `check:hardcode` + `lint:php`; e2e страницы — M6b |
+| `npm run gate:1` … `gate:7` | Gate фазы проекта: 1 прототип, 2 модель данных, 3 ядро + идемпотентный seed; 4 — `navigation` + `perf-markup` (шрифты, скрипты), 5 — `static` + `perf-markup` + `console` + `a11y` + `visual`, 6 — `forms` + `dynamic` + `seo`, 7 — `gate:0` + `test:tools` + все наборы + smoke (наборы — `PHASE_SUITES` в `tools/gate.mjs`) |
+| `npm run gate:page -- <url>` | Gate страницы: URL из `pages-map`, `check:config` + `check:hardcode` + `lint:php` + e2e `static`, `perf-markup`, `console`, `a11y`, `visual` только для этого URL (`E2E_PAGE_URL`) |
 
-E2E (Playwright, `tests/e2e/`) появятся в M6b; `gate:4`–`gate:7` и `gate:page` пока только называют свои наборы и не запускают их.
+E2E: `visual` сравнивает скриншоты прототипа (`paths.prototype` или `VISUAL_PROTOTYPE_DIR`) и WordPress для записей `pages-map` с `prototype`, порог — `VISUAL_MAX_DIFF` (доля пикселей, 0.05); посторонние origin в `<head>` для `perf-markup` разрешаются через `E2E_HEAD_ORIGINS`.
 
 ## PSI
 

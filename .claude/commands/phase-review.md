@@ -17,7 +17,7 @@ argument-hint: "[base-ref | phase-file]"
 
 ## Шаги
 
-1. **Gate:** выполнить команды фазы (минимум `npm run gate:0`; фазы проекта — `gate:1`…`gate:7`, страницы — `gate:page -- <url>`; e2e в них — с M6b). Красный gate = вердикт `BLOCK` без дальнейших оправданий.
+1. **Gate:** выполнить команды фазы (минимум `npm run gate:0`; фазы проекта — `gate:1`…`gate:7`, страницы — `gate:page -- <url>`; e2e-наборы Playwright входят в них). Красный gate = вердикт `BLOCK` без дальнейших оправданий.
 2. **AC:** каждый AC — выполнен / не выполнен / не проверяем, со ссылкой на код или вывод команды.
 3. **Корректность:** ошибки логики, граничные случаи, escaping/sanitize/nonce/capabilities, идемпотентность seed, инвалидация кэшей.
 4. **Инварианты `AGENTS.md`:** зоны mu-plugin/тема, данные через API, имена из словаря, Yoast-only SEO, одна `form.js-lead`, `.reveal` и LCP по `pages-map`, `strategy` у скриптов, `starter_image()`, `prototype/` не тронут, нет секретов.

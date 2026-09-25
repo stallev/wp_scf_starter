@@ -160,21 +160,21 @@ updated: 2026-09-24
 
 | Источник | Решение | Цель | Что сделать | Статус |
 |---|---|---|---|---|
-| `package.json` | FIX | корневой `package.json` | Скрипты: `images:webp`, `psi`, `test:e2e*`, `gate:*`, `check:*`, `lint:prototype`, `fonts:fallback` | partial (M6a: psi/images/fonts/gates; e2e — M6b) |
+| `package.json` | FIX | корневой `package.json` | Скрипты: `images:webp`, `psi`, `test:e2e*`, `gate:*`, `check:*`, `lint:prototype`, `fonts:fallback` | done (M2–M6b) |
 | `scripts/psi.mjs` | PORT | `tools/psi.mjs` | `baseUrl` из `project.config.json` (`production_url`/`staging_url`), пути — `pages-map.json` (`psi: true`), `.env` из корня, отчёты в корневой `psi-reports/`. Сохранить: redact ключа, заголовок `X-Goog-Api-Key`, прогрев с заголовками кэша, медиана, `flaky`, ретраи, коды 0/1/2, отказ на localhost | done (M6a) |
 | `scripts/psi.config.json` | PORT | `tools/psi.config.json` | Только `thresholds`/`runs`/`mode`/`pauseMs`/`timeoutMs`; `floor` = `null` | done (M6a) |
 | `scripts/convert-to-webp.mjs` | PORT | `tools/convert-to-webp.mjs` | Пути из конфига | done (M6a) |
-| `scripts/a11y-smoke.mjs` | FIX | `tests/e2e/a11y.spec.ts` | Перевести в Playwright + `@axe-core/playwright`, URL из `pages-map` | todo |
+| `scripts/a11y-smoke.mjs` | FIX | `tests/e2e/a11y.spec.ts` | Перевести в Playwright + `@axe-core/playwright`, URL из `pages-map` | done (M6b) |
 | `tools/convert-prototype-templates.mjs` | FIX | `.claude/commands/port-page.md` + `tools/port-page` (извлечение `<main>`, замена ссылок по `pages-map`) | Одноразовый скрипт с жёсткой картой → обобщённая утилита на одну страницу | todo |
 | `seed/scripts/validate-seeds.mjs` | PORT | `tools/validate-seeds.mjs` | + JSON Schema (`seed/schema/*.json`) + запреты из `naming.json` | done (M6a: + JSON Schema, секреты по значению) |
-| `playwright.config.ts` | PORT | корневой `playwright.config.ts` | `baseURL` из конфига/env; проекты по suite; smoke Firefox/WebKit | todo |
-| `tests/e2e/static-http-200.spec.ts` | PORT | `tests/e2e/static.spec.ts` | Data-driven из `pages-map.json` (200, одна `.js-lead` / её отсутствие) | todo |
-| `tests/e2e/navigation.spec.ts` | PORT | `tests/e2e/navigation.spec.ts` | Селекторы стартерной шапки, desktop/mobile | todo |
-| `tests/e2e/forms.spec.ts` | PORT | `tests/e2e/forms.spec.ts` | Happy/negative/honeypot/nonce/rate limit; Telegram мок | todo |
-| `tests/e2e/seo-sitemap.spec.ts` | PORT | `tests/e2e/seo.spec.ts` | Yoast title, один ld+json graph, sitemap без служебных, noindex, `/llms.txt`, robots AI, geo meta | todo |
-| `tests/e2e/perf-markup.spec.ts` | PORT | `tests/e2e/perf-markup.spec.ts` | Данные из `pages-map` (`lcp`, `above_fold`) и конфига (preload шрифтов) | todo |
-| `tests/e2e/dynamic.spec.ts` | FIX | `tests/e2e/dynamic.spec.ts` | Generic: FAQ, отзывы, портфолио, service cards; каталог/калькуляторы → OPT | todo |
-| — (нового нет) | FIX | `tests/e2e/console.spec.ts`, `visual.spec.ts` | Консоль/Network без 404 и ошибок; визуальный diff «прототип vs WP» | todo |
+| `playwright.config.ts` | PORT | корневой `playwright.config.ts` | `baseURL` из конфига/env; проекты по suite; smoke Firefox/WebKit | done (M6b) |
+| `tests/e2e/static-http-200.spec.ts` | PORT | `tests/e2e/static.spec.ts` | Data-driven из `pages-map.json` (200, одна `.js-lead` / её отсутствие) | done (M6b) |
+| `tests/e2e/navigation.spec.ts` | PORT | `tests/e2e/navigation.spec.ts` | Селекторы стартерной шапки, desktop/mobile | done (M6b) |
+| `tests/e2e/forms.spec.ts` | PORT | `tests/e2e/forms.spec.ts` | Happy/negative/honeypot/nonce/rate limit; Telegram мок | done (M6b) |
+| `tests/e2e/seo-sitemap.spec.ts` | PORT | `tests/e2e/seo.spec.ts` | Yoast title, один ld+json graph, sitemap без служебных, noindex, `/llms.txt`, robots AI, geo meta | done (M6b) |
+| `tests/e2e/perf-markup.spec.ts` | PORT | `tests/e2e/perf-markup.spec.ts` | Данные из `pages-map` (`lcp`, `above_fold`) и конфига (preload шрифтов) | done (M6b) |
+| `tests/e2e/dynamic.spec.ts` | FIX | `tests/e2e/dynamic.spec.ts` | Generic: FAQ, отзывы, портфолио, service cards; каталог/калькуляторы → OPT | done (M6b) |
+| — (нового нет) | FIX | `tests/e2e/console.spec.ts`, `visual.spec.ts` | Консоль/Network без 404 и ошибок; визуальный diff «прототип vs WP» | done (M6b) |
 
 ### 4.4 Seed
 
@@ -248,20 +248,20 @@ updated: 2026-09-24
 
 | # | Знание | Источник | Где в стартере | Статус |
 |---|---|---|---|---|
-| K1 | `.reveal` на LCP-узле → render delay 4–5.7 с | performance §4 | `theme-templates.mdc` + `perf-markup.spec.ts` + `playbooks/performance.md` | partial (M4: `.reveal` только ниже сгиба + no-JS fallback; проверка — M6) |
-| K2 | Зависимый скрипт без `strategy` делает родителя блокирующим | performance §3 | `assets.mdc` + `perf-markup` (итоговый HTML) | partial (M4: все скрипты `defer`, включая admin-bar; проверка — M6) |
+| K1 | `.reveal` на LCP-узле → render delay 4–5.7 с | performance §4 | `theme-templates.mdc` + `perf-markup.spec.ts` + `playbooks/performance.md` | done (код M4 + проверка M6b) |
+| K2 | Зависимый скрипт без `strategy` делает родителя блокирующим | performance §3 | `assets.mdc` + `perf-markup` (итоговый HTML) | done (код M4 + проверка M6b) |
 | K3 | WP сам вешает `fetchpriority=high` на первую «большую» картинку без `loading` | performance §5 | `{prefix}_image()` всегда ставит явный `loading` | done (M4: `starter_image()` всегда ставит `loading`) |
 | K4 | Fallback-метрики шрифта мерить по реальному тексту, не по файлу | performance §2 | `tools/font-fallback-metrics.mjs` | done (M6a: `fonts:fallback`) |
-| K5 | Preload только 4 критичных woff2, `crossorigin` обязателен | performance §2 | Конфиг + `perf-markup` | partial (M4: механизм preload из конфига; проверка — M6) |
+| K5 | Preload только 4 критичных woff2, `crossorigin` обязателен | performance §2 | Конфиг + `perf-markup` | done (код M4 + проверка M6b) |
 | K6 | PSI не видит localhost; lab ≠ CrUX; TTFB PSI ≠ TTFB из своей сети; UI ≠ API | psi, performance §1 | `playbooks/psi.md`, отказ `psi.mjs` на localhost | partial (M6a: код `psi.mjs`; playbook — M7) |
 | K7 | Фиксировать GA4 on/off в каждом прогоне | psi | `psi.mjs` (детект) + `psi.md` | done (M6a: детект GA4 в `psi.mjs`) |
 | K8 | Не чинить аудит внутри зелёной категории | psi | `AGENTS.md` (1 строка) + `psi.md` | done (M5: `AGENTS.md` + `/psi-analyze`) |
-| K9 | `fetch('data/*.json')` из прототипа → 404 в WP | performance §8 | `console.spec.ts` | partial (M4: нет fetch данных прототипа; console-spec — M6) |
+| K9 | `fetch('data/*.json')` из прототипа → 404 в WP | performance §8 | `console.spec.ts` | done (код M4 + проверка M6b) |
 | K10 | Ключ PSI: только заголовок, redact, `.env` UTF-8 без BOM (PowerShell 5.1), Git Bash искажает `/`-аргументы (`MSYS_NO_PATHCONV=1`) | psi | `psi.md`, `.env.example` | partial (M6a: код `psi.mjs`; playbook — M7) |
 | K11 | WebP: оригиналы не трогать (og:image), регенерация старых вложений — отдельная процедура с бэкапом | performance §9, images | `contracts/images.md`, `playbooks/launch.md` | done (M4: оригиналы остаются PNG/JPEG, подразмеры WebP, srcset без оригиналов) |
 | K12 | MU-plugin без activation hook → flush rewrite по смене версии | boot.php | `{core}/boot.php` | done (M3) |
 | K13 | SCF: `get_field( $name, 'option' )` по **name**, не key | wordpress.mdc | `mu-plugin.mdc` | done (M5: `mu-plugin.mdc`) |
-| K14 | Одна `.js-lead` форма на страницу; служебные страницы без формы и в noindex | form-contracts | `pages-map` + `static.spec.ts` | partial (M4: `starter_page_has_lead_form()` по pages-map; static-spec — M6) |
+| K14 | Одна `.js-lead` форма на страницу; служебные страницы без формы и в noindex | form-contracts | `pages-map` + `static.spec.ts` | done (код M4 + проверка M6b) |
 | K15 | Хостинг: page cache, `Cache-Control` HTML, `immutable` для assets/uploads | performance «Что осталось» | `playbooks/launch.md` | todo |
 | K16 | Дубли запретов расходятся → один машиночитаемый источник | анализ rules | `naming.json` + `check-naming` | done (M5: `naming.json` + `check:naming`) |
 | K17 | Данные в шаблонах хардкодятся, если нет проверки | анализ шаблонов | `check-hardcode` | done (M6a: `check:hardcode`) |

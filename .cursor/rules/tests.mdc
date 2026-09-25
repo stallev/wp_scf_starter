@@ -6,13 +6,15 @@ alwaysApply: false
 
 # Тесты
 
-Стратегия — `docs/contracts/testing.md` (M7); каталог `tests/e2e/` появится в M6b (`@playwright/test` уже в devDependencies). Самотесты Node-инструментов — `tools/__tests__/` (правило `tools.mdc`). Правило действует уже сейчас для любых новых тестов.
+Стратегия — `docs/contracts/testing.md` (M7). E2E — `tests/e2e/<suite>.spec.ts` (один Playwright-проект на набор, `playwright.config.ts`), общие хелперы — `tests/e2e/helpers/` (конфиг, имена по префиксу, HTML, WP-CLI, visual). Самотесты Node-инструментов — `tools/__tests__/` (правило `tools.mdc`).
 
 - Список страниц и ожидания (200, `lead_form`, `noindex`, `schema`, `lcp`, `above_fold`, `psi`) — только из `pages-map.json`; URL не хардкодить.
 - Base URL — из `PLAYWRIGHT_BASE_URL` (`.env`) или `project.config.json` → `urls.local`.
 - Каждый контракт: happy + negative + security (формы: пустые поля, honeypot, неверный nonce, rate limit).
-- Внешние сервисы (Telegram, GA4, карты) — мок или перехват запроса; нет credentials — `skip` с причиной, а не падение.
+- Внешние сервисы (Telegram, GA4, карты) — мок или перехват запроса; нет credentials — `skip` с причиной, а не падение. Telegram в `forms` выключает опция `<prefix>_e2e_mode` (учитывается только при `WP_ENVIRONMENT_TYPE=local`).
 - Селекторы — классы БЭМ и роли/лейблы, не позиции и не тексты, которые меняет контент.
-- Тест не зависит от порядка и от других тестов; данные — из seed (`npm run wp -- starter seed`).
+- Имена WordPress (глобалы, action, nonce, honeypot, CPT, события) — из `names` (`slug.prefix`), литерал префикса в тестах запрещён: тесты переживают `npm run init`.
+- Тест не зависит от порядка и от других тестов; данные — из seed (`npm run wp -- starter seed`); что тест создал (лиды, transients, опции), он же удаляет через WP-CLI.
+- Новый набор → проект в `playwright.config.ts`, тег `@<suite>`, скрипт `test:e2e:<suite>`, место в `PHASE_SUITES` / `PAGE_SUITES` (`tools/gate.mjs`).
 - Скриншот и trace — только при падении.
 - Нарушение, пойманное ревью вручную, → новый тест или проверка, а не абзац в правилах.

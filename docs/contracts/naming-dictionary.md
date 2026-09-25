@@ -26,7 +26,7 @@ updated: 2026-09-25
 | SCF field groups | `group_starter_company`, `group_starter_lead`, `group_starter_review`, `group_starter_project`, `group_starter_faq`, `group_starter_service_card` | `wp-content/mu-plugins/starter-core/fields/` | One file = one group; read fields by name |
 | SCF field names | `starter_company_*`, `starter_lead_*`, `starter_review_*`, `starter_project_*`, `starter_faq_*`, `starter_service_card_*` | — | Field name = {prefix}_{entity}_{field} |
 | Protected option (not SCF) | `starter_telegram_bot` | — | { token, chat_id }, autoload=false |
-| Internal options / transients | `starter_rewrite_version`, `starter_lead_rl_*`, `starter_seed_report_*` | — | — |
+| Internal options / transients | `starter_rewrite_version`, `starter_lead_rl_*`, `starter_seed_report_*`, `starter_e2e_mode` | — | starter_e2e_mode: test-only flag set by the e2e forms suite, honoured only when WP_ENVIRONMENT_TYPE = local (skips Telegram) |
 | Internal meta | `_starter_seed_source`, `_starter_seed_hash` | — | Underscore = hidden meta |
 | Lead form: AJAX action | `starter_submit_lead` | `wp-content/mu-plugins/starter-core/forms.php` | — |
 | Lead form: nonce action / field | `starter_lead_submit`, `starter_lead_nonce` | — | — |

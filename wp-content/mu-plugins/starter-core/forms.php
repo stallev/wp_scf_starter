@@ -27,6 +27,23 @@ const STARTER_LEAD_HONEYPOT = 'starter_hp_company';
 add_action( 'wp_ajax_' . STARTER_LEAD_ACTION, 'starter_handle_submit_lead' );
 add_action( 'wp_ajax_nopriv_' . STARTER_LEAD_ACTION, 'starter_handle_submit_lead' );
 add_action( 'starter_lead_created', 'starter_notify_telegram_lead', 10, 2 );
+add_filter( 'starter_lead_skip_telegram', 'starter_lead_skip_telegram_in_e2e' );
+
+/**
+ * Test-only toggle: the e2e forms suite sets the option `starter_e2e_mode` (WP-CLI) so real
+ * submits never reach Telegram. Honoured only when WP_ENVIRONMENT_TYPE is 'local' (wp-env), so
+ * a stray option on staging/production changes nothing. See tests/e2e/forms.spec.ts.
+ *
+ * @param mixed $skip Current value of the starter_lead_skip_telegram filter.
+ * @return bool
+ */
+function starter_lead_skip_telegram_in_e2e( $skip ): bool {
+	if ( (bool) $skip ) {
+		return true;
+	}
+
+	return 'local' === wp_get_environment_type() && (bool) get_option( 'starter_e2e_mode' );
+}
 
 /**
  * Hidden inputs every lead form needs: action, nonce, honeypot.
