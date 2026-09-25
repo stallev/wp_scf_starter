@@ -6,7 +6,7 @@ alwaysApply: false
 
 # Тесты
 
-Стратегия — `docs/contracts/testing.md` (M7). E2E — `tests/e2e/<suite>.spec.ts` (один Playwright-проект на набор, `playwright.config.ts`), общие хелперы — `tests/e2e/helpers/` (конфиг, имена по префиксу, HTML, WP-CLI, visual). Самотесты Node-инструментов — `tools/__tests__/` (правило `tools.mdc`).
+Стратегия — [`testing.md`](../../docs/contracts/testing.md). E2E — `tests/e2e/<suite>.spec.ts` (один Playwright-проект на набор, `playwright.config.ts`), общие хелперы — `tests/e2e/helpers/` (конфиг, имена по префиксу, HTML, WP-CLI, visual). Самотесты Node-инструментов — `tools/__tests__/` (правило `tools.mdc`).
 
 - Список страниц и ожидания (200, `lead_form`, `noindex`, `schema`, `lcp`, `above_fold`, `psi`) — только из `pages-map.json`; URL не хардкодить.
 - Base URL — из `PLAYWRIGHT_BASE_URL` (`.env`) или `project.config.json` → `urls.local`.

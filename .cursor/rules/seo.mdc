@@ -6,7 +6,7 @@ alwaysApply: false
 
 # SEO
 
-Контракт — `docs/contracts/seo.md` (M7); до него источник — [`seo.php`](../../wp-content/mu-plugins/starter-core/seo.php) и классы в `starter-core/seo/`.
+Контракт — [`seo.md`](../../docs/contracts/seo.md); код — [`seo.php`](../../wp-content/mu-plugins/starter-core/seo.php) и классы в `starter-core/seo/`.
 
 - Title, meta description, canonical, OG — только Yoast; тема даёт `title-tag`, свою генерацию не добавлять.
 - Своя сущность schema.org — класс `Starter_Schema_<Type>` в `starter-core/seo/` (интерфейс Yoast graph piece: `$identifier`, `is_needed()`, `generate()` — по образцу соседних классов), регистрация через `wpseo_schema_graph_pieces`; связи между узлами — по `@id`. Второй JSON-LD вне графа Yoast запрещён.

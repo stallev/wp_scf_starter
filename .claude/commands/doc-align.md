@@ -14,7 +14,7 @@ argument-hint: "[phase-file | область]"
 Порядок при конфликте и статусы — **только** [`docs/INDEX.md`](../../docs/INDEX.md): прочитать его, не полагаться на память. Минимальный набор для сверки:
 
 - запись страницы в `pages-map.json` и `project.config.json`;
-- «Связанные документы» phase-файла (`docs/phases/*`, M7) и контракты из них;
+- «Связанные документы» phase-файла ([`docs/phases/`](../../docs/phases/ROADMAP.md)) и контракты из них;
 - словарь имён — [`docs/contracts/naming.json`](../../docs/contracts/naming.json);
 - `prototype/` — для разметки и контента страниц.
 

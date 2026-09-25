@@ -6,7 +6,7 @@ alwaysApply: false
 
 # Шаблоны темы
 
-Контракты `docs/contracts/theme.md`, `template-parts.md`, `forms.md`, `images.md` — M7; до них источник — PHPDoc в `inc/*.php` и шапки `template-parts/*.php`. Запись страницы — `pages-map.json`.
+Контракты — [`theme.md`](../../docs/contracts/theme.md), [`template-parts.md`](../../docs/contracts/template-parts.md), [`forms.md`](../../docs/contracts/forms.md), [`images.md`](../../docs/contracts/images.md), [`blog.md`](../../docs/contracts/blog.md); детали — PHPDoc в `inc/*.php` и шапки `template-parts/*.php`. Запись страницы — `pages-map.json`.
 
 - Данные — только через API ядра и темы (`starter_get_*()`, `starter_company_value()`, `starter_page_config()`); в разметке нет литералов NAP, цен, домена, ID. Нет данных — блок не выводится.
 - Повторяющийся блок (≥ 2 страниц) → `template-parts/<block>.php`, аргументы — `get_template_part( …, null, $args )` + `wp_parse_args()`.

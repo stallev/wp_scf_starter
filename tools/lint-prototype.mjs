@@ -1,5 +1,5 @@
 /**
- * Machine-checkable rules of the prototype regulation (docs/playbooks/prototype-rules.md, M7).
+ * Machine-checkable rules of the prototype regulation (docs/playbooks/prototype-rules.md).
  *
  * Every *.html under the directory (default project.config.json → paths.prototype) is parsed with
  * node-html-parser and checked:

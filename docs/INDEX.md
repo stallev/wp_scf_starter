@@ -1,6 +1,6 @@
 ---
 status: canonical
-version: 0.1
+version: 0.2
 updated: 2026-09-25
 ---
 
@@ -28,12 +28,41 @@ updated: 2026-09-25
 
 | Путь | Что | Статус |
 |---|---|---|
-| [`STARTER-PLAN.md`](STARTER-PLAN.md) | Принципы, процесс проекта, milestones стартера, решения D1–D24 | canonical |
+| [`STARTER-PLAN.md`](STARTER-PLAN.md) | Принципы, процесс проекта, milestones стартера, решения D1–D26 | canonical |
 | [`decisions/`](decisions/) | ADR. [`0001`](decisions/0001-example-migration.md) — реестр миграции `/example` | canonical |
-| `contracts/` | Интерфейсы. Готово: [`naming.json`](contracts/naming.json) → [`naming-dictionary.md`](contracts/naming-dictionary.md) (генерируется, M5). Остальные: forms, seo, images, blog, testing, mu-plugin, theme, data-structures, template-parts | naming — canonical; остальные — planned (M7) |
-| `playbooks/` | Переносимое знание: performance, psi, prototype-rules, architecture, analytics, launch | planned (M7) |
-| `phases/` | ROADMAP + phase-0…7 проекта на стартере | planned (M7) |
-| `project/` | Заполняется на конкретном проекте: sitemap, seo, pages, prds, perf-log, qa-report | planned (M7) |
+
+### `contracts/` — интерфейсы стартера (что и где в коде)
+
+| Документ | Что | Статус |
+|---|---|---|
+| [`naming.json`](contracts/naming.json) → [`naming-dictionary.md`](contracts/naming-dictionary.md) | Канон и запреты имён (словарь генерируется) | canonical |
+| [`mu-plugin.md`](contracts/mu-plugin.md) | Ядро: модули, API, хуки, seed, снимок конфига, версия и rewrite | canonical |
+| [`theme.md`](contracts/theme.md) | Тема: `inc/`, шаблоны, enqueue, `.reveal`, `<head>` | canonical |
+| [`template-parts.md`](contracts/template-parts.md) | Parts: аргументы, данные, разметка | canonical |
+| [`data-structures.md`](contracts/data-structures.md) | Сущности и источники истины | canonical |
+| [`forms.md`](contracts/forms.md) | Лид-форма: поля, nonce, honeypot, лимит, ответы, событие, Telegram | canonical |
+| [`seo.md`](contracts/seo.md) | Yoast, graph pieces, `pages-map` → schema / noindex, `llms.txt`, robots | canonical |
+| [`images.md`](contracts/images.md) | Размеры, `starter_image()`, WebP, регенерация | canonical |
+| [`blog.md`](contracts/blog.md) | `post` + `category`, шаблоны, TOC, автор | canonical |
+| [`testing.md`](contracts/testing.md) | Статические проверки и e2e-наборы, правила тестов | canonical |
+
+### `playbooks/` — переносимое знание (почему так)
+
+| Документ | Что | Статус |
+|---|---|---|
+| [`architecture.md`](playbooks/architecture.md) | Слои и принципы | canonical |
+| [`performance.md`](playbooks/performance.md) | Шрифты, render-blocking, `.reveal`, LCP, GA4, фасады, WebP, чеклист, «не делать» | canonical |
+| [`psi.md`](playbooks/psi.md) | Процедура PSI: ключ, запуск, пороги, чтение Lighthouse 13, выбросы | canonical |
+| [`prototype-rules.md`](playbooks/prototype-rules.md) | Регламент HTML-прототипа и что проверяет `lint:prototype` | canonical |
+| [`analytics.md`](playbooks/analytics.md) | Отложенный GA4, события, диагностика | canonical |
+| [`launch.md`](playbooks/launch.md) | Чеклист запуска: индексация, домен, хостинг, WebP, секреты, бэкапы, PSI baseline | canonical |
+
+### `phases/` и `project/`
+
+| Путь | Что | Статус |
+|---|---|---|
+| [`phases/ROADMAP.md`](phases/ROADMAP.md) | 8 фаз проекта, закрытие фазы (gate + `/doc-align` + `/phase-review`); phase-0…7 | canonical |
+| [`project/`](project/README.md) | Шаблоны, заполняемые на проекте: sitemap, seo-strategy, pages, seo, prds, test-cases, manager-guide, qa-report, perf-log, llms.txt | planned (заполняются на фазах 0–7 проекта) |
 
 ## Файлы конфигурации в корне
 

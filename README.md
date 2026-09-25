@@ -2,7 +2,7 @@
 
 Стартер для многостраничных корпоративных сайтов на WordPress: классическая PHP-тема + mu-plugin + Secure Custom Fields + Yoast. Сайт собирается из готового HTML-прототипа с помощью AI (Cursor, Claude).
 
-Статус: **M6 — инструменты и тесты** (init, проверки, PSI, e2e Playwright). План и milestones — [`docs/STARTER-PLAN.md`](docs/STARTER-PLAN.md), карта документации — [`docs/INDEX.md`](docs/INDEX.md).
+Статус: **M7 — документация стартера** (контракты, playbooks, фазы проекта, шаблоны `docs/project/`). План и milestones — [`docs/STARTER-PLAN.md`](docs/STARTER-PLAN.md), карта документации — [`docs/INDEX.md`](docs/INDEX.md).
 
 ## Требования
 

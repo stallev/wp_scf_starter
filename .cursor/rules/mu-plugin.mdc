@@ -6,7 +6,7 @@ alwaysApply: false
 
 # Mu-plugin `starter-core` и seed
 
-Контракт ядра — `docs/contracts/mu-plugin.md` (M7); до него источник — код: порядок загрузки в [`boot.php`](../../wp-content/mu-plugins/starter-core/boot.php), формат seed — [`seed/README.md`](../../seed/README.md).
+Контракт ядра — [`mu-plugin.md`](../../docs/contracts/mu-plugin.md), сущности — [`data-structures.md`](../../docs/contracts/data-structures.md), формы — [`forms.md`](../../docs/contracts/forms.md); порядок загрузки — [`boot.php`](../../wp-content/mu-plugins/starter-core/boot.php), формат seed — [`seed/README.md`](../../seed/README.md).
 
 - CPT, taxonomies, options pages, SCF-группы — только здесь: CPT в `post-types.php` (аргументы меняются фильтром `starter_post_type_args`), поля в `fields/<entity>.php` через `acf_add_local_field_group()` на хуке `acf/init` (одна группа = один файл, ключ `group_starter_<entity>`); новый файл — `require_once` в `boot.php`.
 - SCF читается и пишется по **name**: `get_field( 'starter_…', 'option' )`, `starter_field()`, `starter_update_field()`; не по `field_…` key.

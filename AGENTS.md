@@ -20,7 +20,7 @@
 | `wp-content/mu-plugins/starter-core.php`, `starter-core/` | Данные и логика: CPT, SCF-поля и опции, формы/лиды, seed, Yoast-схемы, `llms.txt` |
 | `wp-content/mu-plugins/starter-core/config.generated.php` | Снимок конфигов для PHP (генерируется, не редактировать) |
 | `wp-content/themes/starter/` | Представление: `inc/` (setup, assets, images, analytics, head), шаблоны, `template-parts/`, `assets/` |
-| `docs/` | Документация, карта — [`docs/INDEX.md`](docs/INDEX.md); словарь имён — [`docs/contracts/naming-dictionary.md`](docs/contracts/naming-dictionary.md) |
+| `docs/` | Документация, карта — [`docs/INDEX.md`](docs/INDEX.md): `contracts/` (интерфейсы), `playbooks/` (знание с «почему»), `phases/` ([`ROADMAP`](docs/phases/ROADMAP.md) + фазы 0–7), `project/` (шаблоны проекта); словарь имён — [`docs/contracts/naming-dictionary.md`](docs/contracts/naming-dictionary.md) |
 | `tools/` | Node-скрипты проверок и окружения (`lib.mjs` — общие хелперы) |
 | `.cursor/rules/` | L1-правила по glob · `.claude/commands/` — процедуры (`/doc-align`, `/phase-review`, `/port-page`, `/psi-analyze`) |
 
@@ -31,7 +31,7 @@
 3. **Имена — только из словаря.** Канон и запреты — [`docs/contracts/naming.json`](docs/contracts/naming.json) (таблица генерируется, проверка — `npm run check:naming`). Новое имя: сначала `naming.json`, потом код.
 4. **SCF** — группы полей в PHP (один файл = одна группа), чтение и запись по `name`, не по key.
 5. **SEO** — title, meta и JSON-LD только через Yoast (свои сущности — graph pieces в `starter-core/seo/`). `noindex` и исключение из sitemap — флагом в `pages-map.json`.
-6. **Лид-форма** — ровно одна `form.js-lead` на странице с `lead_form: true`, ни одной на служебных; контракт — шапка `starter-core/forms.php`.
+6. **Лид-форма** — ровно одна `form.js-lead` на странице с `lead_form: true`, ни одной на служебных; контракт — [`docs/contracts/forms.md`](docs/contracts/forms.md).
 7. **Производительность (P1):** `.reveal` только ниже первого экрана; LCP-узел из `pages-map` (`lcp`, `above_fold`) без `.reveal`; каждый скрипт со `strategy` (`starter_script_args()`); изображения только через `starter_image()` (одна LCP-картинка с `priority`); тяжёлые встраивания — `template-parts/embed-facade.php`; без внешних CDN шрифтов.
 8. **`prototype/` — read-only.** Прототип читают и переносят, но не правят.
 9. **Секреты** — только в `.env` (шаблон `.env.example`) или защищённых опциях (`autoload=false`). Не выводить в чат/логи, не коммитить.
@@ -40,7 +40,7 @@
 
 ## Цикл задачи
 
-1. **Контекст:** запись `pages-map.json` / контракт / phase-файл задачи; L1-правила зоны подтянутся по glob.
+1. **Контекст:** запись `pages-map.json` / контракт / phase-файл задачи (`docs/phases/`); L1-правила зоны подтянутся по glob.
 2. **Реализация** в своей зоне (mu-plugin или тема), имена — из словаря.
 3. **Проверка:** релевантная gate-команда (ниже); красный gate = задача не готова.
 4. **Ревью:** независимое (`/phase-review` другой моделью) для фазы; `/doc-align` при старте и закрытии фазы.
@@ -88,7 +88,7 @@ E2E: `visual` сравнивает скриншоты прототипа (`paths
 
 ## PSI
 
-Только по явному запросу пользователя и только на задеплоенном публичном URL: `npm run psi` (база — `urls.production` или `--base`, пути — `psi: true` в `pages-map`, ключ `PAGESPEED_API_KEY` — в `.env`); процедура — `docs/playbooks/psi.md` (M7), анализ отчёта — `/psi-analyze`. Код чинится, только если категория вышла из зелёной зоны **и** пользователь попросил исправить.
+Только по явному запросу пользователя и только на задеплоенном публичном URL: `npm run psi` (база — `urls.production` или `--base`, пути — `psi: true` в `pages-map`, ключ `PAGESPEED_API_KEY` — в `.env`); процедура — [`docs/playbooks/psi.md`](docs/playbooks/psi.md), анализ отчёта — `/psi-analyze`. Код чинится, только если категория вышла из зелёной зоны **и** пользователь попросил исправить.
 
 ## Инструменты
 

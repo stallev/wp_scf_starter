@@ -1,5 +1,5 @@
 {
-  "$comment": "Manual PSI (tools/psi.mjs). Base URL comes from project.config.json → urls, paths from pages-map.json (psi: true). Thresholds are introduced gradually: report → baseline → floor = worst baseline minus ~5 → enforce → raise floor (docs/playbooks/psi.md, M7).",
+  "$comment": "Manual PSI (tools/psi.mjs). Base URL comes from project.config.json → urls, paths from pages-map.json (psi: true). Thresholds are introduced gradually: report → baseline → floor = worst baseline minus ~5 → enforce → raise floor (docs/playbooks/psi.md).",
   "runs": 3,
   "mode": "report",
   "pauseMs": 4000,

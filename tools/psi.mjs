@@ -4,7 +4,7 @@
  * Запуск (из корня репо):  npm run psi -- [--paths=/,/contacts/] [--strategy=both] [--runs=3] [--mode=report]
  *                                         [--base=https://…] [--target=production|staging]
  * Только по явному запросу, не в CI, без параллельных прогонов на один ключ. Процедура, пороги и
- * журнал — docs/playbooks/psi.md (M7), анализ отчёта — /psi-analyze.
+ * журнал — docs/playbooks/psi.md и docs/project/perf-log.md, анализ отчёта — /psi-analyze.
  *
  * Базовый URL: --base, иначе project.config.json → urls.production (или urls.staging при
  * --target=staging). Пути: --paths, иначе pages-map.json → записи с psi: true.

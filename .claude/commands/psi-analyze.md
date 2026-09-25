@@ -5,7 +5,7 @@ argument-hint: "<psi-reports/<stamp>>"
 
 # /psi-analyze — анализ отчёта PSI
 
-Отчёт: `$ARGUMENTS` — каталог прогона (`summary.json`, `summary.md`, `runs/*.json`). Отчёт создаёт `npm run psi` (`tools/psi.mjs`, пороги — `tools/psi.config.json`), процедура и пороги — `docs/playbooks/psi.md` (M7). Эта команда **ничего не запускает**: PSI — только по явному запросу пользователя и только на задеплоенном публичном URL.
+Отчёт: `$ARGUMENTS` — каталог прогона (`summary.json`, `summary.md`, `runs/*.json`). Отчёт создаёт `npm run psi` (`tools/psi.mjs`, пороги — `tools/psi.config.json`), процедура и пороги — [`docs/playbooks/psi.md`](../../docs/playbooks/psi.md). Эта команда **ничего не запускает**: PSI — только по явному запросу пользователя и только на задеплоенном публичном URL.
 
 ## Шаги
 
@@ -28,7 +28,7 @@ argument-hint: "<psi-reports/<stamp>>"
 | URL | strategy | Perf | A11y | BP | SEO | flaky |
 Вне зелёной зоны:
 1. <URL/strategy/категория> — причина (аудит, узел) → предлагаемая правка (файл) → ожидаемый эффект
-Запись для docs/project/perf-log.md (M7): <дата | URL | оценки | GA4 | заметка>
+Запись для docs/project/perf-log.md: <дата | URL | warmup | mobile P/A/BP/SEO | desktop P/A/BP/SEO | GA4 | заметка>
 ```
 
 Правки кода — только после подтверждения пользователя.

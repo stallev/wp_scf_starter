@@ -48,8 +48,8 @@ updated: 2026-09-24
 |---|---|---|
 | S1 | Убедиться, что исходный проект (с историей git) хранится вне этого репо | todo |
 | S2 | **Сменить** Telegram bot token и пароль WP-админки из `creds/project_creds.json`: файл лежал в web root темы и был публично доступен (см. `ops/pagespeed-insights.md`) | todo |
-| S3 | Ни один секрет из `creds/`, `.env` не переносится; в стартер — только `.env.example` | todo |
-| S4 | GA4 ID `G-P98DDJKSWQ` (default в коде и доках) — не переносить как default | todo |
+| S3 | Ни один секрет из `creds/`, `.env` не переносится; в стартер — только `.env.example` | done (M2–M7: секретов в репо нет, `check:seeds` ловит секреты по значению) |
+| S4 | GA4 ID `G-P98DDJKSWQ` (default в коде и доках) — не переносить как default | done (M3: GA4 ID пуст по умолчанию; grep по ID пуст) |
 
 ---
 
@@ -59,13 +59,13 @@ updated: 2026-09-24
 |---|---|---|---|
 | `plugins/secure-custom-fields/` (6.9.4) | DROP | Ставится wp-env из `project.config.json` → `wordpress.plugins` (`latest` = последняя стабильная) | done (M2) |
 | `plugins/wordpress-seo/` (Yoast 28.2) | DROP | Как SCF: `wordpress.plugins` в конфиге (исключает RC из zip без версии) | done (M2) |
-| `plugins/duplicator/` | DROP | Не нужен стартеру; перенос сайта — `playbooks/launch.md` (WP-CLI export/search-replace) | todo |
+| `plugins/duplicator/` | DROP | Не нужен стартеру; перенос сайта — `playbooks/launch.md` (WP-CLI export/search-replace) | n/a (перенос сайта описан в `playbooks/launch.md`) |
 | `plugins/index.php` | DROP | — | n/a |
 | `themes/{theme}/node_modules/`, `package-lock.json` | DROP | Lock-файл генерируется заново | n/a |
 | `themes/{theme}/psi-reports/*` | DROP | Цифры-вехи уже в журнале `pagespeed-insights.md` → KNOW (см. §6) | n/a |
 | `themes/{theme}/test-results/*` | DROP | — | n/a |
-| `themes/{theme}/creds/project_creds.json` | DROP | Секреты. См. S2 | todo |
-| `themes/{theme}/.env` | DROP | Секреты | todo |
+| `themes/{theme}/creds/project_creds.json` | DROP | Секреты. См. S2 | n/a (не перенесено; ротация — S2) |
+| `themes/{theme}/.env` | DROP | Секреты | n/a (не перенесено) |
 | `themes/{theme}/.env.example` | PORT | → корень: `.env.example` (`PAGESPEED_API_KEY=`, `PLAYWRIGHT_BASE_URL=`). `TELEGRAM_*` не добавлены: credentials бота живут в защищённой WP-опции (M3), не в env | done (M2) |
 | `themes/{theme}/.gitignore` | FIX | → корневой `.gitignore`: `.env`, `node_modules/`, `psi-reports/`, `test-results/`, `playwright-report/`, `creds/`, dev-каталоги изображений. Исправить пробел: в исходнике **не было** `.env` | done (M2) |
 | `themes/{theme}/assets/images/source-photos/`, `webp-photos/` | DROP | Фото клиента; каталоги остаются как gitignored dev-пути | n/a |
@@ -190,9 +190,9 @@ updated: 2026-09-24
 | Источник | Решение | Цель | Что сделать | Статус |
 |---|---|---|---|---|
 | `prototype/*` | FIX | `fixtures/demo-prototype/` (3–4 страницы) | **Не копировать** контент клиента. Собрать нейтральную мини-фикстуру по регламенту (главная, услуга, контакты, пост) для самотестов стартера. Реальный прототип проекта кладётся в корневой `prototype/` (вне темы — не уезжает на прод) | done (M6a: `fixtures/demo-prototype/` + `fixtures/bad-prototype/`) |
-| `prototype/README.md`, `vercel.json` | KNOW | `docs/playbooks/prototype-rules.md` | Деплой прототипа на Vercel (Root Directory, абсолютные пути) | todo |
+| `prototype/README.md`, `vercel.json` | KNOW | `docs/playbooks/prototype-rules.md` | Деплой прототипа на Vercel (Root Directory, абсолютные пути) | done (M7) |
 | `prototype/data/prices.json` + `assets/js/prices.js` | OPT | `modules/pricebook` | Паттерн «единый JSON цен → `data-price*` → JSON-LD → калькулятор» | todo |
-| `README.md` (корень темы, о прототипе) | KNOW | `docs/playbooks/prototype-rules.md`, `playbooks/launch.md` | «Перед публикацией»: снять noindex, домен в canonical/OG/JSON-LD, og-cover 1200×630, favicon, свои фото | todo |
+| `README.md` (корень темы, о прототипе) | KNOW | `docs/playbooks/prototype-rules.md`, `playbooks/launch.md` | «Перед публикацией»: снять noindex, домен в canonical/OG/JSON-LD, og-cover 1200×630, favicon, свои фото | done (M7) |
 
 ---
 
@@ -202,45 +202,47 @@ updated: 2026-09-24
 
 | Источник | Решение | Цель | Что сделать | Статус |
 |---|---|---|---|---|
-| `general/reglament-koda-prototipa.md` | KNOW | `docs/playbooks/prototype-rules.md` | Файлы, токены, БЭМ без вложенности, `is-*`, DRY-лестница, префиксы, формы; + требования perf (первый экран без `.reveal`, размеры `<img>`, без Google Fonts, фасады). Машинно проверяемое → `lint:prototype` | todo |
-| `general/checklist-proverki-struktury-kontenta.md` | TPL | `docs/project/_templates/page-spec-checklist.md` | — | todo |
-| `general/01-sitemap-i-seo-pozicionirovanie.md` | TPL | `docs/project/sitemap.md` (шаблон) | Структура: карта, приоритеты, журнал решений | todo |
-| `general/03-seo-strategiya.md` | TPL | `docs/project/seo-strategy.md` (шаблон) | — | todo |
+| `general/reglament-koda-prototipa.md` | KNOW | `docs/playbooks/prototype-rules.md` | Файлы, токены, БЭМ без вложенности, `is-*`, DRY-лестница, префиксы, формы; + требования perf (первый экран без `.reveal`, размеры `<img>`, без Google Fonts, фасады). Машинно проверяемое → `lint:prototype` | done (M7) |
+| `general/checklist-proverki-struktury-kontenta.md` | TPL | `docs/project/_templates/page-spec-checklist.md` | — | done (M7) |
+| `general/01-sitemap-i-seo-pozicionirovanie.md` | TPL | `docs/project/sitemap.md` (шаблон) | Структура: карта, приоритеты, журнал решений | done (M7) |
+| `general/03-seo-strategiya.md` | TPL | `docs/project/seo-strategy.md` (шаблон) | — | done (M7) |
 | `general/cenoobrazovanie-i-formuly-rascheta.md` | DROP | — | Бизнес-логика клиента; как пример — только в `modules/pricebook/README` | n/a |
-| `pages_descriptions_specs/*` (22 файла) | TPL | `docs/project/pages/_template.md` | Шаблон спецификации страницы (по 1–2 лучшим образцам) | todo |
-| `seo-specs/*` (+ `posts-content/*`) | TPL/DROP | `docs/project/seo/_templates/` (meta-паттерны, outline поста) | Контент DROP | todo |
+| `pages_descriptions_specs/*` (22 файла) | TPL | `docs/project/pages/_template.md` | Шаблон спецификации страницы (по 1–2 лучшим образцам) | done (M7) |
+| `seo-specs/*` (+ `posts-content/*`) | TPL/DROP | `docs/project/seo/_templates/` (meta-паттерны, outline поста) | Контент DROP | done (M7) |
 
 ### 5.2 `docs/wp-docs/`
 
 | Источник | Решение | Цель | Что сделать | Статус |
 |---|---|---|---|---|
-| `README.md` | FIX | `docs/INDEX.md` | Навигация; «как работать агенту» → `AGENTS.md` (без дубля) | todo |
-| `DOCUMENTATION-STRUCTURE.md` | FIX | `docs/INDEX.md` | Правило приоритета (Project → Canonical → Decisions), статусы `canonical/planned/superseded`. Единственное место этого правила | todo |
+| `README.md` | FIX | `docs/INDEX.md` | Навигация; «как работать агенту» → `AGENTS.md` (без дубля) | done (M7) |
+| `DOCUMENTATION-STRUCTURE.md` | FIX | `docs/INDEX.md` | Правило приоритета (Project → Canonical → Decisions), статусы `canonical/planned/superseded`. Единственное место этого правила | done (M7) |
 | `contracts/naming-dictionary.md` | TPL | `docs/contracts/naming-dictionary.md` + `naming.json` | Структура: канон / запреты / устаревшее→канон. Базовые generic-имена стартера заполнены | done (M5: генерируется из `naming.json`) |
-| `contracts/prototype-to-templates.md` | FIX | `pages-map.json` + `docs/contracts/template-parts.md` | Таблица маппинга → манифест; список parts → контракт | todo |
-| `contracts/data-structures.md` | TPL | `docs/contracts/data-structures.md` | Сущности и источники истины (company vs pages vs CPT) | todo |
-| `contracts/form-contracts.md` | PORT | `docs/contracts/forms.md` | Generic как есть (с `{prefix}`) | todo |
-| `contracts/seo-contract.md` | PORT | `docs/contracts/seo.md` | Yoast vs custom pieces | todo |
-| `contracts/image-assets-contract.md` | PORT | `docs/contracts/images.md` | Размер карточки, WebP, alt/fallback, процедура регенерации и отката | todo |
+| `contracts/prototype-to-templates.md` | FIX | `pages-map.json` + `docs/contracts/template-parts.md` | Таблица маппинга → манифест; список parts → контракт | done (M7) |
+| `contracts/data-structures.md` | TPL | `docs/contracts/data-structures.md` | Сущности и источники истины (company vs pages vs CPT) | done (M7) |
+| `contracts/form-contracts.md` | PORT | `docs/contracts/forms.md` | Generic как есть (с `{prefix}`) | done (M7) |
+| `contracts/seo-contract.md` | PORT | `docs/contracts/seo.md` | Yoast vs custom pieces | done (M7) |
+| `contracts/image-assets-contract.md` | PORT | `docs/contracts/images.md` | Размер карточки, WebP, alt/fallback, процедура регенерации и отката | done (M7) |
 | `contracts/catalog-url-model.md`, `pricebook-schema.md` | OPT | `modules/catalog/`, `modules/pricebook/` README | — | todo |
-| `specs/architecture.md` | KNOW | `docs/playbooks/architecture.md` | Принципы: mu-plugin = данные, тема = представление, provider + cache, enqueue только в теме | todo |
-| `specs/mu-plugin-spec.md`, `theme-spec.md` | TPL | `docs/contracts/mu-plugin.md`, `theme.md` | Спеки стартера (модули, API, хуки) | todo |
-| `specs/analytics-spec.md` | KNOW | `docs/playbooks/analytics.md` | Отложенный GA4, события, компромиссы, диагностика «gtag не грузится» | todo |
-| `specs/blog-spec.md` | PORT | `docs/contracts/blog.md` | `post` + `category`, шаблоны, TOC | todo |
+| `specs/architecture.md` | KNOW | `docs/playbooks/architecture.md` | Принципы: mu-plugin = данные, тема = представление, provider + cache, enqueue только в теме | done (M7) |
+| `specs/mu-plugin-spec.md`, `theme-spec.md` | TPL | `docs/contracts/mu-plugin.md`, `theme.md` | Спеки стартера (модули, API, хуки) | done (M7) |
+| `specs/analytics-spec.md` | KNOW | `docs/playbooks/analytics.md` | Отложенный GA4, события, компромиссы, диагностика «gtag не грузится» | done (M7) |
+| `specs/blog-spec.md` | PORT | `docs/contracts/blog.md` | `post` + `category`, шаблоны, TOC | done (M7) |
 | `specs/calculator-spec.md` | OPT | `modules/pricebook/` | — | todo |
-| `prds/forms-prd.md`, `blog-prd.md`, `content-management-prd.md` | TPL | `docs/project/prds/_template.md` + базовые PRD стартера | — | todo |
+| `prds/forms-prd.md`, `blog-prd.md`, `content-management-prd.md` | TPL | `docs/project/prds/_template.md` + базовые PRD стартера | — | done (M7) |
 | `prds/product-catalog-prd.md`, `calculator-prd.md` | OPT/DROP | — | — | todo |
-| `phases/ROADMAP.md` | FIX | `docs/phases/ROADMAP.md` | 8 фаз нового пайплайна; gate = команда `npm run gate:N` + `/doc-align` + `/phase-review` | todo |
-| `phases/phase-0…11-*.md` | TPL | `docs/phases/phase-0…7-*.md` | Формат «Связанные / Задачи / AC Happy-Negative-Security / Gate». Содержание: 0 init, 1 приёмка прототипа (+ `pages-map`), 2 модель данных (+ seed ← бывш. 1, 6), 3 ядро (← 2), 4 оболочка темы (← 3, 4, шрифты), 5 перенос страниц (← 5, 10), 6 динамика/формы/SEO/AI (← 7, 8, 11), 7 QA и запуск (← 9, PSI baseline) | todo |
-| `ops/performance-optimization.md` | KNOW | `docs/playbooks/performance.md` | Принципы, 9 разделов (шрифты, render-blocking, `.reveal`, LCP/lazy, GA4, фасады, остатки прототипа, WebP), чеклист блока, «не делать». Цифры → обезличенные кейсы | todo |
-| `ops/pagespeed-insights.md` | KNOW | `docs/playbooks/psi.md` + `docs/project/perf-log.md` (шаблон журнала) | Процедура, ключ, пороги и ввод `floor`, чтение ответа Lighthouse 13, «не делать». Журнал клиента DROP (кроме 1–2 обезличенных кейсов) | todo |
-| `ops/manager-guide.md` | TPL | `docs/project/manager-guide.md` (шаблон) | Раздел про company/FAQ/лиды/меню generic; pricebook → OPT | todo |
-| `testing/test-strategy.md` | PORT | `docs/contracts/testing.md` | Стек, классы кейсов, матрица браузеров, правила агента; base URL из конфига | todo |
-| `testing/test-cases/*` | TPL | `docs/project/test-cases/_template.md` | Формат кейса; generic-кейсы nav/static/forms — как готовые | todo |
-| `testing/phase-9-qa-report.md` | TPL | `docs/project/qa-report.md` (шаблон) | — | todo |
+| `phases/ROADMAP.md` | FIX | `docs/phases/ROADMAP.md` | 8 фаз нового пайплайна; gate = команда `npm run gate:N` + `/doc-align` + `/phase-review` | done (M7) |
+| `phases/phase-0…11-*.md` | TPL | `docs/phases/phase-0…7-*.md` | Формат «Связанные / Задачи / AC Happy-Negative-Security / Gate». Содержание: 0 init, 1 приёмка прототипа (+ `pages-map`), 2 модель данных (+ seed ← бывш. 1, 6), 3 ядро (← 2), 4 оболочка темы (← 3, 4, шрифты), 5 перенос страниц (← 5, 10), 6 динамика/формы/SEO/AI (← 7, 8, 11), 7 QA и запуск (← 9, PSI baseline) | done (M7) |
+| `ops/performance-optimization.md` | KNOW | `docs/playbooks/performance.md` | Принципы, 9 разделов (шрифты, render-blocking, `.reveal`, LCP/lazy, GA4, фасады, остатки прототипа, WebP), чеклист блока, «не делать». Цифры → обезличенные кейсы | done (M7) |
+| `ops/pagespeed-insights.md` | KNOW | `docs/playbooks/psi.md` + `docs/project/perf-log.md` (шаблон журнала) | Процедура, ключ, пороги и ввод `floor`, чтение ответа Lighthouse 13, «не делать». Журнал клиента DROP (кроме 1–2 обезличенных кейсов) | done (M7) |
+| `ops/manager-guide.md` | TPL | `docs/project/manager-guide.md` (шаблон) | Раздел про company/FAQ/лиды/меню generic; pricebook → OPT | done (M7) |
+| `testing/test-strategy.md` | PORT | `docs/contracts/testing.md` | Стек, классы кейсов, матрица браузеров, правила агента; base URL из конфига | done (M7) |
+| `testing/test-cases/*` | TPL | `docs/project/test-cases/_template.md` | Формат кейса; generic-кейсы nav/static/forms — как готовые | done (M7) |
+| `testing/phase-9-qa-report.md` | TPL | `docs/project/qa-report.md` (шаблон) | — | done (M7) |
 | `drafts/archive/*` | DROP | — | Заменено ADR-подходом (`docs/decisions/`) | n/a |
 
 ---
+
+> **Отклонения M7:** базовые PRD стартера покрыты контрактами `forms.md`, `blog.md`, `data-structures.md` (отдельных PRD-файлов нет); чек-лист спецификации страницы — `docs/project/pages/_checklist.md`, SEO-шаблоны — `docs/project/seo/{meta-patterns,post-outline}.md`; generic тест-кейсы nav/static/forms живут в e2e-наборах, в `docs/project/test-cases/` — только шаблон ручных кейсов.
 
 ## 6. Знания, которые нельзя потерять (сквозной чек-лист)
 
@@ -253,19 +255,19 @@ updated: 2026-09-24
 | K3 | WP сам вешает `fetchpriority=high` на первую «большую» картинку без `loading` | performance §5 | `{prefix}_image()` всегда ставит явный `loading` | done (M4: `starter_image()` всегда ставит `loading`) |
 | K4 | Fallback-метрики шрифта мерить по реальному тексту, не по файлу | performance §2 | `tools/font-fallback-metrics.mjs` | done (M6a: `fonts:fallback`) |
 | K5 | Preload только 4 критичных woff2, `crossorigin` обязателен | performance §2 | Конфиг + `perf-markup` | done (код M4 + проверка M6b) |
-| K6 | PSI не видит localhost; lab ≠ CrUX; TTFB PSI ≠ TTFB из своей сети; UI ≠ API | psi, performance §1 | `playbooks/psi.md`, отказ `psi.mjs` на localhost | partial (M6a: код `psi.mjs`; playbook — M7) |
+| K6 | PSI не видит localhost; lab ≠ CrUX; TTFB PSI ≠ TTFB из своей сети; UI ≠ API | psi, performance §1 | `playbooks/psi.md`, отказ `psi.mjs` на localhost | done (M7) |
 | K7 | Фиксировать GA4 on/off в каждом прогоне | psi | `psi.mjs` (детект) + `psi.md` | done (M6a: детект GA4 в `psi.mjs`) |
 | K8 | Не чинить аудит внутри зелёной категории | psi | `AGENTS.md` (1 строка) + `psi.md` | done (M5: `AGENTS.md` + `/psi-analyze`) |
 | K9 | `fetch('data/*.json')` из прототипа → 404 в WP | performance §8 | `console.spec.ts` | done (код M4 + проверка M6b) |
-| K10 | Ключ PSI: только заголовок, redact, `.env` UTF-8 без BOM (PowerShell 5.1), Git Bash искажает `/`-аргументы (`MSYS_NO_PATHCONV=1`) | psi | `psi.md`, `.env.example` | partial (M6a: код `psi.mjs`; playbook — M7) |
+| K10 | Ключ PSI: только заголовок, redact, `.env` UTF-8 без BOM (PowerShell 5.1), Git Bash искажает `/`-аргументы (`MSYS_NO_PATHCONV=1`) | psi | `psi.md`, `.env.example` | done (M7) |
 | K11 | WebP: оригиналы не трогать (og:image), регенерация старых вложений — отдельная процедура с бэкапом | performance §9, images | `contracts/images.md`, `playbooks/launch.md` | done (M4: оригиналы остаются PNG/JPEG, подразмеры WebP, srcset без оригиналов) |
 | K12 | MU-plugin без activation hook → flush rewrite по смене версии | boot.php | `{core}/boot.php` | done (M3) |
 | K13 | SCF: `get_field( $name, 'option' )` по **name**, не key | wordpress.mdc | `mu-plugin.mdc` | done (M5: `mu-plugin.mdc`) |
 | K14 | Одна `.js-lead` форма на страницу; служебные страницы без формы и в noindex | form-contracts | `pages-map` + `static.spec.ts` | done (код M4 + проверка M6b) |
-| K15 | Хостинг: page cache, `Cache-Control` HTML, `immutable` для assets/uploads | performance «Что осталось» | `playbooks/launch.md` | todo |
+| K15 | Хостинг: page cache, `Cache-Control` HTML, `immutable` для assets/uploads | performance «Что осталось» | `playbooks/launch.md` | done (M7) |
 | K16 | Дубли запретов расходятся → один машиночитаемый источник | анализ rules | `naming.json` + `check-naming` | done (M5: `naming.json` + `check:naming`) |
 | K17 | Данные в шаблонах хардкодятся, если нет проверки | анализ шаблонов | `check-hardcode` | done (M6a: `check:hardcode`) |
-| K18 | Phase review — отдельным агентом/моделью, не тем, что реализовал | ROADMAP | `/phase-review` (Claude) | partial (M5: `/phase-review`; ROADMAP-гейты — M7) |
+| K18 | Phase review — отдельным агентом/моделью, не тем, что реализовал | ROADMAP | `/phase-review` (Claude) | done (M7) |
 
 ---
 
