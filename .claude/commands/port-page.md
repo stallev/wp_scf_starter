@@ -16,6 +16,7 @@ argument-hint: "<url из pages-map, например /contacts/>"
 
 ## 2. Реализация
 
+0. Черновик: `npm run port-page -- $ARGUMENTS` (`--dry-run` — посмотреть без записи, `--force` — перезаписать существующий шаблон). Вырезает `<main>` прототипа, переписывает `assets/…` на `starter_asset_url()` и ссылки на уже перенесённые страницы — на `starter_url()`, отмечает найденный хардкод `<!-- TODO(hardcode): … -->`, оборачивает в `get_header()` / `get_footer()`. Дальше — доводка руками по шагам 1–8.
 1. `<main>` прототипа → шаблон `template` из записи (`page.php` / `page-<slug>.php` / `front-page.php`); шапка и подвал уже в `header.php` / `footer.php`.
 2. Блок, который есть на ≥ 2 страницах или уже есть в `template-parts/`, → part с аргументами.
 3. Данные (телефоны, адреса, соцсети, FAQ, отзывы, проекты, карточки услуг) → API `starter_get_*()` / `starter_company_value()`; новые данные — сначала поле в ядре + словарь + seed.

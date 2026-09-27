@@ -165,7 +165,7 @@ updated: 2026-09-24
 | `scripts/psi.config.json` | PORT | `tools/psi.config.json` | Только `thresholds`/`runs`/`mode`/`pauseMs`/`timeoutMs`; `floor` = `null` | done (M6a) |
 | `scripts/convert-to-webp.mjs` | PORT | `tools/convert-to-webp.mjs` | Пути из конфига | done (M6a) |
 | `scripts/a11y-smoke.mjs` | FIX | `tests/e2e/a11y.spec.ts` | Перевести в Playwright + `@axe-core/playwright`, URL из `pages-map` | done (M6b) |
-| `tools/convert-prototype-templates.mjs` | FIX | `.claude/commands/port-page.md` + `tools/port-page` (извлечение `<main>`, замена ссылок по `pages-map`) | Одноразовый скрипт с жёсткой картой → обобщённая утилита на одну страницу | todo |
+| `tools/convert-prototype-templates.mjs` | FIX | `.claude/commands/port-page.md` + `tools/port-page` (извлечение `<main>`, замена ссылок по `pages-map`) | Одноразовый скрипт с жёсткой картой → обобщённая утилита на одну страницу | done (T3: `npm run port-page -- <url>`, извлечение `<main>`, переписывание ссылок/assets, TODO-пометки хардкода, переиспользует `check:hardcode`) |
 | `seed/scripts/validate-seeds.mjs` | PORT | `tools/validate-seeds.mjs` | + JSON Schema (`seed/schema/*.json`) + запреты из `naming.json` | done (M6a: + JSON Schema, секреты по значению) |
 | `playwright.config.ts` | PORT | корневой `playwright.config.ts` | `baseURL` из конфига/env; проекты по suite; smoke Firefox/WebKit | done (M6b) |
 | `tests/e2e/static-http-200.spec.ts` | PORT | `tests/e2e/static.spec.ts` | Data-driven из `pages-map.json` (200, одна `.js-lead` / её отсутствие) | done (M6b) |

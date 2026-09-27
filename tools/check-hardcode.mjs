@@ -34,6 +34,19 @@ function readSeed(cfg, file) {
 }
 
 /**
+ * Load the needle set straight from a project config (company.json + service-cards.json + urls),
+ * the same inputs `main()` below uses. Shared with tools/port-page.mjs so the two tools scan with
+ * the exact same rules instead of each keeping its own copy.
+ */
+export function loadNeedlesFromConfig(cfg) {
+  return buildNeedles({
+    company: readSeed(cfg, 'company.json') ?? {},
+    serviceCards: readSeed(cfg, 'service-cards.json'),
+    urls: cfg.urls,
+  });
+}
+
+/**
  * Build the needle set from company data, service cards and config URLs.
  * @returns {{ phones: {label: string, digits: string}[], texts: {label: string, value: string}[], origins: string[] }}
  */
@@ -140,11 +153,7 @@ function main() {
   let needles;
   try {
     cfg = loadConfig();
-    needles = buildNeedles({
-      company: readSeed(cfg, 'company.json') ?? {},
-      serviceCards: readSeed(cfg, 'service-cards.json'),
-      urls: cfg.urls,
-    });
+    needles = loadNeedlesFromConfig(cfg);
   } catch (err) {
     console.error(`check-hardcode: cannot read inputs (${err.message})`);
     process.exit(2);

@@ -181,7 +181,9 @@ updated: 2026-09-25
 
 ---
 
-## T3. `tools/port-page` + команда `/port-page`
+## T3. `tools/port-page` + команда `/port-page` ✅ (2026-09-27)
+
+`npm run port-page -- <url> [--dry-run] [--force] [--prototype-dir=<dir>]` реализован, покрыт 15 unit-тестами, review пройден (5 замечаний исправлены: абсолютный `--prototype-dir`, `srcset`, встроенный `<?php` в тексте прототипа, порядок `--dry-run`/overwrite, `.html?query` ссылки). `test:tools` 67/67, `gate:0` зелёный.
 
 **Контекст:** строка ADR 0001 §4.3 `convert-prototype-templates.mjs` (todo). Процедура переноса страницы описана в [`.claude/commands/port-page.md`](../.claude/commands/port-page.md) и [`phases/phase-5-pages.md`](phases/phase-5-pages.md); инструмента-помощника нет.
 

@@ -74,6 +74,7 @@
 | `npm run check:seeds` | `seed/*.json`: JSON Schema, уникальные slug, картинки, ссылки меню/карточек на `pages-map`, секреты, запреты `naming.json` |
 | `npm run check:seed-idempotent` | Два прогона `wp starter seed` в запущенном wp-env, второй без изменений |
 | `npm run lint:prototype [-- --dir=<каталог>]` | Машинно проверяемые правила прототипа (по умолчанию `prototype/`): inline-стили, `on*=`, внешние CSS/шрифты, `<img>` без размеров/`alt`, один `h1`, `form.js-lead`, LCP / первый экран вне `.reveal` |
+| `npm run port-page -- <url> [--dry-run] [--force] [--prototype-dir=<dir>]` | Черновик шаблона по записи `pages-map`: `<main>` прототипа → `wp-content/themes/starter/<template>`, ссылки/`assets/…` переписаны, хардкод помечен `TODO(hardcode)`; без `--force` не перезаписывает |
 | `npm run fonts:fallback -- --font=<woff2> --family="Name"` | `@font-face` fallback с `size-adjust` и `*-override`, измеренными в Chromium на реальном тексте; статичные файлы — парами `--font=r.woff2@400,b.woff2@700` |
 | `npm run images:webp` | `assets/images/source-photos/` темы → `webp-photos/` (Sharp, качество из конфига) |
 | `npm run psi -- [--paths=…]` | PSI задеплоенного сайта (см. «PSI» ниже): localhost → код 2, отчёт — `psi-reports/` |

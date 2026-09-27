@@ -27,6 +27,7 @@
     "check:seeds": "node tools/validate-seeds.mjs",
     "check:seed-idempotent": "node tools/check-seed-idempotent.mjs",
     "lint:prototype": "node tools/lint-prototype.mjs",
+    "port-page": "node tools/port-page.mjs",
     "lint:php": "node tools/composer.mjs lint",
     "lint:php:fix": "node tools/composer.mjs lint:fix",
     "fonts:fallback": "node tools/font-fallback-metrics.mjs",

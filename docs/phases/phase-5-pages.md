@@ -18,7 +18,7 @@ Prev: [`phase-4-theme-shell`](phase-4-theme-shell.md) · Next: [`phase-6-dynamic
 ## Задачи
 
 ### T5.N Страница `<url>` (по одной задаче на запись `pages-map`)
-**Сделать:** `/port-page <url>`: `<main>` прототипа → шаблон из записи; повторяющиеся блоки → parts; данные → провайдеры; картинки → `starter_image()`; ссылки → URL `pages-map`; стили — секция `PAGE: <NAME>`.
+**Сделать:** `/port-page <url>`, начиная с черновика `npm run port-page -- <url>` (`<main>` прототипа → шаблон из записи, ссылки и `assets/…` переписаны, хардкод отмечен `TODO`); дальше руками: повторяющиеся блоки → parts; данные → провайдеры; картинки → `starter_image()`; стили — секция `PAGE: <NAME>`.
 **AC:**
 - [ ] Happy: 200, визуально = прототип (e2e `visual`), `npm run gate:page -- <url>` зелёный
 - [ ] Negative: LCP и `above_fold` вне `.reveal`; ровно одна / ноль `form.js-lead` по `lead_form`; консоль без 404
