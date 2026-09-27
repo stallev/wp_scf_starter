@@ -36,13 +36,16 @@ function starter_seed_import_pages(): array {
 		$path = trim( (string) $page['url'], '/' );
 		$path = 'front' === $type && '' === $path ? 'home' : $path;
 
-		$segments = explode( '/', $path );
-		$slug     = (string) array_pop( $segments );
-		$parent   = 0;
+		$segments    = explode( '/', $path );
+		$slug        = (string) array_pop( $segments );
+		$parent      = 0;
+		$lookup_path = $slug; // Matches where the page actually lands: top level unless its parent resolves below.
 		if ( $segments ) {
 			$parent = starter_seed_find_post_id( implode( '/', $segments ), 'page' );
 			if ( 0 === $parent ) {
 				$stats['warnings'][] = sprintf( 'page %s: parent not found, created at top level', (string) $page['url'] );
+			} else {
+				$lookup_path = $path;
 			}
 		}
 
@@ -50,7 +53,7 @@ function starter_seed_import_pages(): array {
 			'page',
 			array(
 				'slug'   => $slug,
-				'path'   => $path,
+				'path'   => $lookup_path,
 				'title'  => (string) $page['title'],
 				'parent' => $parent,
 			)
