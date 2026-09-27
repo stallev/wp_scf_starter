@@ -273,13 +273,13 @@ updated: 2026-09-24
 
 ## 7. Критерии удаления `/example`
 
-- [ ] Все строки §0–§6 в статусе `done` или `n/a`.
-- [ ] `grep -riE "example/|taranenko|kanalizacia|tb_|tb-core|http://taranenko|G-P98DDJKSWQ"` по стартеру (кроме этого ADR) — пусто.
-- [ ] `tools/check-links` — нет битых ссылок в `docs/`, `AGENTS.md`, `.cursor/rules/`, `.claude/`.
-- [ ] `check-rules-coverage` — у каждого исходного файла есть применимое правило.
-- [ ] Самотест на `fixtures/demo-prototype/`: `init` → `wp-env start` → фазы 0–7, все `gate:*` зелёные, `perf-markup` зелёный.
-- [ ] `psi.mjs --help` работает; на localhost — код 2.
-- [ ] Ревью стартера против этого реестра — отдельной моделью (Claude), блокеры закрыты.
+- [x] Все строки §0–§6 в статусе `done` или `n/a`.
+- [x] `grep -riE "example/|taranenko|kanalizacia|tb_|tb-core|http://taranenko|G-P98DDJKSWQ"` по стартеру (кроме этого ADR) — пусто.
+- [x] `tools/check-links` — нет битых ссылок в `docs/`, `AGENTS.md`, `.cursor/rules/`, `.claude/`.
+- [x] `check-rules-coverage` — у каждого исходного файла есть применимое правило.
+- [x] Самотест на `fixtures/demo-prototype/`: `init` → `wp-env start` → фазы 0–7, все `gate:*` зелёные, `perf-markup` зелёный.
+- [x] `psi.mjs --help` работает; на localhost — код 2.
+- [x] Ревью стартера против этого реестра — отдельной моделью (Claude), блокеры закрыты.
 - [ ] Выполнены S1–S2.
 - [ ] Стартер закоммичен и помечен тегом `v0.1.0`.
 

@@ -119,7 +119,7 @@ updated: 2026-09-25
 
 ---
 
-## T2. M8 — модули-примеры `catalog` и `pricebook`
+## T2. M8 — модули-примеры `catalog` и `pricebook` ✅ (2026-09-27)
 
 **Контекст:**
 - **Точка расширения уже есть:** `wp-content/mu-plugins/starter-core/boot.php` загружает `starter-core/modules/<name>/module.php`, когда в `project.config.json` → `modules.<name>` стоит `true` (после `npm run build:config`).
