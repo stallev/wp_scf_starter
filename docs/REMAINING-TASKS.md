@@ -205,7 +205,9 @@ updated: 2026-09-25
 
 ---
 
-## T4. Seed: `--verify`, запреты из `naming.json`, шаблон Yoast-meta (низкий приоритет)
+## T4. Seed: `--verify`, запреты из `naming.json`, шаблон Yoast-meta (низкий приоритет) ✅ (2026-09-27)
+
+`wp starter seed --verify`, чтение запретов из `naming.json` через снимок конфига (без утечки в остальной `check:naming`-скан файла — review нашёл слишком широкое исключение, исправлено), `seed/yoast-meta.json` + seed-цель + JSON Schema. `test:tools` 70/70, `gate:0` и `check:seed-idempotent` зелёные.
 
 1. **`wp starter seed --verify`.** Сравнить количество и slug-и в БД с `seed/*.json`; ненулевой код при расхождении. Файлы: `starter-core/cli.php`, `class-starter-cli-command.php`, `seed/runner.php`. ADR §4.1 строка `tools/bootstrap-pages.php …` → `done`.
 2. **Запреты в `starter_seed_find_forbidden()` (`seed/loader.php`).** Список сейчас в PHP; брать его из `docs/contracts/naming.json`. Репо-корень не деплоится, поэтому снимок кладётся в `config.generated.php` через `tools/build-config.mjs`, как остальной конфиг. ADR §3 строка `seed/paths.php, loader.php, runner.php` → `done`.

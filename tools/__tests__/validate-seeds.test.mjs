@@ -31,6 +31,7 @@ test('bad sample: schema, slugs, images, references, secrets, forbidden names', 
     posts: { items: [{ slug: 'contacts', title: 'Clash', content: `uses ${legacy}` }] },
     'service-cards': { items: [{ page: '/services/missing/' }] },
     menus: { menus: [{ name: 'Main', items: [{ title: 'A', page: '/nope/' }, { title: 'B', post: 'no-such-post' }, { title: 'C' }] }] },
+    'yoast-meta': { items: [{ url: '/missing-page/', title: 'X' }] },
   };
   const { errors, warnings } = validateSeeds({ data, schemas, pages, naming, imageExists: () => false });
   const all = errors.join('\n');
@@ -42,6 +43,7 @@ test('bad sample: schema, slugs, images, references, secrets, forbidden names', 
   assert.match(all, /posts\.json: items\[0\]\.slug "contacts" collides with the page \/contacts\//);
   assert.match(all, new RegExp(`posts\\.json: forbidden "${legacy.slice(0, 4)}" \\[legacy-prefix\\]`));
   assert.match(all, /service-cards\.json: items\[0\]\.page "\/services\/missing\/" is not in pages-map/);
+  assert.match(all, /yoast-meta\.json: items\[0\]\.url "\/missing-page\/" is not in pages-map/);
   assert.match(all, /menus\.json\/menus\/0\/items\/2: must match exactly one schema in oneOf/);
   // menus failed the schema (item C has no target), so its references are not cross-checked.
   assert.doesNotMatch(all, /menus\.json: menus\[0\]/);
@@ -58,5 +60,5 @@ test('menu references are checked against pages-map and posts', () => {
     'seed/menus.json: menus[0].items[0].page "/nope/" is not in pages-map.json → add the page or use url',
     'seed/menus.json: menus[0].items[0].children[0].post "missing" is not a slug in posts.json',
   ]);
-  assert.equal(warnings.filter((w) => w.includes('missing — target skipped')).length, 5);
+  assert.equal(warnings.filter((w) => w.includes('missing — target skipped')).length, 6);
 });

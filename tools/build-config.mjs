@@ -11,15 +11,32 @@
 import { writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { ROOT, readJson } from './lib.mjs';
+import { NAMING_GENERATED_DATA_END, NAMING_GENERATED_DATA_START, ROOT, readJson } from './lib.mjs';
+import { NAMING_JSON, forbiddenRulesFor } from './naming.mjs';
 
 /** Repo-relative path of the generated file. */
 export function generatedConfigPath(cfg) {
   return `wp-content/mu-plugins/${cfg.slug.core}/config.generated.php`;
 }
 
+/**
+ * naming.json `forbidden` entries applicable to seed/*.json (global rules, plus rules whose `paths`
+ * cover the seed directory), as a plain regex the PHP loader can compile — no `paths`, no compiled
+ * RegExp (those don't serialize). Mirrors entryRegex() in naming.mjs so both sides agree on a match.
+ */
+function namingForbiddenForSeed(naming) {
+  return forbiddenRulesFor(naming, 'seed/_probe.json').map((f) => ({
+    id: f.id,
+    pattern: f.name ? `(?<![\\w-])${f.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\w-])` : f.pattern,
+    flags: f.name ? '' : f.flags ?? '',
+    reason: f.reason,
+    replace: f.replace,
+  }));
+}
+
 /** Subset of the config that PHP needs at runtime. */
 export function buildRuntimeConfig(cfg, map) {
+  const naming = readJson(NAMING_JSON);
   return {
     project: { name: cfg.project.name, description: cfg.project.description ?? '' },
     slug: cfg.slug,
@@ -29,6 +46,7 @@ export function buildRuntimeConfig(cfg, map) {
     images: cfg.images,
     analytics: cfg.analytics,
     modules: cfg.modules,
+    naming: { forbidden_seed: namingForbiddenForSeed(naming) },
     pages: (map.pages ?? []).map((p) => ({
       url: p.url,
       title: p.title,
@@ -72,7 +90,14 @@ function phpAssoc(obj, depth) {
   const width = Math.max(...keys.map((k) => phpString(k).length));
   const items = keys.map((k) => {
     const key = phpString(k);
-    return `${pad}${key}${' '.repeat(width - key.length)} => ${phpValue(obj[k], depth + 1)},`;
+    const line = `${pad}${key}${' '.repeat(width - key.length)} => ${phpValue(obj[k], depth + 1)},`;
+    // Sentinel comments around the naming.json forbidden-rule data (top level only): naming.mjs's
+    // forbidden-name scanner skips what falls between them, so a legacy pattern embedded here as data
+    // is not mistaken for one used in the file. Real project data (pages, company, …) stays scanned.
+    if (0 === depth && 'naming' === k) {
+      return `${pad}// ${NAMING_GENERATED_DATA_START}.\n${line}\n${pad}// ${NAMING_GENERATED_DATA_END}.`;
+    }
+    return line;
   });
   return `array(\n${items.join('\n')}\n${'\t'.repeat(depth)})`;
 }

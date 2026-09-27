@@ -26,7 +26,7 @@ npm run wp -- starter seed --dry-run            # отчёт без записи
 
 ## Порядок целей
 
-`company` → `pages` → `posts` → `faq` → `reviews` → `projects` → `service_cards` → `menus`. Модули (catalog, pricebook) добавляют свои цели фильтром `starter_seed_targets`.
+`company` → `pages` → `posts` → `yoast_meta` → `faq` → `reviews` → `projects` → `service_cards` → `menus`. Модули (catalog, pricebook) добавляют свои цели фильтром `starter_seed_targets`.
 
 ## Файлы
 
@@ -35,6 +35,7 @@ npm run wp -- starter seed --dry-run            # отчёт без записи
 | `company.json` | `company` | Опции «Компания» (`starter-company`) |
 | — (`pages-map.json`) | `pages` | Страницы, главная и страница блога |
 | `posts.json` | `posts` | Записи блога + рубрики |
+| `yoast-meta.json` | `yoast_meta` | `_yoast_wpseo_title` / `_yoast_wpseo_metadesc` на странице/записи по URL из `pages-map` |
 | `faq.json` | `faq` | CPT `starter_faq` |
 | `reviews.json` | `reviews` | CPT `starter_review` |
 | `projects.json` | `projects` | CPT `starter_project` |
@@ -75,6 +76,10 @@ npm run wp -- starter seed --dry-run            # отчёт без записи
 ### service-cards.json
 
 `{ "items": [ { "page": "/services/x/", "enabled": true, "title", "text", "price", "price_note", "badge", "order", "image" } ] }`. Карточка записывается на существующую страницу по пути; если страницы нет (её нет в `pages-map`), элемент пропускается с предупреждением.
+
+### yoast-meta.json
+
+`{ "items": [ { "url": "/contacts/", "title": "…", "description": "…" } ] }`. `url` — путь из `pages-map.json` (главная — `/`); заголовок/описание пишутся напрямую в meta Yoast (`_yoast_wpseo_title`, `_yoast_wpseo_metadesc`) страницы или записи, на которую резолвится URL. Страница/запись не найдена — элемент пропускается с предупреждением. Паттерны заголовков — [`project/seo/meta-patterns.md`](../docs/project/seo/meta-patterns.md); сам механизм — [`contracts/seo.md`](../docs/contracts/seo.md).
 
 ### menus.json
 

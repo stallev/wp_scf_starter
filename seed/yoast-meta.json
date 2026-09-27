@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "url": "/",
+      "title": "Demo Company — услуги под ключ",
+      "description": "Демо-компания: услуги, проекты, отзывы и FAQ. Оставьте заявку — свяжемся и уточним детали."
+    },
+    {
+      "url": "/services/",
+      "title": "Услуги — Demo Company",
+      "description": "Перечень услуг Demo Company. Выберите нужную и оставьте заявку."
+    },
+    {
+      "url": "/contacts/",
+      "title": "Контакты — Demo Company",
+      "description": "Контакты и реквизиты Demo Company: телефон, адрес, часы работы."
+    }
+  ]
+}

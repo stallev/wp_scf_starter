@@ -63,6 +63,22 @@ function starter_seed_update_field( string $name, $value, $post_id ): void {
 }
 
 /**
+ * Write a raw post meta key (no-op in dry-run). For meta that is not an SCF field — e.g. Yoast's
+ * `_yoast_wpseo_*` — so `starter_seed_update_field()` (SCF by name) does not apply.
+ *
+ * @param int    $post_id Post ID.
+ * @param string $key     Meta key.
+ * @param string $value   Value.
+ */
+function starter_seed_update_post_meta( int $post_id, string $key, string $value ): void {
+	if ( starter_seed_is_dry_run() ) {
+		return;
+	}
+
+	update_post_meta( $post_id, $key, $value );
+}
+
+/**
  * Find a post by slug (pages: by full path).
  *
  * @param string $slug      Slug, or path for hierarchical types (e.g. services/design).

@@ -108,7 +108,7 @@ updated: 2026-09-24
 | `assets/admin-acf.css` | PORT | `{core}/assets/` | Проверить, не завязан ли на проектные поля | done (M3) |
 | `admin-seed.php` | PORT | `{core}/admin-seed.php` | Tools → Seed (`manage_options` + nonce) | done (M3) |
 | `cli.php` | PORT | `{core}/cli.php` | `wp {prefix} seed [--only=]`, `--dry-run` добавить | done (M3) |
-| `seed/paths.php`, `loader.php`, `runner.php` | PORT | `{core}/seed/` | Путь к seed — из конфига (корень `seed/`, не тема). `tb_seed_find_forbidden` → читать `naming.json` | partial (M3; чтение запретов из `naming.json` — M6) |
+| `seed/paths.php`, `loader.php`, `runner.php` | PORT | `{core}/seed/` | Путь к seed — из конфига (корень `seed/`, не тема). `tb_seed_find_forbidden` → читать `naming.json` | done (T4: `starter_seed_find_forbidden()` читает `naming.forbidden_seed` из `config.generated.php`, снимок `naming.json`) |
 | `seed/mappers.php` | PORT (частично) | `{core}/seed/mappers.php` | Generic `update_field`, `map_company`; pricebook/product-group → OPT | done (M3) |
 | `seed/entities.php` (1441 строк) | FIX | `{core}/seed/entities/*.php` | Разбить по сущностям. Generic: upsert по slug, featured image, terms, posts, faq, reviews, projects, service cards, **menus**. Products/pricebook → OPT | done (M3) |
 | `pricebook.php`, `calculator.php` | OPT | `modules/pricebook` (пример) | Provider + transients + инвалидация — как **образец** паттерна «Options → provider → cache → JS»; эталонные проверки `tb_run_etalon_checks` — как пример тестируемой бизнес-логики | done (M8: `starter_get_pricebook()` + transient-инвалидация на save, `starter_pricebook_calc_total()`, `starter_pricebook_etalon_checks()` + `wp starter pricebook check`) |
@@ -143,7 +143,7 @@ updated: 2026-09-24
 | `faq.php`, `reviews.php`, `folio.php`, `service-card.php`, `post-card.php`, `post-author.php`, `post-toc.php` | PORT | `{theme}/template-parts/` | Изображения через `{prefix}_image()`; аргументы `priority`, `reveal` | done (M4) |
 | `geo-map.php` | PORT | `{theme}/template-parts/embed-facade.php` | Обобщить: карта/видео/виджет по клику, `data-src`, `aspect-ratio`, аргумент `reveal` | done (M4) |
 | `trust.php`, `product-card.php`, `content-katalog-*.php` | OPT/DROP | `modules/catalog` (product-card); остальное DROP | — | done (M8: fallback-part + переопределение из темы); `trust.php`/`content-katalog-*.php` — n/a (DROP) |
-| `tools/bootstrap-pages.php`, `tools/run-seed.php`, `tools/verify-seed.php` | FIX | `wp {prefix} seed`, `wp {prefix} seed --verify` | Заменить WP-CLI-командами; вызов без WP-CLI не поддерживать (есть `wp-env`) | partial (M3: `wp starter seed`; `--verify` — M6) |
+| `tools/bootstrap-pages.php`, `tools/run-seed.php`, `tools/verify-seed.php` | FIX | `wp {prefix} seed`, `wp {prefix} seed --verify` | Заменить WP-CLI-командами; вызов без WP-CLI не поддерживать (есть `wp-env`) | done (T4: `wp starter seed --verify`, дрейф через сумму dry-run `created+updated`) |
 
 ### 4.2 CSS / JS / статика
 
@@ -183,7 +183,7 @@ updated: 2026-09-24
 | `seed/README.md` | TPL | `seed/README.md` | Правила: имена из словаря, стабильный `slug`, идемпотентность, без секретов | done (M3) |
 | `seed/pages-map.json` | FIX | `pages-map.json` (корень) — **центральный манифест** | Схема: `url`, `prototype`, `template`, `type`, `lead_form`, `noindex`, `schema`, `lcp`, `above_fold`, `psi`, `specs` | done (M2–M4: схема, валидатор, демо-страницы) |
 | `seed/company.json`, `faq.json`, `reviews.json`, `projects.json`, `posts.json`, `terms.json` | TPL | `seed/*.json` (пустые примеры) + `seed/schema/*.json` | Структура → JSON Schema; данные клиента DROP | done (M3 демо-данные + M6a JSON Schema) |
-| `seed/products.json`, `pricebook.json`, `yoast-meta.json` | OPT/TPL | `modules/*/seed/`; `yoast-meta` → шаблон | — | done (M8: `seed/modules/catalog/*.json` — products/product-families; pricebook — options-only, без seed); `yoast-meta` → T4 |
+| `seed/products.json`, `pricebook.json`, `yoast-meta.json` | OPT/TPL | `modules/*/seed/`; `yoast-meta` → шаблон | — | done (M8: `seed/modules/catalog/*.json`; pricebook — options-only, без seed) + done (T4: `seed/yoast-meta.json`, `_yoast_wpseo_title`/`_metadesc`, cross-check с `pages-map`) |
 
 ### 4.5 Прототип
 

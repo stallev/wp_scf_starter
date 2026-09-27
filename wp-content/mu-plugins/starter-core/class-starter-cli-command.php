@@ -20,10 +20,15 @@ class Starter_CLI_Command {
 	 * ## OPTIONS
 	 *
 	 * [--only=<targets>]
-	 * : Comma-separated targets: company,pages,posts,faq,reviews,projects,service_cards,menus.
+	 * : Comma-separated targets: company,pages,posts,yoast_meta,faq,reviews,projects,service_cards,menus.
 	 *
 	 * [--dry-run]
 	 * : Report what would change without writing.
+	 *
+	 * [--verify]
+	 * : Read-only: fail (non-zero exit) if the database is missing a record from seed/*.json or a
+	 * seeder-managed field drifted from it. Implies --dry-run; use after `wp starter seed` in CI /
+	 * deploy checks to catch data lost outside the seeder.
 	 *
 	 * [--dir=<path>]
 	 * : Seed directory (default: STARTER_SEED_DIR, wp-content/starter-seed).
@@ -33,6 +38,7 @@ class Starter_CLI_Command {
 	 *     wp starter seed
 	 *     wp starter seed --only=faq,reviews
 	 *     wp starter seed --dry-run
+	 *     wp starter seed --verify
 	 *
 	 * @when after_wp_load
 	 *
@@ -42,13 +48,14 @@ class Starter_CLI_Command {
 	public function seed( $args, $assoc_args ): void {
 		unset( $args );
 
-		$only = array_values( array_filter( array_map( 'trim', explode( ',', (string) ( $assoc_args['only'] ?? '' ) ) ) ) );
+		$only   = array_values( array_filter( array_map( 'trim', explode( ',', (string) ( $assoc_args['only'] ?? '' ) ) ) ) );
+		$verify = ! empty( $assoc_args['verify'] );
 
 		$report = starter_seed_run(
 			$only,
 			array(
 				'dir'     => (string) ( $assoc_args['dir'] ?? '' ),
-				'dry_run' => ! empty( $assoc_args['dry-run'] ),
+				'dry_run' => $verify || ! empty( $assoc_args['dry-run'] ),
 			)
 		);
 
@@ -57,6 +64,15 @@ class Starter_CLI_Command {
 
 		if ( ! $report['ok'] ) {
 			WP_CLI::error( 'Seed finished with errors.' );
+		}
+
+		if ( $verify ) {
+			$drift = starter_seed_drift_count( $report );
+			if ( $drift > 0 ) {
+				WP_CLI::error( sprintf( 'Verify failed: %d record(s) missing or out of sync with seed/*.json.', $drift ) );
+			}
+			WP_CLI::success( 'Verify passed: database matches seed/*.json.' );
+			return;
 		}
 
 		WP_CLI::success( $report['dry_run'] ? 'Dry run completed.' : 'Seed completed.' );

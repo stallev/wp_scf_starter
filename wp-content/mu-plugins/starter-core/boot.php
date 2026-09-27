@@ -41,6 +41,7 @@ require_once STARTER_CORE_PATH . '/seed/entities/faq.php';
 require_once STARTER_CORE_PATH . '/seed/entities/reviews.php';
 require_once STARTER_CORE_PATH . '/seed/entities/projects.php';
 require_once STARTER_CORE_PATH . '/seed/entities/posts.php';
+require_once STARTER_CORE_PATH . '/seed/entities/yoast-meta.php';
 require_once STARTER_CORE_PATH . '/seed/entities/service-cards.php';
 require_once STARTER_CORE_PATH . '/seed/entities/menus.php';
 require_once STARTER_CORE_PATH . '/seed/runner.php';

@@ -29,16 +29,15 @@ function starter_seed_load_json( string $filename ) {
 
 	$forbidden = starter_seed_find_forbidden( $data );
 	if ( $forbidden ) {
-		return new WP_Error( 'starter_seed_forbidden', sprintf( 'Forbidden keys in %s: %s', $filename, implode( ', ', $forbidden ) ) );
+		return new WP_Error( 'starter_seed_forbidden', sprintf( 'Forbidden content in %s: %s', $filename, implode( ', ', $forbidden ) ) );
 	}
 
 	return $data;
 }
 
 /**
- * Keys that must never appear in seed data (secrets belong in .env / protected options).
- *
- * TODO(M5/M6): also read forbidden names from docs/contracts/naming.json via tools/validate-seeds.
+ * Keys that must never appear in seed data (secrets belong in .env / protected options). Separate
+ * from naming.json — these are secret-shaped key names, not naming/legacy identifiers.
  *
  * @return string[]
  */
@@ -54,21 +53,62 @@ function starter_seed_forbidden_keys(): array {
 }
 
 /**
- * Recursively find forbidden keys.
+ * `naming.json` `forbidden` entries applicable to seed files, from the config snapshot
+ * (`config.generated.php`, built by `npm run build:config`) — `docs/contracts/naming.json` itself is
+ * not deployed (repo root). `npm run check:naming` scans naming.json and the whole repo directly and
+ * stays the source of truth; this is the runtime backstop for `wp starter seed` / Tools → Starter Seed.
+ *
+ * @return array<int, array{id: string, pattern: string, flags: string, reason: string, replace: string}>
+ */
+function starter_seed_naming_forbidden_rules(): array {
+	$rules = starter_core_config( 'naming.forbidden_seed' );
+
+	return is_array( $rules ) ? $rules : array();
+}
+
+/**
+ * Whether a string matches a naming-forbidden rule's pattern (PCRE; same pattern naming.mjs builds).
+ *
+ * @param array{pattern: string, flags: string} $rule  Rule.
+ * @param string                                $value Key or scalar value to test.
+ * @return bool
+ */
+function starter_seed_naming_rule_matches( array $rule, string $value ): bool {
+	$delimiter = '#';
+	$pattern   = $delimiter . str_replace( $delimiter, '\\' . $delimiter, (string) $rule['pattern'] ) . $delimiter . (string) $rule['flags'];
+
+	return 1 === preg_match( $pattern, $value );
+}
+
+/**
+ * Recursively find forbidden keys (secret-shaped names) and naming.json forbidden names/patterns, in
+ * both keys and string values.
  *
  * @param array<mixed> $data   Decoded JSON.
  * @param string       $prefix Path prefix for messages.
- * @return string[] Paths of forbidden keys.
+ * @return string[] Paths of hits, each suffixed with the rule id in brackets for naming.json matches.
  */
 function starter_seed_find_forbidden( array $data, string $prefix = '' ): array {
-	$forbidden = starter_seed_forbidden_keys();
-	$hits      = array();
+	$forbidden_keys = starter_seed_forbidden_keys();
+	$naming_rules   = starter_seed_naming_forbidden_rules();
+	$hits           = array();
 
 	foreach ( $data as $key => $value ) {
 		$path = '' === $prefix ? (string) $key : $prefix . '.' . $key;
-		if ( is_string( $key ) && in_array( strtolower( $key ), $forbidden, true ) ) {
+
+		if ( is_string( $key ) && in_array( strtolower( $key ), $forbidden_keys, true ) ) {
 			$hits[] = $path;
 		}
+
+		foreach ( $naming_rules as $rule ) {
+			if ( is_string( $key ) && starter_seed_naming_rule_matches( $rule, $key ) ) {
+				$hits[] = sprintf( '%s [%s]', $path, $rule['id'] );
+			}
+			if ( is_string( $value ) && starter_seed_naming_rule_matches( $rule, $value ) ) {
+				$hits[] = sprintf( '%s [%s]', $path, $rule['id'] );
+			}
+		}
+
 		if ( is_array( $value ) ) {
 			$hits = array_merge( $hits, starter_seed_find_forbidden( $value, $path ) );
 		}

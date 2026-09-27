@@ -55,7 +55,7 @@ updated: 2026-09-25
 
 ## Seed
 
-`npm run wp -- starter seed [--only=company,pages,…] [--dry-run] [--dir=…]` и «Инструменты → Starter Seed» вызывают один `starter_seed_run()` ([`seed/runner.php`](../../wp-content/mu-plugins/starter-core/seed/runner.php)). Формат файлов, порядок целей и правила идемпотентности — [`seed/README.md`](../../seed/README.md). Страницы создаются по `pages-map.json`, их контент сидер не трогает. Проверки: `npm run check:seeds` (схемы, ссылки, секреты), `npm run check:seed-idempotent` (второй прогон = без изменений).
+`npm run wp -- starter seed [--only=company,pages,…] [--dry-run] [--verify] [--dir=…]` и «Инструменты → Starter Seed» вызывают один `starter_seed_run()` ([`seed/runner.php`](../../wp-content/mu-plugins/starter-core/seed/runner.php)). Формат файлов, порядок целей и правила идемпотентности — [`seed/README.md`](../../seed/README.md). Страницы создаются по `pages-map.json`, их контент сидер не трогает. `yoast_meta` пишет `_yoast_wpseo_title` / `_yoast_wpseo_metadesc` из `seed/yoast-meta.json` на страницу/запись по URL из `pages-map`. `--verify` — как `--dry-run`, но ненулевой код, если что-то создалось бы или обновилось (`starter_seed_drift_count()`): запись из seed отсутствует в БД или разошлась с ней. `starter_seed_find_forbidden()` дополнительно проверяет ключи/значения по запретам из `naming.json` (снимок `config.generated.php` → `naming.forbidden_seed`, репо-корень не деплоится); секретные ключи (`token`, `password`, …) — отдельный, не связанный с `naming.json` список. Проверки: `npm run check:seeds` (схемы, ссылки, секреты), `npm run check:seed-idempotent` (второй прогон = без изменений).
 
 ## Снимок конфигов
 

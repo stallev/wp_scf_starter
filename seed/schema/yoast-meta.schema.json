@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "yoast-meta.schema.json",
+  "title": "Seed: Yoast meta",
+  "description": "seed/yoast-meta.json → _yoast_wpseo_title / _yoast_wpseo_metadesc on the page/post the pages-map URL resolves to (starter_seed_import_yoast_meta). Patterns: docs/project/seo/meta-patterns.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "items"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "url"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "pattern": "^/(?:[a-z0-9-]+(?:/[a-z0-9-]+)*/)?$",
+            "description": "Path from pages-map.json (or posts.json via its pages-map entry), e.g. / or /contacts/."
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 70,
+            "description": "_yoast_wpseo_title. Empty/omitted leaves Yoast's own default (template or content title)."
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160,
+            "description": "_yoast_wpseo_metadesc. Empty/omitted leaves Yoast's own default."
+          }
+        }
+      }
+    }
+  }
+}

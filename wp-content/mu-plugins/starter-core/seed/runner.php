@@ -19,6 +19,7 @@ function starter_seed_targets(): array {
 		'company'       => 'starter_seed_import_company',
 		'pages'         => 'starter_seed_import_pages',
 		'posts'         => 'starter_seed_import_posts',
+		'yoast_meta'    => 'starter_seed_import_yoast_meta',
 		'faq'           => 'starter_seed_import_faq',
 		'reviews'       => 'starter_seed_import_reviews',
 		'projects'      => 'starter_seed_import_projects',
@@ -92,6 +93,23 @@ function starter_seed_run( array $only = array(), array $options = array() ): ar
 	starter_seed_context( $previous );
 
 	return $report;
+}
+
+/**
+ * Records that a dry run would create or update — i.e. the database is missing something in
+ * seed/*.json, or a seeder-managed field drifted from it. Used by `wp starter seed --verify`.
+ *
+ * @param array{results: array<string, array<string, mixed>>} $report Report from starter_seed_run() (dry_run: true).
+ * @return int
+ */
+function starter_seed_drift_count( array $report ): int {
+	$drift = 0;
+
+	foreach ( (array) ( $report['results'] ?? array() ) as $stats ) {
+		$drift += (int) ( $stats['created'] ?? 0 ) + (int) ( $stats['updated'] ?? 0 );
+	}
+
+	return $drift;
 }
 
 /**

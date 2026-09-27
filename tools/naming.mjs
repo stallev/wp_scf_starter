@@ -11,7 +11,7 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { minimatch } from 'minimatch';
-import { BINARY_EXT, CONFIG_FILES, ROOT, isMain, listRepoFiles, readJson, report } from './lib.mjs';
+import { BINARY_EXT, CONFIG_FILES, NAMING_GENERATED_DATA_END, NAMING_GENERATED_DATA_START, ROOT, isMain, listRepoFiles, readJson, report } from './lib.mjs';
 
 export const NAMING_JSON = 'docs/contracts/naming.json';
 export const NAMING_MD = 'docs/contracts/naming-dictionary.md';
@@ -188,6 +188,39 @@ export function forbiddenRulesFor(data, file) {
     .map((f) => ({ ...f, re: entryRegex(f) }));
 }
 
+/**
+ * Forbidden-name hits in one file's lines, skipping `naming:allow`-marked lines and anything between
+ * a NAMING_GENERATED_DATA_START/END sentinel pair (build-config.mjs writes naming.json's own forbidden
+ * strings there as runtime data — not a use of them — see lib.mjs).
+ *
+ * @param {string} file  Repo-relative path, for the message.
+ * @param {string[]} lines  File lines.
+ * @param {Array<{id: string, reason: string, replace: string, re: RegExp}>} activeRules Rules that apply to this file.
+ * @returns {string[]} One message per hit.
+ */
+export function scanLines(file, lines, activeRules) {
+  const errors = [];
+  let inGeneratedData = false;
+
+  lines.forEach((line, i) => {
+    if (line.includes(NAMING_GENERATED_DATA_START)) {
+      inGeneratedData = true;
+      return;
+    }
+    if (line.includes(NAMING_GENERATED_DATA_END)) {
+      inGeneratedData = false;
+      return;
+    }
+    if (inGeneratedData || line.includes(ALLOW_MARKER)) return;
+    for (const r of activeRules) {
+      const m = r.re.exec(line);
+      if (m) errors.push(`${file}:${i + 1}: forbidden "${m[0]}" [${r.id}] — ${r.reason}; use: ${r.replace}`);
+    }
+  });
+
+  return errors;
+}
+
 function scanSources(data) {
   const errors = [];
   const rules = data.forbidden.map((f) => ({ ...f, re: entryRegex(f) }));
@@ -198,13 +231,7 @@ function scanSources(data) {
     const lines = readFileSync(path.join(ROOT, file), 'utf8').split(/\r?\n/);
     const active = rules.filter((r) => !r.paths || r.paths.some((g) => mm(file, g)));
     if (!active.length) continue;
-    lines.forEach((line, i) => {
-      if (line.includes(ALLOW_MARKER)) return;
-      for (const r of active) {
-        const m = r.re.exec(line);
-        if (m) errors.push(`${file}:${i + 1}: forbidden "${m[0]}" [${r.id}] — ${r.reason}; use: ${r.replace}`);
-      }
-    });
+    errors.push(...scanLines(file, lines, active));
   }
   return { errors, count: files.length };
 }

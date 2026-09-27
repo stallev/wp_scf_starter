@@ -44,6 +44,40 @@ return array(
 		'catalog'   => false,
 		'pricebook' => false,
 	),
+	// naming:generated-data:start.
+	'naming'    => array(
+		'forbidden_seed' => array(
+			array(
+				'id'      => 'legacy-prefix',
+				'pattern' => '\\b(?:t[b]|T[B])[_-][A-Za-z]',
+				'flags'   => '',
+				'reason'  => 'Префикс исходного проекта (legacy)',
+				'replace' => 'starter_ / STARTER_ / starter-core',
+			),
+			array(
+				'id'      => 'legacy-docs-path',
+				'pattern' => '(?<![\\w-])wp-integration-docs(?![\\w-])',
+				'flags'   => '',
+				'reason'  => 'Устаревший путь документации из черновиков исходного проекта',
+				'replace' => 'docs/',
+			),
+			array(
+				'id'      => 'blog-cpt',
+				'pattern' => '\\bstarter_(?:blog|article|news)\\b',
+				'flags'   => '',
+				'reason'  => 'Отдельный CPT для блога не нужен',
+				'replace' => 'post + category',
+			),
+			array(
+				'id'      => 'hardcoded-ga4-id',
+				'pattern' => '\\bG-(?!X+\\b)[A-Z0-9]{6,}\\b',
+				'flags'   => '',
+				'reason'  => 'ID аналитики клиента не попадает в код и seed стартера',
+				'replace' => 'Поле starter_company_ga4_id (опции starter-company)',
+			),
+		),
+	),
+	// naming:generated-data:end.
 	'pages'     => array(
 		array(
 			'url'       => '/',

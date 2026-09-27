@@ -8,6 +8,15 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
+/**
+ * Sentinel comment lines wrapping the `naming.forbidden_seed` block that build-config.mjs writes into
+ * config.generated.php. That block legitimately embeds naming.json's forbidden strings as data (the
+ * seed loader's runtime check); naming.mjs's forbidden-name scanner skips only what falls between
+ * these two lines, so the rest of the generated file (real project data) stays scanned.
+ */
+export const NAMING_GENERATED_DATA_START = 'naming:generated-data:start';
+export const NAMING_GENERATED_DATA_END = 'naming:generated-data:end';
+
 export function readJson(relPath) {
   return JSON.parse(readFileSync(path.join(ROOT, relPath), 'utf8'));
 }

@@ -21,7 +21,7 @@ import { ROOT, isMain, loadConfig, readJson, report } from './lib.mjs';
 import { NAMING_JSON, forbiddenRulesFor } from './naming.mjs';
 
 /** Seed files the core imports (file → schema name). */
-export const SEED_FILES = ['company', 'faq', 'reviews', 'projects', 'posts', 'service-cards', 'menus'];
+export const SEED_FILES = ['company', 'faq', 'reviews', 'projects', 'posts', 'service-cards', 'menus', 'yoast-meta'];
 
 /**
  * Seed files of optional modules (present regardless of the module's on/off flag — a missing file is
@@ -185,6 +185,11 @@ export function validateSeeds({ data, schemas, pages, naming = null, seedDir = '
   if (valid('faq')) {
     data.faq.items.forEach((f, i) => {
       if (f.location && !pageSlugs.has(f.location)) warnings.push(`${seedDir}/faq.json: items[${i}].location "${f.location}" matches no pages-map page ("home" = front page)`);
+    });
+  }
+  if (valid('yoast-meta')) {
+    data['yoast-meta'].items.forEach((item, i) => {
+      if (!pageUrls.has(item.url)) errors.push(`${seedDir}/yoast-meta.json: items[${i}].url "${item.url}" is not in pages-map.json → the entry would be skipped`);
     });
   }
 

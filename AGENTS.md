@@ -58,7 +58,7 @@
 | `npm run env:update` | Перечитать версии WP и плагинов из конфига, обновить, перезапустить |
 | `npm run env:clean` / `env:destroy` / `env:logs` | Сбросить базы / удалить контейнеры и данные / логи |
 | `npm run wp -- <args>` | WP-CLI через `docker exec` (секунды вместо ~90 с у `wp-env run`) |
-| `npm run wp -- starter seed` | Импорт `seed/*.json` (`--only=`, `--dry-run`), формат — [`seed/README.md`](seed/README.md) |
+| `npm run wp -- starter seed` | Импорт `seed/*.json` (`--only=`, `--dry-run`, `--verify` — без записи, ненулевой код при расхождении с БД), формат — [`seed/README.md`](seed/README.md) |
 | `npm run composer -- <args>` | Composer: локальный или Docker-образ `composer:2` |
 | `npm run build:config` | Снимок `project.config.json` + `pages-map.json` → `starter-core/config.generated.php` (корень репо не деплоится) — после каждой правки конфигов |
 | `npm run check:config` | Схемы и перекрёстные правила конфигов, свежесть снимка |
