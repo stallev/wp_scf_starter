@@ -52,6 +52,7 @@ const SEED_SKELETONS = {
   'posts.json': { items: [] },
   'service-cards.json': { items: [] },
   'menus.json': { menus: [] },
+  'yoast-meta.json': { items: [] },
 };
 
 const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
