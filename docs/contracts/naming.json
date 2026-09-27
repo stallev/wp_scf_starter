@@ -1,7 +1,7 @@
 {
   "$comment": "Single source of canonical and forbidden names. Edit this file, then `npm run build:naming` (regenerates naming-dictionary.md); `npm run check:naming` validates the shape, freshness of the .md and greps sources for `forbidden`. Names use the starter placeholders (prefix `starter`, core `starter-core`, theme `starter`); `npm run init` (tools/init.mjs) replaces them once per project.",
   "version": "1.0",
-  "updated": "2026-09-25",
+  "updated": "2026-09-27",
   "placeholders": {
     "prefix": "starter",
     "PREFIX": "STARTER",
@@ -64,6 +64,15 @@
       "note": "starter_lead is not public. Args are changed via the starter_post_type_args filter"
     },
     {
+      "role": "CPT / taxonomy (module: catalog, disabled by default)",
+      "names": [
+        "starter_product",
+        "starter_product_family"
+      ],
+      "source": "wp-content/mu-plugins/starter-core/modules/catalog/module.php",
+      "note": "Loaded only when project.config.json -> modules.catalog is true"
+    },
+    {
       "role": "Blog",
       "names": [
         "post",
@@ -74,10 +83,11 @@
     {
       "role": "SCF options page",
       "names": [
-        "starter-company"
+        "starter-company",
+        "starter-pricebook"
       ],
       "source": "wp-content/mu-plugins/starter-core/options.php",
-      "note": "Values stored as options_starter_company_*"
+      "note": "Values stored as options_starter_company_*; starter-pricebook is module pricebook (disabled by default)"
     },
     {
       "role": "SCF field groups",
@@ -87,10 +97,12 @@
         "group_starter_review",
         "group_starter_project",
         "group_starter_faq",
-        "group_starter_service_card"
+        "group_starter_service_card",
+        "group_starter_product",
+        "group_starter_pricebook"
       ],
       "source": "wp-content/mu-plugins/starter-core/fields/",
-      "note": "One file = one group; read fields by name"
+      "note": "One file = one group; read fields by name. product/pricebook groups live in modules/<name>/fields/"
     },
     {
       "role": "SCF field names",
@@ -100,7 +112,9 @@
         "starter_review_*",
         "starter_project_*",
         "starter_faq_*",
-        "starter_service_card_*"
+        "starter_service_card_*",
+        "starter_product_*",
+        "starter_pricebook_*"
       ],
       "note": "Field name = {prefix}_{entity}_{field}"
     },
@@ -117,7 +131,8 @@
         "starter_rewrite_version",
         "starter_lead_rl_*",
         "starter_seed_report_*",
-        "starter_e2e_mode"
+        "starter_e2e_mode",
+        "starter_pricebook_v1"
       ],
       "note": "starter_e2e_mode: test-only flag set by the e2e forms suite, honoured only when WP_ENVIRONMENT_TYPE = local (skips Telegram)"
     },
@@ -204,7 +219,11 @@
         "starter_seed_path",
         "starter_seed_targets",
         "starter_social_networks",
-        "starter_theme_color"
+        "starter_theme_color",
+        "starter_catalog_slug",
+        "starter_schema_product",
+        "starter_schema_price_currency",
+        "starter_pricebook_items"
       ],
       "kind": "hook"
     },
@@ -225,7 +244,15 @@
         "starter_get_service_card_pages()",
         "starter_get_default_image_id()",
         "starter_get_telegram_bot_credentials()",
-        "starter_lead_hidden_fields()"
+        "starter_lead_hidden_fields()",
+        "starter_get_products()",
+        "starter_get_pricebook()",
+        "starter_price()",
+        "starter_pricebook_calc_total()",
+        "starter_pricebook_etalon_checks()",
+        "starter_pricebook_asset_url()",
+        "starter_catalog_render_product_card()",
+        "starter_catalog_slug()"
       ],
       "kind": "function",
       "source": "wp-content/mu-plugins/starter-core/"
@@ -255,16 +282,19 @@
         "Starter_Schema_FAQPage",
         "Starter_Walker_Nav_Primary",
         "Starter_Walker_Nav_Mobile",
-        "Starter_Walker_Nav_Footer"
+        "Starter_Walker_Nav_Footer",
+        "Starter_Schema_ProductOffer",
+        "Starter_Pricebook_CLI_Command"
       ],
       "kind": "class"
     },
     {
       "role": "WP-CLI",
       "names": [
-        "wp starter seed"
+        "wp starter seed",
+        "wp starter pricebook check"
       ],
-      "note": "--only=, --dry-run"
+      "note": "seed: --only=, --dry-run. pricebook check: module pricebook only, exits non-zero on mismatch"
     },
     {
       "role": "Shortcode / query var",
@@ -290,7 +320,8 @@
         "window.STARTER_I18N",
         "window.STARTER_GA4",
         "window.STARTER_FAQ_ADMIN",
-        "window.starterLeadAdmin"
+        "window.starterLeadAdmin",
+        "window.STARTER_PRICES"
       ],
       "note": "Printed by PHP: wp_add_inline_script( …, 'before' ) or wp_localize_script() (admin)"
     },
@@ -298,7 +329,8 @@
       "role": "JS events (CustomEvent on document)",
       "names": [
         "starter:lead:success",
-        "starter:lightbox:open"
+        "starter:lightbox:open",
+        "starter:prices:ready"
       ]
     },
     {

@@ -99,10 +99,10 @@ updated: 2026-09-24
 | `options.php` | PORT | `{core}/options.php` | Options page `{prefix}-company` (generic); `{prefix}-pricebook` → OPT | done (M3) |
 | `fields.php` (1120 строк) | FIX | `{core}/fields/*.php` | Разбить по сущностям (один файл = одна field group). Generic: company (NAP, соцсети, GA4, default image), lead, review, project, faq, service card. Проектные (trust, product, pricebook) → OPT/пример. Ключи `group_{prefix}_*` | done (M3) |
 | `post-types.php` | FIX | `{core}/post-types.php` | Generic CPT: `{prefix}_lead` (непубличный), `{prefix}_review`, `{prefix}_project`, `{prefix}_faq`. `tb_product` → OPT `catalog`. Список CPT — из конфига | done (M3) |
-| `taxonomies.php` | OPT | `modules/catalog` | Family/diameter, thin-slug редиректы на якоря — специфика каталога клиента | todo |
+| `taxonomies.php` | OPT | `modules/catalog` | Family/diameter, thin-slug редиректы на якоря — специфика каталога клиента | done (M8: `starter_product_family`, иерархическая; thin-slug/diameter редиректы не перенесены — не относится к generic-примеру) |
 | `queries.php` | PORT (частично) | `{core}/queries.php` | Generic: `get_faqs_for`, `get_reviews`, `get_projects`, `get_service_card_pages`. Product-запросы → OPT `catalog` | done (M3) |
 | `forms.php` | PORT | `{core}/forms.php` | Весь контур лида: AJAX action, nonce, honeypot, rate limit, meta, статусы, колонки/фильтр в админке, хук `{prefix}_lead_created`, Telegram-уведомление (credentials из защищённой опции, `autoload=false`) | done (M3) |
-| `admin.php` | OPT | `modules/pricebook` | Notice «товар ↔ Pricebook» — специфика | todo |
+| `admin.php` | OPT | `modules/pricebook` | Notice «товар ↔ Pricebook» — специфика | n/a (M8: каталог и pricebook сознательно не связаны — модули независимы; notice «товар ↔ Pricebook» специфичен для одного клиента) |
 | `admin-faq.php` + `assets/admin-faq.{css,js}` | PORT | `{core}/admin-faq.php` | Группировка по локациям, drag-reorder, AJAX + nonce | done (M3) |
 | `assets/admin-leads.{css,js}` | PORT | `{core}/assets/` | — | done (M3) |
 | `assets/admin-acf.css` | PORT | `{core}/assets/` | Проверить, не завязан ли на проектные поля | done (M3) |
@@ -111,12 +111,12 @@ updated: 2026-09-24
 | `seed/paths.php`, `loader.php`, `runner.php` | PORT | `{core}/seed/` | Путь к seed — из конфига (корень `seed/`, не тема). `tb_seed_find_forbidden` → читать `naming.json` | partial (M3; чтение запретов из `naming.json` — M6) |
 | `seed/mappers.php` | PORT (частично) | `{core}/seed/mappers.php` | Generic `update_field`, `map_company`; pricebook/product-group → OPT | done (M3) |
 | `seed/entities.php` (1441 строк) | FIX | `{core}/seed/entities/*.php` | Разбить по сущностям. Generic: upsert по slug, featured image, terms, posts, faq, reviews, projects, service cards, **menus**. Products/pricebook → OPT | done (M3) |
-| `pricebook.php`, `calculator.php` | OPT | `modules/pricebook` (пример) | Provider + transients + инвалидация — как **образец** паттерна «Options → provider → cache → JS»; эталонные проверки `tb_run_etalon_checks` — как пример тестируемой бизнес-логики | todo |
+| `pricebook.php`, `calculator.php` | OPT | `modules/pricebook` (пример) | Provider + transients + инвалидация — как **образец** паттерна «Options → provider → cache → JS»; эталонные проверки `tb_run_etalon_checks` — как пример тестируемой бизнес-логики | done (M8: `starter_get_pricebook()` + transient-инвалидация на save, `starter_pricebook_calc_total()`, `starter_pricebook_etalon_checks()` + `wp starter pricebook check`) |
 | `seo.php` | PORT (частично) | `{core}/seo.php` | Generic: регистрация Yoast graph pieces, Organization, `schema_canonical`, `area_served` (из конфига), noindex + исключение из sitemap для служебных страниц (список из `pages-map`, не `formulas_page`) | done (M3) |
 | `seo/class-tb-schema-localbusiness.php` | PORT | `{core}/seo/` | Тип бизнеса, гео, часы — из company options | done (M3) |
 | `seo/class-tb-schema-service.php` | PORT | `{core}/seo/` | Service по страницам услуг (признак в `pages-map`) | done (M3) |
 | `seo/class-tb-schema-faqpage.php` | PORT | `{core}/seo/` | Из `{prefix}_faq` | done (M3) |
-| `seo/class-tb-schema-product-offer.php` | OPT | `modules/catalog` | — | todo |
+| `seo/class-tb-schema-product-offer.php` | OPT | `modules/catalog` | — | done (M8: `Starter_Schema_ProductOffer`, через тот же `wpseo_schema_graph_pieces`) |
 | `llms-txt.php` | PORT | `{core}/llms-txt.php` | Курируемый `/llms.txt` + AI Allow в `robots.txt`; список ботов → конфиг | done (M3) |
 | `data/llms.txt.md` | TPL | `docs/project/llms.txt.md` (шаблон) | Структура H1/blockquote/разделы; контент клиента — DROP | done (M3; отклонение: шаблон в `starter-core/data/llms.txt.md` + фильтр, не в `docs/project/`) |
 
@@ -133,7 +133,7 @@ updated: 2026-09-24
 | `header.php`, `footer.php`, `index.php`, `page.php`, `archive.php`, `single.php`, `home.php` | PORT | `{theme}/` | Каркас без контента клиента; `single.php`/`home.php` — блог с TOC, автором, карточками | done (M4) |
 | `front-page.php` | FIX | `{theme}/front-page.php` (минимальный) | Контент клиента DROP; оставить скелет: hero (LCP-текст без `.reveal`) + динамические секции через parts | done (M4) |
 | `page-*.php` (13 шт.) | DROP | — | Контент клиента. Паттерн «статичная вёрстка + вставки провайдеров» описан в `/port-page`. **Анти-пример** для `check-hardcode`: телефон захардкожен в 8 шаблонах | n/a |
-| `archive-tb_product.php`, `single-tb_product.php`, `taxonomy-tb_product_family.php` | OPT | `modules/catalog/templates/` | Пример CPT-архива с фильтрами и якорями | todo |
+| `archive-tb_product.php`, `single-tb_product.php`, `taxonomy-tb_product_family.php` | OPT | `modules/catalog/templates/` | Пример CPT-архива с фильтрами и якорями | done (M8: `template_include` из модуля) |
 | `inc/template-tags.php` | FIX | `{theme}/inc/template-tags.php` | Generic: `url`, `home_hash`, `company`, `company_value`, `phone_href`, `brand_mark`, иконки, `has_menu_items`, `normalize_instagram_url`, `user_contactmethods`, `post_reading_minutes`, `get_post_author_data`, `blog_url`, `has_blog`, `blog_filter_categories`. Проектные (`dostavka_*`, `grejfer_*`, `katalog_url`, `family_url`, `price*`, `nav_price_desc`, `product_field`) → DROP/OPT. Добавить `{prefix}_image()` (priority/lazy/sizes/width/height) | done (M4) |
 | `inc/post-toc.php` + `assets/js/editor-heading-anchors.js` | PORT | `{theme}/inc/post-toc.php` | Якоря заголовков + TOC | done (M4) |
 | `inc/class-tb-walker-nav-{primary,mobile,footer}.php` | PORT | `{theme}/inc/` | Классы `{PREFIX}_Walker_Nav_*`; разметка под БЭМ шапки стартера | done (M4) |
@@ -142,7 +142,7 @@ updated: 2026-09-24
 | `lead-form.php`, `lead-call.php` | PORT | `{theme}/template-parts/` | Контракт формы (`.js-lead`, одна на страницу) | done (M4) |
 | `faq.php`, `reviews.php`, `folio.php`, `service-card.php`, `post-card.php`, `post-author.php`, `post-toc.php` | PORT | `{theme}/template-parts/` | Изображения через `{prefix}_image()`; аргументы `priority`, `reveal` | done (M4) |
 | `geo-map.php` | PORT | `{theme}/template-parts/embed-facade.php` | Обобщить: карта/видео/виджет по клику, `data-src`, `aspect-ratio`, аргумент `reveal` | done (M4) |
-| `trust.php`, `product-card.php`, `content-katalog-*.php` | OPT/DROP | `modules/catalog` (product-card); остальное DROP | — | todo |
+| `trust.php`, `product-card.php`, `content-katalog-*.php` | OPT/DROP | `modules/catalog` (product-card); остальное DROP | — | done (M8: fallback-part + переопределение из темы); `trust.php`/`content-katalog-*.php` — n/a (DROP) |
 | `tools/bootstrap-pages.php`, `tools/run-seed.php`, `tools/verify-seed.php` | FIX | `wp {prefix} seed`, `wp {prefix} seed --verify` | Заменить WP-CLI-командами; вызов без WP-CLI не поддерживать (есть `wp-env`) | partial (M3: `wp starter seed`; `--verify` — M6) |
 
 ### 4.2 CSS / JS / статика
@@ -183,7 +183,7 @@ updated: 2026-09-24
 | `seed/README.md` | TPL | `seed/README.md` | Правила: имена из словаря, стабильный `slug`, идемпотентность, без секретов | done (M3) |
 | `seed/pages-map.json` | FIX | `pages-map.json` (корень) — **центральный манифест** | Схема: `url`, `prototype`, `template`, `type`, `lead_form`, `noindex`, `schema`, `lcp`, `above_fold`, `psi`, `specs` | done (M2–M4: схема, валидатор, демо-страницы) |
 | `seed/company.json`, `faq.json`, `reviews.json`, `projects.json`, `posts.json`, `terms.json` | TPL | `seed/*.json` (пустые примеры) + `seed/schema/*.json` | Структура → JSON Schema; данные клиента DROP | done (M3 демо-данные + M6a JSON Schema) |
-| `seed/products.json`, `pricebook.json`, `yoast-meta.json` | OPT/TPL | `modules/*/seed/`; `yoast-meta` → шаблон | — | todo |
+| `seed/products.json`, `pricebook.json`, `yoast-meta.json` | OPT/TPL | `modules/*/seed/`; `yoast-meta` → шаблон | — | done (M8: `seed/modules/catalog/*.json` — products/product-families; pricebook — options-only, без seed); `yoast-meta` → T4 |
 
 ### 4.5 Прототип
 
@@ -191,7 +191,7 @@ updated: 2026-09-24
 |---|---|---|---|---|
 | `prototype/*` | FIX | `fixtures/demo-prototype/` (3–4 страницы) | **Не копировать** контент клиента. Собрать нейтральную мини-фикстуру по регламенту (главная, услуга, контакты, пост) для самотестов стартера. Реальный прототип проекта кладётся в корневой `prototype/` (вне темы — не уезжает на прод) | done (M6a: `fixtures/demo-prototype/` + `fixtures/bad-prototype/`) |
 | `prototype/README.md`, `vercel.json` | KNOW | `docs/playbooks/prototype-rules.md` | Деплой прототипа на Vercel (Root Directory, абсолютные пути) | done (M7) |
-| `prototype/data/prices.json` + `assets/js/prices.js` | OPT | `modules/pricebook` | Паттерн «единый JSON цен → `data-price*` → JSON-LD → калькулятор» | todo |
+| `prototype/data/prices.json` + `assets/js/prices.js` | OPT | `modules/pricebook` | Паттерн «единый JSON цен → `data-price*` → JSON-LD → калькулятор» | done (M8: опции → `starter_get_pricebook()` → `prices.js` → `data-price*` → `starter:prices:ready`, без fetch JSON прототипа) |
 | `README.md` (корень темы, о прототипе) | KNOW | `docs/playbooks/prototype-rules.md`, `playbooks/launch.md` | «Перед публикацией»: снять noindex, домен в canonical/OG/JSON-LD, og-cover 1200×630, favicon, свои фото | done (M7) |
 
 ---
@@ -222,14 +222,14 @@ updated: 2026-09-24
 | `contracts/form-contracts.md` | PORT | `docs/contracts/forms.md` | Generic как есть (с `{prefix}`) | done (M7) |
 | `contracts/seo-contract.md` | PORT | `docs/contracts/seo.md` | Yoast vs custom pieces | done (M7) |
 | `contracts/image-assets-contract.md` | PORT | `docs/contracts/images.md` | Размер карточки, WebP, alt/fallback, процедура регенерации и отката | done (M7) |
-| `contracts/catalog-url-model.md`, `pricebook-schema.md` | OPT | `modules/catalog/`, `modules/pricebook/` README | — | todo |
+| `contracts/catalog-url-model.md`, `pricebook-schema.md` | OPT | `modules/catalog/`, `modules/pricebook/` README | — | done (M8: README модулей, не отдельные contracts) |
 | `specs/architecture.md` | KNOW | `docs/playbooks/architecture.md` | Принципы: mu-plugin = данные, тема = представление, provider + cache, enqueue только в теме | done (M7) |
 | `specs/mu-plugin-spec.md`, `theme-spec.md` | TPL | `docs/contracts/mu-plugin.md`, `theme.md` | Спеки стартера (модули, API, хуки) | done (M7) |
 | `specs/analytics-spec.md` | KNOW | `docs/playbooks/analytics.md` | Отложенный GA4, события, компромиссы, диагностика «gtag не грузится» | done (M7) |
 | `specs/blog-spec.md` | PORT | `docs/contracts/blog.md` | `post` + `category`, шаблоны, TOC | done (M7) |
-| `specs/calculator-spec.md` | OPT | `modules/pricebook/` | — | todo |
+| `specs/calculator-spec.md` | OPT | `modules/pricebook/` | — | done (M8: README модуля, раздел «Калькулятор и эталонные проверки») |
 | `prds/forms-prd.md`, `blog-prd.md`, `content-management-prd.md` | TPL | `docs/project/prds/_template.md` + базовые PRD стартера | — | done (M7) |
-| `prds/product-catalog-prd.md`, `calculator-prd.md` | OPT/DROP | — | — | todo |
+| `prds/product-catalog-prd.md`, `calculator-prd.md` | OPT/DROP | — | — | n/a (примеры-модули, не отдельные требования) |
 | `phases/ROADMAP.md` | FIX | `docs/phases/ROADMAP.md` | 8 фаз нового пайплайна; gate = команда `npm run gate:N` + `/doc-align` + `/phase-review` | done (M7) |
 | `phases/phase-0…11-*.md` | TPL | `docs/phases/phase-0…7-*.md` | Формат «Связанные / Задачи / AC Happy-Negative-Security / Gate». Содержание: 0 init, 1 приёмка прототипа (+ `pages-map`), 2 модель данных (+ seed ← бывш. 1, 6), 3 ядро (← 2), 4 оболочка темы (← 3, 4, шрифты), 5 перенос страниц (← 5, 10), 6 динамика/формы/SEO/AI (← 7, 8, 11), 7 QA и запуск (← 9, PSI baseline) | done (M7) |
 | `ops/performance-optimization.md` | KNOW | `docs/playbooks/performance.md` | Принципы, 9 разделов (шрифты, render-blocking, `.reveal`, LCP/lazy, GA4, фасады, остатки прототипа, WebP), чеклист блока, «не делать». Цифры → обезличенные кейсы | done (M7) |

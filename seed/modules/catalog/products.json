@@ -1,0 +1,33 @@
+{
+  "items": [
+    {
+      "slug": "demo-product-1",
+      "title": "Демо-товар 1",
+      "excerpt": "Короткое демо-описание товара 1.",
+      "content": "<p>Полное демо-описание товара 1. Нейтральный текст без данных клиента.</p>",
+      "family": "demo-family-a",
+      "price": 1500,
+      "unit": "шт",
+      "sku": "DEMO-001",
+      "characteristics": [
+        { "label": "Материал", "value": "Демо-материал" },
+        { "label": "Вес", "value": "1.2 кг" }
+      ],
+      "order": 10
+    },
+    {
+      "slug": "demo-product-2",
+      "title": "Демо-товар 2",
+      "excerpt": "Короткое демо-описание товара 2.",
+      "content": "<p>Полное демо-описание товара 2.</p>",
+      "family": "demo-family-b",
+      "price": 2400,
+      "unit": "компл.",
+      "sku": "DEMO-002",
+      "characteristics": [
+        { "label": "Материал", "value": "Демо-материал B" }
+      ],
+      "order": 20
+    }
+  ]
+}

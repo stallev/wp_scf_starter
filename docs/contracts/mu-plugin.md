@@ -65,6 +65,22 @@ updated: 2026-09-25
 
 У mu-plugin нет activation hook, поэтому `starter_core_maybe_flush_rewrites()` сбрасывает rewrite один раз при смене `STARTER_CORE_VERSION` (K12). **Поднять версию** обязательно при изменении аргументов CPT (rewrite slug, `public`, `has_archive`), rewrite-правил или query vars (`/llms.txt`) — иначе на живом сайте останутся старые правила.
 
+## Модули
+
+Отключаемые по умолчанию примеры бизнес-логики (D11 STARTER-PLAN.md): `modules/<name>/module.php`
+подключается из `boot.php` (`starter_core_load_modules()`), только если `project.config.json` →
+`modules.<name>: true` **и** файл существует. Флаг выключен — модуль не регистрирует ничего (CPT,
+таксономии, поля, шаблоны, seed-цели), сайт ведёт себя так, будто модуля нет.
+
+| Модуль | Что показывает | README |
+|---|---|---|
+| `catalog` | CPT + таксономия с публичным архивом, свои шаблоны через `template_include`, Yoast `Product`/`Offer`, seed-цели `product_families`/`products` | [`modules/catalog/README.md`](../../wp-content/mu-plugins/starter-core/modules/catalog/README.md) |
+| `pricebook` | Options → провайдер с transient-кэшем → JS → тестируемая формула с эталонными проверками (`wp starter pricebook check`) | [`modules/pricebook/README.md`](../../wp-content/mu-plugins/starter-core/modules/pricebook/README.md) |
+
+Front-end enqueue модуля — не здесь: он живёт в теме и включается только при `function_exists()` на
+функцию-провайдер модуля (см. `starter_enqueue_pricebook_assets()` в `wp-content/themes/starter/inc/assets.php`)
+— тот же инвариант 1 (mu-plugin = данные, тема = представление), что и для остального ядра.
+
 ## Безопасность
 
 Вход: `wp_unslash()` + `sanitize_*()`; выход: `esc_*()`; каждое действие — nonce + `current_user_can()`. Front-end enqueue в ядре запрещён (`check:naming`, правило `frontend-enqueue-in-core`); admin-assets — только на своих экранах через `admin_enqueue_scripts`.

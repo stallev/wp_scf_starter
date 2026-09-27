@@ -1,0 +1,14 @@
+{
+  "items": [
+    {
+      "slug": "demo-family-a",
+      "title": "Демо-категория A",
+      "description": "Нейтральная демо-категория для примера модуля catalog."
+    },
+    {
+      "slug": "demo-family-b",
+      "title": "Демо-категория B",
+      "description": "Вторая демо-категория, показывает фильтр по семейству в starter_get_products()."
+    }
+  ]
+}

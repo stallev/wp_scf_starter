@@ -17,6 +17,7 @@ updated: 2026-09-25
 | LocalBusiness (NAP, geo, часы, `areaServed`) | `Starter_Schema_LocalBusiness` | На всех страницах, один `@id` `…/#/schema/localbusiness`; есть, если задано имя компании |
 | Service | `Starter_Schema_Service` | `type: service` или `Service` в `schema` записи; `provider` → `@id` LocalBusiness; доп. поля — фильтр `starter_schema_service` |
 | FAQPage | `Starter_Schema_FAQPage` | Только если `schema` записи содержит `FAQPage` **и** у места есть FAQ; тексты = видимый блок `faq` |
+| Product / Offer *(модуль `catalog`, выключен по умолчанию)* | `Starter_Schema_ProductOffer` | По типу запроса (`is_singular('starter_product')` / архив / таксономия), **не** по `pages-map`: URL товаров динамические, `pages-map` их не перечисляет (см. `modules/catalog/README.md`, D28 в `STARTER-PLAN.md`) |
 | XML sitemap | **Yoast** | Минус страницы с `noindex` из `pages-map` |
 | `/llms.txt`, AI-группа в `robots.txt` | ядро | См. ниже |
 | geo meta | тема (`inc/head.php`) | Из адреса и координат компании |

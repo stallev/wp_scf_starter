@@ -82,8 +82,36 @@ function starter_enqueue_assets(): void {
 		. 'window.STARTER_I18N = ' . wp_json_encode( $i18n, JSON_UNESCAPED_UNICODE ) . ';',
 		'before'
 	);
+
+	starter_enqueue_pricebook_assets();
 }
 add_action( 'wp_enqueue_scripts', 'starter_enqueue_assets' );
+
+/**
+ * Enqueue the pricebook module's front end (only while the module is active): the module itself must
+ * not call wp_enqueue_scripts (mu-plugin = data, theme = view — invariant 1), so it only exposes
+ * starter_get_pricebook() and starter_pricebook_asset_url(); enqueuing them is the theme's job, same
+ * as every other front-end asset.
+ */
+function starter_enqueue_pricebook_assets(): void {
+	if ( ! function_exists( 'starter_get_pricebook' ) ) {
+		return;
+	}
+
+	wp_enqueue_script(
+		'starter-pricebook-prices',
+		starter_pricebook_asset_url(),
+		array(),
+		starter_pricebook_asset_version(),
+		starter_script_args()
+	);
+
+	wp_add_inline_script(
+		'starter-pricebook-prices',
+		'window.STARTER_PRICES = ' . wp_json_encode( starter_get_pricebook(), JSON_UNESCAPED_UNICODE ) . ';',
+		'before'
+	);
+}
 
 /**
  * Logged-in users: defer the admin bar scripts too, so the final HTML has no parser-blocking

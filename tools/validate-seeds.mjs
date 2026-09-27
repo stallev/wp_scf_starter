@@ -23,6 +23,13 @@ import { NAMING_JSON, forbiddenRulesFor } from './naming.mjs';
 /** Seed files the core imports (file → schema name). */
 export const SEED_FILES = ['company', 'faq', 'reviews', 'projects', 'posts', 'service-cards', 'menus'];
 
+/**
+ * Seed files of optional modules (present regardless of the module's on/off flag — a missing file is
+ * just a warning, same as any other target). Only passed to readSeedDir/loadSchemas/validateSeeds by
+ * main(), so existing callers that omit `moduleFiles` keep validating exactly SEED_FILES.
+ */
+export const MODULE_SEED_FILES = ['modules/catalog/product-families', 'modules/catalog/products'];
+
 /** Mirrors starter_seed_forbidden_keys() in starter-core/seed/loader.php. */
 export const SECRET_KEYS = ['token', 'bot_token', 'password', 'pass', 'secret', 'api_key', 'apikey', 'chat_id', 'private_key'];
 
@@ -74,9 +81,10 @@ function menuItems(items, at, out = []) {
  *   data: file name (without .json) → parsed JSON; missing keys are treated as missing files.
  * @returns {{ errors: string[], warnings: string[] }}
  */
-export function validateSeeds({ data, schemas, pages, naming = null, seedDir = 'seed', imageExists }) {
+export function validateSeeds({ data, schemas, pages, naming = null, seedDir = 'seed', imageExists, moduleFiles = [] }) {
   const errors = [];
   const warnings = [];
+  const allFiles = [...SEED_FILES, ...moduleFiles];
   const ajv = new Ajv({ allErrors: true, strict: true, allowUnionTypes: true });
   const pageUrls = new Set(pages.map((p) => p.url));
   const pageSlugs = new Set(pages.map((p) => (p.url === '/' ? 'home' : lastSegment(p.url))));
@@ -91,7 +99,7 @@ export function validateSeeds({ data, schemas, pages, naming = null, seedDir = '
     return full.startsWith(root + path.sep) && existsSync(full) && statSync(full).isFile();
   });
 
-  for (const name of SEED_FILES) {
+  for (const name of allFiles) {
     const file = `${seedDir}/${name}.json`;
     const json = data[name];
     if (json === undefined) {
@@ -183,11 +191,11 @@ export function validateSeeds({ data, schemas, pages, naming = null, seedDir = '
   return { errors, warnings };
 }
 
-/** Read seed files; unparsable JSON is reported as an error. */
-export function readSeedDir(seedDir) {
+/** Read seed files; unparsable JSON is reported as an error. `extraFiles` adds module seed files. */
+export function readSeedDir(seedDir, extraFiles = []) {
   const data = {};
   const errors = [];
-  for (const name of SEED_FILES) {
+  for (const name of [...SEED_FILES, ...extraFiles]) {
     const full = path.join(ROOT, seedDir, `${name}.json`);
     if (!existsSync(full)) continue;
     try {
@@ -199,8 +207,8 @@ export function readSeedDir(seedDir) {
   return { data, errors };
 }
 
-export function loadSchemas(seedDir) {
-  return Object.fromEntries(SEED_FILES.map((n) => [n, readJson(`${seedDir}/schema/${n}.schema.json`)]));
+export function loadSchemas(seedDir, extraFiles = []) {
+  return Object.fromEntries([...SEED_FILES, ...extraFiles].map((n) => [n, readJson(`${seedDir}/schema/${n}.schema.json`)]));
 }
 
 function main() {
@@ -210,24 +218,24 @@ function main() {
   let naming;
   try {
     cfg = loadConfig();
-    schemas = loadSchemas(cfg.paths.seed);
+    schemas = loadSchemas(cfg.paths.seed, MODULE_SEED_FILES);
     pages = readJson(cfg.paths.pages_map).pages ?? [];
     naming = readJson(NAMING_JSON);
   } catch (err) {
     console.error(`validate-seeds: cannot read config / schemas (${err.message})`);
     process.exit(2);
   }
-  const { data, errors: parseErrors } = readSeedDir(cfg.paths.seed);
+  const { data, errors: parseErrors } = readSeedDir(cfg.paths.seed, MODULE_SEED_FILES);
   let res;
   try {
-    res = validateSeeds({ data, schemas, pages, naming, seedDir: cfg.paths.seed });
+    res = validateSeeds({ data, schemas, pages, naming, seedDir: cfg.paths.seed, moduleFiles: MODULE_SEED_FILES });
   } catch (err) {
     console.error(`validate-seeds: schema error (${err.message}) → fix ${cfg.paths.seed}/schema/*.schema.json`);
     process.exit(2);
   }
   const { errors, warnings } = res;
   if (warnings.length) console.warn(warnings.map((w) => `  ! ${w}`).join('\n'));
-  const counts = SEED_FILES.filter((n) => data[n]).map((n) => `${n}:${data[n].items?.length ?? data[n].menus?.length ?? 1}`);
+  const counts = [...SEED_FILES, ...MODULE_SEED_FILES].filter((n) => data[n]).map((n) => `${n}:${data[n].items?.length ?? data[n].menus?.length ?? 1}`);
   report('validate-seeds', [...parseErrors, ...errors], `ok (${counts.join(' ') || 'no seed files'})`);
 }
 
