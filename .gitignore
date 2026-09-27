@@ -1,6 +1,3 @@
-# Source project copy — removed after M10 (see docs/decisions/0001-example-migration.md)
-/example/
-
 # Secrets
 .env
 .env.*
