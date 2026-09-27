@@ -82,6 +82,7 @@ test('planInit: demo reset, skips, renames; --keep-demo keeps data', () => {
   assert.deepEqual(plan.deletes, ['seed/images/demo-1.png']);
   assert.deepEqual(JSON.parse(plan.writes.find((w) => w.path === 'pages-map.json').text).pages, []);
   assert.deepEqual(JSON.parse(plan.writes.find((w) => w.path === 'seed/faq.json').text), { items: [] });
+  assert.deepEqual(JSON.parse(plan.writes.find((w) => w.path === 'seed/yoast-meta.json').text), { items: [] });
   assert.deepEqual(JSON.parse(plan.writes.find((w) => w.path === 'seed/company.json').text), { name: 'Acme Corp' });
   assert.deepEqual(plan.renames, [{ from: 'wp-content/themes/starter/functions.php', to: 'wp-content/themes/acme/functions.php' }]);
 

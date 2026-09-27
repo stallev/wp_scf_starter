@@ -47,6 +47,11 @@ function starter_seed_import_pages(): array {
 			} else {
 				$lookup_path = $path;
 			}
+			// Known gap: if the parent is MISSING on this run (page lands top-level) and later ADDED
+			// before a future run, $lookup_path switches to the nested path and won't find the
+			// existing top-level page, creating a duplicate under the new nested path. Add the parent
+			// page to pages-map before its children, or bump STARTER_CORE_VERSION and re-seed from a
+			// clean slate, to avoid this. Not hit by the starter's own demo pages-map.
 		}
 
 		$result  = starter_seed_upsert_post(
